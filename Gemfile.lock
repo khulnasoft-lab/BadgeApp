@@ -264,7 +264,7 @@ GEM
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    pagy (6.1.0)
+    pagy (7.0.4)
     paleta (0.3.0)
     paper_trail (15.0.0)
       activerecord (>= 6.1)
@@ -539,7 +539,7 @@ DEPENDENCIES
   octokit (~> 6.1)
   omniauth-github (~> 2.0)
   omniauth-rails_csrf_protection
-  pagy (~> 6.1)
+  pagy (~> 7.0)
   paleta (~> 0.3)
   paper_trail (~> 15.0)
   pg (~> 1.4)
