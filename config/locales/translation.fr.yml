@@ -16,9 +16,9 @@ fr:
     many: "%{count} Projets"
   feed_title: >-
     Mise à Jour des Projets de la BadgeApp Meilleures Pratiques
-    de la CII
+    de la OpenSSF
   layouts:
-    cii_best_practices: Meilleures Pratiques de la CII
+    cii_best_practices: Meilleures Pratiques de la OpenSSF
     projects: Projets
     users: Utilisateurs
     profile: Profil
@@ -31,12 +31,11 @@ fr:
       <i class="fa fa-sign-in" aria-hidden="true"></i> S'identifier
     footer_text_html: >-
       <small> <strong>Vous avez besoin d'aide ? Vous avez une
-      question ? Vous voyez un problème ? Merci d'<em><a href="mailto:&#99;ii&#45;badges&#45;questions&#64;lists&#46;coreinfrastructure&#46;or&#103;">envoyer
-      un email</a></em> ou de <em><a href="https://github.com/coreinfrastructure/best-practices-badge/issues"
-      target="_blank" rel="noopener">reporter un problème</a></i>.</strong>
-      © 2015-2018 <a href="https://www.coreinfrastructure.org"
-      target="_blank" rel="noopener">Core Infrastructure Initiative</a>,
-      un projet collaboratif de la <a href="https://www.linuxfoundation.org/"
+      question ? Vous voyez un problème ? Merci de <em><a href="https://github.com/coreinfrastructure/best-practices-badge/issues"
+      target="_blank" rel="noopener">reporter un problème</a></em>.</strong>
+      © 2015-2021 <a href="https://openssf.org" target="_blank"
+      rel="noopener">Open Source Security Foundation</a>, un projet
+      collaboratif de la <a href="https://www.linuxfoundation.org/"
       target="_blank" rel="noopener">Fondation Linux</a>. Tous
       droits réservés. Consultez notre <a href="https://www.linuxfoundation.org/privacy"
       target="_blank" rel="noopener">politique de confidentialité</a>
@@ -69,16 +68,23 @@ fr:
       savoir plus sur les cookies.</i></a>
     no_login_time: "(Aucune heure précédente enregistrée.)"
     login_automatic_signup: >-
-      La connection avec GitHub effectuera automatiquement une
-      inscription si nécessaire. Si vous vous inscrivez, votre
-      nom (tel que renseigné par GitHub) et votre identifiant
-      GitHub seront affichés publiquement, et vous pouvez changer
-      votre nom à tout moment. Votre adresse email sera maintenue
-      secrète et seulement utilisée pour les interactions relatives
-      aux badges ; nous ne la transmettrons pas à des parties
-      tierces à moins qu'il s'agisse d'une obligation légale.
+      La connexion à GitHub effectuera automatiquement une inscription
+      si nécessaire. L'inscription n'aura lieu que si vous autorisez
+      l'inscription à GitHub ; vous devrez réautoriser cela si
+      vous êtes uniquement connecté à bestpractices.coreinfastructure.org
+      (notre nom de domaine a changé). Si vous vous inscrivez,
+      votre nom (tel que fourni à GitHub) et votre pseudo GitHub
+      seront affichés publiquement et vous pourrez modifier votre
+      nom à tout moment. Votre adresse e-mail restera privée et
+      utilisée uniquement pour les interactions liées aux badges ;
+      nous ne les fournirons pas à des tiers, sauf si cela est
+      légalement requis.
     login_disabled: Toutes les connexions sont temporairement
       désactivées
+    cannot_login_yet: >-
+      Désolé, vous ne pouvez pas encore vous connecter. À titre
+      de mesure anti-spam, il y a un délai après l'activation
+      d'un compte local avant de pouvoir vous connecter.
   users:
     new:
       signup_header: S'inscrire
@@ -94,7 +100,8 @@ fr:
         à moins qu'il s'agisse d'une obligation légale.  <br><br>
         Si vous n'avez pas reçu votre lien d'activation, veuillez
         vous inscrire à nouveau et nous vous enverrons un nouveau
-        lien.
+        lien. Si vous avez déjà créé un compte ici avec GitHub,
+        identifiez-vous plutôt en utilisant GitHub.
       name: Nom
       email: Email
       password: Mot de passe
@@ -111,7 +118,7 @@ fr:
         d''après GitHub :'
       as_admin: 'en tant qu''administrateur, vous pouvez également
         :'
-      send_email_to: 'Envoyer un email à :'
+      send_email_to: Envoyer un email
       delete_link_name: Supprimer le compte utilisateur
       confirm_delete: Êtes-vous sûr(e) de vouloir supprimer cet
         utilisateur ?
@@ -139,11 +146,14 @@ fr:
       vous connecter ?
     new_activation_link_created: >-
       Nouveau lien d'activation créé. Veuillez vérifier votre
-      email pour activer votre compte.
+      email dans quelques minutes pour activer votre compte. (Il
+      y a un délai intentionnel pour lutter contre le spam.)
     please_log_in: Connectez-vous.
     edit:
       update_user_info: Mettre à jour les informations de l'utilisateur
       save_changes: Enregistrer les modifications
+      inadequate_privileges: Désolé, vous n'êtes pas autorisé
+        à faire cela.
   project_stats:
     index:
       project_stats_header: Statistiques du projet
@@ -308,6 +318,15 @@ fr:
       new_badge_or: OU
       original_repos: "=> Dépôts GitHub Originaux"
       fork_repos: "=> Dépôts GitHub Dupliqués"
+      tell_us: >-
+        Veuillez nous parler de votre projet de logiciel libre
+        / open source (FLOSS). Cela <b>DOIT</b> être un projet
+        FLOSS ; rien d'autre n'est permis. N'ajoutez <b>PAS</b>
+        de site sans relation pour essayer d'améliorer le référencement
+        d'un site vis-à-vis des moteurs de recherche (SEO). Ce
+        spam est interdit car il nuit aux utilisateurs et n'aidera
+        en rien le référencement (tous les hyperliens sont marqués
+        avec <tt>ugc</tt> et <tt>nofollow</tt>).
     show:
       edit: Modifier
       delete: Supprimer
@@ -322,19 +341,18 @@ fr:
         Chacun peut librement partager et adapter les données,
         à condition de créditer leur origine. Veuillez créditer
         %{user} et les contributeurs du badge des meilleures pratiques
-        de la CII.<br><br>
+        de la OpenSSF.<br><br>
       cc_by_3only_html: >-
         Ces données sont disponibles sous <a href="https://creativecommons.org/licenses/by/3.0/us"
         target="_blank" rel="noopener">licence Creative Commons
         Attribution version 3.0 (CC-BY-3.0)</a> comme indiqué
         dans les <a href="https://www.linuxfoundation.org/terms"
         target="_blank" rel="noopener">conditions d'utilisation</a>
-        de la <a href="https://www.coreinfrastructure.org/" target="_blank"
-        rel="noopener">Core Infrastructure Initiative</a>. Chacun
-        peut librement partager et adapter les données, à condition
-        de créditer leur origine. Veuillez créditer %{user} et
-        les contributeurs du badge des meilleures pratiques de
-        la CII.<br><br>
+        de la <a href="https://openssf.org/" target="_blank" rel="noopener">Open
+        Source Security Foundation</a>. Chacun peut librement
+        partager et adapter les données, à condition de créditer
+        leur origine. Veuillez créditer %{user} et les contributeurs
+        du badge des meilleures pratiques de la OpenSSF.<br><br>
       owned_by: 'Soumission du badge du projet appartenant à :'
       created_at_html: "<strong>Soumission créée le</strong> %{when},"
       updated_at_html: "<strong>dernière mise à jour le</strong>
@@ -353,8 +371,12 @@ fr:
         du projet n'est pas affectée.<br><br>
       save_and_continue: Sauvegarder (et continuer)
       submit_and_exit: Soumettre (et quitter)
-      repo_url_limits: Vous ne pouvez modifier votre repo_url
-        que de http à https
+      repo_url_limits: >-
+        Vous ne pouvez modifier votre repo_url que si (1) plus
+        de 180 jours se sont écoulés depuis sa dernière modification,
+        ou (2) il s'agit uniquement d'un changement entre http
+        et https. Veuillez ouvrir un rapport de problème (avec
+        justification) si vous devez le changer plus tôt.
       changed_since_html: >-
         Un autre utilisateur a apporté une modification à cet
         enregistrement depuis que vous avez accédé au formulaire
@@ -482,7 +504,7 @@ fr:
         description: >-
           Les projets qui suivent les meilleures pratiques ci-dessous
           peuvent s'auto-certifier et montrer qu'ils ont obtenu
-          le badge de la Core Infrastructure Initiative (CII).
+          le badge de la Open Source Security Foundation (OpenSSF).
         details_html: >-
           Il n'existe aucun ensemble de pratiques qui garantissent
           que ce logiciel n'aura jamais de défauts ou de vulnérabilités
@@ -531,8 +553,7 @@ fr:
           enregistrer votre travail (vous pouvez toujours revenir
           en arrière et éditer plus tard). <br><br> Si vous avez
           besoin d'aide, voulez poser une question ou voyez un
-          problème, veuillez <em><a href="mailto:&#99;ii&#45;badges&#45;questions&#45;own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;">envoyer
-          un email</a> </em>ou<em> <a href="https://github.com/coreinfrastructure/best-practices-badge/issues"
+          problème, veuillez <em> <a href="https://github.com/coreinfrastructure/best-practices-badge/issues"
           target="_blank" rel="noopener">signaler un problème</a></em>.
         badge_alt: Le niveau de badge pour le projet %{id} est
           %{level}
@@ -564,7 +585,17 @@ fr:
         placeholder: Commentaires additionnels (en syntaxe markdown)
       some_not_crypto_html: >-
         Notez que certains logiciels n'ont pas besoin d'utiliser
-        des mécanismes cryptographiques.
+        des mécanismes cryptographiques. Si votre projet produit
+        un logiciel qui (1) inclut ou active la fonctionnalité
+        de chiffrement, et (2) peut être publié des États-Unis
+        (US) vers l'extérieur des États-Unis ou vers un citoyen
+        autre qu'américain, vous pouvez être légalement obligé
+        à faire quelques étapes supplémentaires. En règle générale,
+        cela implique simplement l'envoi d'un email. Pour plus
+        d'informations, consultez la section sur le chiffrement
+        de <a href="https://www.linuxfoundation.org/resources/publications/understanding-us-export-controls-with-os-projects/"><i>Comprendre
+        la technologie Open Source et les contrôles à l'exportation
+        américains</i></a> .
       dont_use_crypto: >-
         Appuyez ici si le logiciel produit par le projet n'utilise
         pas de mécanismes cryptographiques
@@ -665,51 +696,51 @@ fr:
   user_mailer:
     account_activation:
       before_html: |-
-        <h1>Programme de badge des Meilleures Pratiques de lq CII</h1>
+        <h1>Programme de badge des Meilleures Pratiques de la OpenSSF</h1>
         <p>Bonjour,</p>
         <p>
         Bienvenue dans le programme de badge !
         Cliquez sur le lien ci-dessous pour activer votre compte :
         </p>
-      before_text: |
+      before_text: |-
         Bonjour,
-        Bienvenue dans le programme de badge des Meilleures Pratiques de la CII !
+        Bienvenue dans le programme de badge des Meilleures Pratiques de la OpenSSF !
         Cliquez sur le lien ci-dessous pour activer votre compte :
       activate: Activer
       subject: Activation de compte
     github_welcome:
-      before_html: |
-        <h1>Programme de badge des Meilleures Pratiques de la CII</h1>
+      before_html: |-
+        <h1>Programme de badge des Meilleures Pratiques de la OpenSSF</h1>
         <p>Bonjour,</p>
         <p>
         Merci d'avoir relié votre compte GitHub et bienvenue
-        au programme de badge des Meilleures Pratiques de la CII !
+        au programme de badge des Meilleures Pratiques de la OpenSSF !
         </p>
         <p>
         Si vous n'êtes pas à l'origine de cette action, vérifiez votre
         journal de sécurité GitHub sous Paramètres&gt;Sécurité.
         </p>
-      before_text: |
+      before_text: |-
         Bonjour,
         Merci d'avoir relié votre compte GitHub et bienvenue
-        au programme de badge des Meilleures Pratiques de la CII !
+        au programme de badge des Meilleures Pratiques de la OpenSSF !
         Si vous n'êtes pas à l'origine de cette action, vérifiez votre
         journal de sécurité GitHub sous Paramètres>Sécurité.
       subject: Bienvenue dans le programme de badge
     password_reset:
-      before_html: |
+      before_html: |-
         <h1>Réinitialisation du mot de passe</h1>
         <p>Pour réinitialiser votre mot de passe, cliquez sur le lien ci-dessous :</p>
       before_text: >-
         Pour réinitialiser votre mot de passe, cliquez sur le
         lien ci-dessous :
-      after_html: |
+      after_html: |-
         <p>Ce lien expirera d'ici deux heures.</p>
         <p>
         Si vous n'avez pas demandé à réinitialiser votre mot de passe,
         ignorez cet email et votre mot de passe restera identique.
         </p>
-      after_text: |
+      after_text: |-
         Ce lien expirera d'ici deux heures.
         Si vous n'avez pas demandé à réinitialiser votre mot de passe,
         ignorez cet email et votre mot de passe restera identique.
@@ -730,19 +761,28 @@ fr:
   account_activations:
     activated: Compte activé !
     failed_activation: Lien d'activation invalide
+    delay:
+      zero: >-
+        Vous pouvez vous connecter maintenant. Il n'y a pas de
+        délai anti-spam post-activation.
+      one: >-
+        À titre de mesure anti-spam, vous devez attendre une heure
+        après l'activation avant de pouvoir vous connecter.
+      few: >-
+        À titre de mesure anti-spam, vous devez attendre %{count}
+        heures après l'activation avant de pouvoir vous connecter.
+      other: >-
+        À titre de mesure anti-spam, vous devez attendre %{count}
+        heures après l'activation avant de pouvoir vous connecter.
   password_resets:
     forgot_password: Mot de passe oublié
     reset_password: Réinitialiser le mot de passe
     password_confirmation: Confirmation
-    email_not_found: Adresse e-mail introuvable
     password_empty: Le mot de passe ne peut pas être vide
     password_reset: Le mot de passe a été réinitialisé
     instructions_sent: >-
       E-mail envoyé avec les instructions de réinitialisation
-      du mot de passe
-    cant_reset_nonlocal: >-
-      Désolé, il n'est possible de réinitialiser le mot de passe
-      que pour un utilisateur personnalisé (local)
+      du mot de passe (si un compte local existe)
     reset_expired: La réinitialisation du mot de passe est expirée.
     update_password: Mise à jour du mot de passe
   report_mailer:
@@ -755,33 +795,27 @@ fr:
     new_project_part2: |-
       Veuillez visiter votre soumission pour compléter les informations et obtenir votre badge !
       Voici l'URL de votre soumission :
-    new_project_part3_html: "<p>\nNous vous encourageons à continuer
-      à progresser.\n</p>\n<p>\nSi vous voulez voir <em>seulement</em>
-      ce qui vous manque,\nvisitez votre soumission \npuis cliquez
-      sur le bouton près du haut étiqueté « Masquer atteints &
-      N/A ».\nSi vous avez des questions ou avez besoin d'aide,
-      contactez-nous à\n<a href=\"mailto:&#99;ii&#45;badges&#45;questions&#45.own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;\">&#99;ii&#45;badges&#45;questions&#45;own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;</a>
-      \nou reportez un problème sur\n<a href=\"https://github.com/coreinfrastructure/best-practices-badge/issues\">https://github.com/coreinfrastructure/best-practices-badge/issues</a>\n(cliquez
-      sur « nouveau problème »).\n</p>\n<p>\nNous ne vous enverrons
-      jamais de publicité, et nous ne vous enverrons que rarement
-      des emails. Nous vous enverrons un email pour les évènements
-      importants de la soumission d'un projet de badge, comme
-      quand vous créez une nouvelle soumission de projet de badge,
-      quand votre projet gagne ou perd un badge, ou quand quelqu'un
-      demande la réinitialisation du mot de passe pour votre compte
-      utilisateur. Si votre projet n'a pas de badge, et que vous
-      n'avez pas mis à jour l'entrée du projet pendant au moins
-      30 jours, nous vous enverrons normalement un rappel d'inactivité
-      environ tous les 30-60 jours. Vous pouvez désactiver ces
-      rappels d'inactivité à tout moment ; il vous suffit d'éditer
-      votre entrée de badge à <a href=\"%{project_info_url}#project_disabled_reminders\">%{project_info_url}#project_disabled_reminders</a>
-      pour activer la « désactivation du rappel d'inactivité ».
-      Souvenez-vous d'<i>éditer</i> le projet pour lequel vous
-      souhaitez changer cette valeur. Si votre projet a gagné
-      un badge, ou que son entrée de badge a été éditée dans les
-      30 derniers jours, aucun rappel d'inactivité ne vous sera
-      envoyé.\n</p>\n<p>\nMerci pour vos efforts.\n</p>\n"
-    new_project_part3_text: |
+    new_project_part3_html: |-
+      <p>
+      Nous vous encourageons à continuer à progresser.
+      </p>
+      <p>
+      Si vous voulez voir <em>seulement</em> ce qui vous manque,
+      visitez votre soumission
+      puis cliquez sur le bouton près du haut étiqueté « Masquer atteints & N/A ».
+      Si vous avez des questions ou avez besoin d'aide, contactez-nous à
+      <a href="mailto:&#99;ii&#45;badges&#45;questions&#45.own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;">&#99;ii&#45;badges&#45;questions&#45;own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;</a>
+      ou reportez un problème sur
+      <a href="https://github.com/coreinfrastructure/best-practices-badge/issues">https://github.com/coreinfrastructure/best-practices-badge/issues</a>
+      (cliquez sur « nouveau problème »).
+      </p>
+      <p>
+      Nous ne vous enverrons jamais de publicité, et nous ne vous enverrons que rarement des emails. Nous vous enverrons un email pour les évènements importants de la soumission d'un projet de badge, comme quand vous créez une nouvelle soumission de projet de badge, quand votre projet gagne ou perd un badge, ou quand quelqu'un demande la réinitialisation du mot de passe pour votre compte utilisateur. Si votre projet n'a pas de badge, et que vous n'avez pas mis à jour l'entrée du projet pendant au moins 30 jours, nous vous enverrons normalement un rappel d'inactivité environ tous les 30-60 jours. Vous pouvez désactiver ces rappels d'inactivité à tout moment ; il vous suffit d'éditer votre entrée de badge à <a href="%{project_info_url}#project_disabled_reminders">%{project_info_url}#project_disabled_reminders</a> pour activer la « désactivation du rappel d'inactivité ». Souvenez-vous d'<i>éditer</i> le projet pour lequel vous souhaitez changer cette valeur. Si votre projet a gagné un badge, ou que son entrée de badge a été éditée dans les 30 derniers jours, aucun rappel d'inactivité ne vous sera envoyé.
+      </p>
+      <p>
+      Merci pour vos efforts.
+      </p>
+    new_project_part3_text: |-
       Nous vous encourageons à continuer à progresser.
       Si vous voulez voir seulement ce qui vous manque, visitez votre soumission puis cliquez sur le bouton près du haut étiqueté « Masquer atteints & N/A ».
       Si vous avez des questions ou avez besoin d'aide, contactez-nous à
@@ -793,8 +827,8 @@ fr:
     in_markdown_add: 'En markdown, vous pouvez ajouter ceci :'
     in_html_add: 'En HTML, vous pouvez ajouter ceci :'
     ending: >-
-      --- David A. Wheeler, Directeur Technique du programme CII
-      Best Practices Badge
+      --- David A. Wheeler, Directeur du programme de badge des
+      meilleures pratiques de la OpenSSF
     subject_achieved_passing: >-
       FÉLICITATIONS pour l'obtention d'un badge %{new_level} des
       meilleures pratiques !
@@ -802,7 +836,7 @@ fr:
       n'est plus %{old_level}
     subject_new_project: >-
       Vous avez ajouté un projet au programme de badge des meilleures
-      pratiques de la CII
+      pratiques de la OpenSSF
     subject_reminder: >-
       Votre projet n'a pas encore le badge « meilleures pratiques
       »
@@ -811,86 +845,100 @@ fr:
     gained_level_part1: |-
       Toutes nos félicitations !
       Selon les informations que vous avez fournies,
-      votre projet a obtenu le badge '%{new_level}' des meilleures pratiques de la CII.
+      votre projet a obtenu le badge '%{new_level}' des meilleures pratiques de la OpenSSF.
       Pour plus d'informations, consultez cette URL :
     gained_level_part2: |-
       Ajoutez votre badge à votre projet et/ou site de dépôt ;
       vous l'avez mérité :
-    gained_level_part3: |-
-      Nous vous encourageons vivement à ajouter ou à améliorer le texte de justification,
-      y compris par l'ajout d'URL qui redirigent vers plus d'informations. Si vous avez des suggestions sur la façon d'améliorer les critères ou l'application Web du badge, veuillez soumettre un problème sur : https://github.com/coreinfrastructure/best-practices-badge/issues Si vous avez apporté des modifications à votre projet pour obtenir un badge, veuillez nous le faire savoir par email à cii-badges-questions@lists.coreinfrastructure.org. L'un de nos objectifs est d'encourager les projets à apporter des améliorations. Nous mettons certains de ces rapports sur le wiki public ; veuillez nous en informer si vous ne souhaitez PAS que les changements soient publiés publiquement à
-      https://github.com/coreinfrastructure/best-practices-badge/wiki/Impacts Merci et félicitations.
+    gained_level_part3: "Nous vous encourageons vivement à ajouter
+      ou à améliorer le texte de justification,\ny compris par
+      l'ajout d'URL qui redirigent vers plus d'informations. Si
+      vous avez des suggestions sur la façon d'améliorer les critères
+      ou l'application Web du badge, veuillez soumettre un problème
+      sur : https://github.com/coreinfrastructure/best-practices-badge/issues\nL'un
+      de nos objectifs est d'encourager les projets à apporter
+      des améliorations. Nous mettons certains de ces rapports
+      sur le wiki public ; veuillez nous en informer si vous ne
+      souhaitez PAS que les changements soient publiés publiquement
+      à\nhttps://github.com/coreinfrastructure/best-practices-badge/wiki/Impacts
+      \nMerci et félicitations.\n"
     lost_level_message: |-
       Nous sommes désolés, mais votre projet n'a plus le badge « %{old_level} »
       et est maintenant « %{new_level} ».
       Consultez l'URL suivante pour plus d'informations :
-    reminder_body_html: "<h1>Rappel automatique du badge des meilleures
-      pratiques pour %{project_name}</h1>\n<p>\nCeci est un rappel
-      automatisé que votre projet\n« %{project_name} »\nn'a pas
-      actuellement de badge « meilleures pratiques »,\net son
-      entrée de badge n'a pas été mise à jour depuis un moment.\n</p>\n<p>\nVotre
-      entrée de badge des meilleures pratiques est à\n<a href=\"%{project_info_url}\">%{project_info_url}</a>\net
-      a été mis à jour pour la dernière fois le %{project_updated_at}.\nIl
-      est actuellement à %{project_badge_percentage_0}% (sur 100%).\n</p>\n\n<p>\nNous
-      vous encourageons à continuer à progresser.\nVeuillez visiter
-      votre entrée de badge à\n<a href=\"%{project_info_url}\">%{project_info_url}</a>\npour
-      compléter l'information et obtenir votre badge !\n</p>\n\n<p>\nSi
-      vous voulez voir <em>seulement</em> ce qui vous manque,
-      visitez votre entrée de badge,\nsélectionnez le bouton près
-      du haut étiqueté « Développer les panneaux », \npuis sélectionnez
-      le bouton près du sommet étiqueté « Masquer atteints & N/A
-      ».\nSi vous avez des questions ou si vous avez besoin d'aide,
-      veuillez contacter\n<a href=\"mailto:&#99;ii&#45;badges&#45;questions&#45;own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;\">&#99;ii&#45;badges&#45;questions&#45;own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;</a>\nou
-      reporter un problème à\n<a href=\"https://github.com/coreinfrastructure/best-practices-badge/issues\">https://github.com/coreinfrastructure/best-practices-badge/issues</a>\n(cliquez
-      sur « nouveau problème »).\n</p>\n\n<p>\nNous n'envoyons
-      pas de rappels si vous continuez à mettre à jour votre entrée
-      de badge, et nous envoyons seulement des rappels environ
-      tous les 30-60 jours. Cependant, si vous souhaitez désactiver
-      ces messages de rappel, modifiez votre entrée de badge à
-      <a href=\"%{project_info_url}#project_disabled_reminder\">%{project_info_url}#project_disabled_reminder</a>\npour
-      activer la « désactivation du rappel d'inactivité ». Vérifiez
-      que vous éditez le projet de badge, au lieu de seulement
-      le consulter, pour pouvoir changer si vous voulez ou non
-      recevoir le rappel d'inactivité.\nNous espérons que vous
-      continuerez à travailler sur votre soumission pour finalement
-      obtenir le badge.\n</p>\n\n<p>\nMerci pour votre attention.\n</p>"
-    reminder_body_text: "Ceci est un rappel automatisé que votre
-      projet\n« %{project_name} »\nn'a pas actuellement de badge
-      « meilleures pratiques »,\net son entrée de badge n'a pas
-      été mise à jour depuis un moment.\nVotre entrée de badge
-      des meilleures pratiques est à\n%{project_info_url}\net
-      a été mis à jour pour la dernière fois le %{project_updated_at}.\nIl
-      est actuellement à %{project_badge_percentage_0}% (sur 100%).\n\nNous
-      vous encourageons à continuer à progresser.\nVeuillez visiter
-      votre entrée de badge à\n%{project_info_url}\npour compléter
-      l'information et obtenir votre badge !\n\nSi vous voulez
-      voir seulement ce qui vous manque, visitez votre entrée
-      de badge,\nsélectionnez le bouton près du haut étiqueté
-      « Développer les panneaux », \npuis sélectionnez le bouton
-      près du sommet étiqueté « Masquer atteints & N/A ».\nSi
-      vous avez des questions ou si vous avez besoin d'aide, veuillez
-      contacter\ncii-badges-questions@lists.coreinfrastructure.org
-      ou reporter un problème à\nhttps://github.com/coreinfrastructure/best-practices-badge/issues\n(cliquez
-      sur « nouveau problème »).\n\nNous n'envoyons pas de rappels
-      si vous continuez à mettre à jour votre entrée de badge,
-      et nous envoyons seulement des rappels environ tous les
-      30-60 jours. Cependant, si vous souhaitez désactiver ces
-      messages de rappel, modifiez votre entrée de badge à %{project_info_url}#project_disabled_reminder\npour
-      activer la « désactivation du rappel d'inactivité ». Vérifiez
-      que vous éditez le projet de badge, au lieu de seulement
-      le consulter, pour pouvoir changer si vous voulez ou non
-      recevoir le rappel d'inactivité.\n\nNous espérons que vous
-      continuerez à travailler sur votre soumission pour finalement
-      obtenir le badge.\n\nMerci pour votre attention."
+    reminder_body_html: |-
+      <h1>Rappel automatique du badge des meilleures pratiques pour %{project_name}</h1>
+      <p>
+      Ceci est un rappel automatisé que votre projet
+      « %{project_name} »
+      n'a pas actuellement de badge « meilleures pratiques »,
+      et son entrée de badge n'a pas été mise à jour depuis un moment.
+      </p>
+      <p>
+      Votre entrée de badge des meilleures pratiques est à
+      <a href="%{project_info_url}">%{project_info_url}</a>
+      et a été mis à jour pour la dernière fois le %{project_updated_at}.
+      Il est actuellement à %{project_badge_percentage_0}% (sur 100%).
+      </p>
+      <p>
+      Nous vous encourageons à continuer à progresser.
+      Veuillez visiter votre entrée de badge à
+      <a href="%{project_info_url}">%{project_info_url}</a>
+      pour compléter l'information et obtenir votre badge !
+      </p>
+      <p>
+      Si vous voulez voir <em>seulement</em> ce qui vous manque, visitez votre entrée de badge,
+      sélectionnez le bouton près du haut étiqueté « Développer les panneaux »,
+      puis sélectionnez le bouton près du sommet étiqueté « Masquer atteints & N/A ».
+      Si vous avez des questions ou si vous avez besoin d'aide, veuillez contacter
+      <a href="mailto:&#99;ii&#45;badges&#45;questions&#45;own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;">&#99;ii&#45;badges&#45;questions&#45;own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;</a>
+      ou reporter un problème à
+      <a href="https://github.com/coreinfrastructure/best-practices-badge/issues">https://github.com/coreinfrastructure/best-practices-badge/issues</a>
+      (cliquez sur « nouveau problème »).
+      </p>
+      <p>
+      Nous n'envoyons pas de rappels si vous continuez à mettre à jour votre entrée de badge, et nous envoyons seulement des rappels environ tous les 30-60 jours. Cependant, si vous souhaitez désactiver ces messages de rappel, modifiez votre entrée de badge à <a href="%{project_info_url}#project_disabled_reminder">%{project_info_url}#project_disabled_reminder</a>
+      pour activer la « désactivation du rappel d'inactivité ». Vérifiez que vous éditez le projet de badge, au lieu de seulement le consulter, pour pouvoir changer si vous voulez ou non recevoir le rappel d'inactivité.
+      Nous espérons que vous continuerez à travailler sur votre soumission pour finalement obtenir le badge.
+      </p>
+      <p>
+      Merci pour votre attention.
+      </p>
+    reminder_body_text: |-
+      Ceci est un rappel automatisé que votre projet
+      « %{project_name} »
+      n'a pas actuellement de badge « meilleures pratiques »,
+      et son entrée de badge n'a pas été mise à jour depuis un moment.
+      Votre entrée de badge des meilleures pratiques est à
+      %{project_info_url}
+      et a été mis à jour pour la dernière fois le %{project_updated_at}.
+      Il est actuellement à %{project_badge_percentage_0}% (sur 100%).
+      Nous vous encourageons à continuer à progresser.
+      Veuillez visiter votre entrée de badge à
+      %{project_info_url}
+      pour compléter l'information et obtenir votre badge !
+      Si vous voulez voir seulement ce qui vous manque, visitez votre entrée de badge,
+      sélectionnez le bouton près du haut étiqueté « Développer les panneaux »,
+      puis sélectionnez le bouton près du sommet étiqueté « Masquer atteints & N/A ».
+      Si vous avez des questions ou si vous avez besoin d'aide, veuillez contacter
+      cii-badges-questions@lists.coreinfrastructure.org ou reporter un problème à
+      https://github.com/coreinfrastructure/best-practices-badge/issues
+      (cliquez sur « nouveau problème »).
+      Nous n'envoyons pas de rappels si vous continuez à mettre à jour votre entrée de badge, et nous envoyons seulement des rappels environ tous les 30-60 jours. Cependant, si vous souhaitez désactiver ces messages de rappel, modifiez votre entrée de badge à %{project_info_url}#project_disabled_reminder
+      pour activer la « désactivation du rappel d'inactivité ». Vérifiez que vous éditez le projet de badge, au lieu de seulement le consulter, pour pouvoir changer si vous voulez ou non recevoir le rappel d'inactivité.
+      Nous espérons que vous continuerez à travailler sur votre soumission pour finalement obtenir le badge.
+      Merci pour votre attention.
   project_name_unknown: "(Nom inconnu)"
   locale_name:
-    en: Anglais / English (en)
-    fr: Français (fr)
-    zh-CN: Chinois (simplifié) / 简体 中文 (zh-CN)
-    de: Allemand / Deutsch (de)
-    ja: Japonais / 日本語 (ja)
-    ru: Russe / Русский (ru)
-    es: Espagnol / Español (es)
+    en: Anglais
+    fr: Français
+    zh-CN: Chinois (simplifié)
+    de: Allemand
+    ja: Japonais
+    ru: Russe
+    es: Espagnol
+    sw: Swahili
+    pt-BR: Portugais Brésilien
   criteria:
     '0':
       description_good:
@@ -944,9 +992,9 @@ fr:
         details: >-
           FLOSS est un logiciel distribué d'une manière qui répond
           à la <a href="https://opensource.org/osd-annotated">Définition
-          de l'Open Source</a> ou à la <a href="http://www.gnu.org/philosophy/free-sw.fr.html">Définition
+          de l'Open Source</a> ou à la <a href="https://www.gnu.org/philosophy/free-sw.fr.html">Définition
           du Logiciel Libre</a>. Des exemples de ces licences
-          sont <a href="http://creativecommons.org/publicdomain/zero/1.0/">CC0</a>,
+          sont <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>,
           <a href="https://opensource.org/licenses/MIT">MIT</a>,
           <a href="https://opensource.org/licenses/BSD-2-Clause">BSD
           2-clause</a>, <a href="https://opensource.org/licenses/BSD-3-Clause">BSD
@@ -978,10 +1026,15 @@ fr:
           Le projet DOIT afficher la ou les licences de ses résultats
           dans un emplacement standard dans leur dépôt source.
         details: >-
-          Par exemple, dans un fichier à la racine du dépôt appelé
-          LICENSE ou COPYING. Les noms de fichiers de licence
-          PEUVENT être suivis d'une extension telle que « .txt
-          » ou « .md ». Notez que ce critère est requis uniquement
+          Une convention est de publier la licence sous la forme
+          d'un fichier à la racine du dépôt appelé LICENSE ou
+          COPYING, qui PEUT être suivi d'une extension telle que
+          « .txt » ou « .md ». Une autre convention est d'avoir
+          un réportoire nommé LICENSES contenant le(s) fichier(s)
+          de licence ; ces fichiers sont généralement nommés comme
+          leur identifiant de licence SPDX suivi d'une extension
+          de fichier appropriée, comme décrit dans la <a href="https://reuse.software/spec/">Spécification
+          REUSE</a>. Notez que ce critère est requis uniquement
           pour le dépôt de sources. Vous n'avez PAS besoin d'inclure
           le fichier de licence lors de la génération d'un élément
           à partir du code source (tel qu'un exécutable, un paquet
@@ -997,8 +1050,9 @@ fr:
           /usr/share/common-licenses, et exclure le fichier de
           licence du paquet créé (par exemple, en supprimant le
           fichier après avoir appelé dh_auto_install). Nous encourageons
-          l'inclusion d'informations de licence lisibles automatiquement
-          dans des formats générés lorsque cela est possible.
+          fortement l'inclusion d'informations de licence lisibles
+          automatiquement dans des formats générés lorsque cela
+          est possible.
       documentation_basics:
         description: >-
           Le projet DOIT fournir une documentation de base pour
@@ -1152,22 +1206,41 @@ fr:
           ou les systèmes basés sur la date comme YYYYMMDD).
       version_semver:
         description: >-
-          Il est PROPOSÉ que le <a href="http://semver.org">format
-          de Versionage Sémantique (SemVer)</a> soit utilisé pour
-          les numéros de versions.
+          Il est PROPOSÉ d'utiliser le format de numérotation
+          de version appelé <a href="https://semver.org">Versionage
+          Sémantique (SemVer)</a> ou <a href="https://calver.org/"
+          >Versionage Calendaire (CalVer)</a>. Il est PROPOSÉ
+          que ceux qui utilisent CalVer incluent une valeur de
+          niveau micro.
         details: >-
-          D'autres systèmes de numérotation de version, tels que
-          les identifiants de commit (tels que git commit id ou
-          mercurial changeset id) ou les systèmes basés sur la
-          date comme YYYYMMDD, PEUVENT être utilisés comme numéros
-          de version, car ils sont uniques. Certaines alternatives
-          peuvent causer des problèmes, car les utilisateurs peuvent
-          ne pas être en mesure de déterminer facilement s'ils
-          sont à jour. SemVer peut être moins utile pour identifier
-          les versions de logiciels si tous les destinataires
-          n'exécutent que la dernière version (par exemple, c'est
-          le code d'un seul site Web ou d'un service Internet
-          qui est constamment mis à jour via une livraison continue).
+          Les projets devraient généralement préférer le format
+          attendu par leurs utilisateurs, par exemple, parce que
+          c'est le format normal utilisé par leur écosystème.
+          De nombreux écosystèmes préfèrent SemVer, et SemVer
+          est généralement préféré pour les interfaces de programmation
+          d'applications (API) et les kits de développement logiciel
+          (SDK). CalVer a tendance à être utilisé par des projets
+          de grande envergure, ayant un nombre inhabituellement
+          élevé de dépendances développées indépendamment, ayant
+          une portée en constante évolution ou étant sensibles
+          au temps. Il est PROPOSÉ que ceux qui utilisent CalVer
+          incluent une valeur de niveau micro, car l'inclusion
+          d'un niveau micro prend en charge les branches maintenues
+          simultanément chaque fois que cela devient nécessaire.
+          D'autres formats de numérotation de version peuvent
+          être utilisés, y compris les ID de commit git ou les
+          ID de jeu de modifications mercurial, à condition qu'ils
+          identifient de manière unique les versions. Cependant,
+          certaines alternatives (telles que les ID de commit
+          git) peuvent poser des problèmes en tant qu'identificateurs
+          de version, car les utilisateurs peuvent ne pas être
+          en mesure de déterminer facilement s'ils sont à jour.
+          Le format de l'ID de version peut être sans importance
+          pour l'identification des versions logicielles si tous
+          les destinataires n'exécutent que la dernière version
+          (par exemple, il s'agit du code d'un site Web ou d'un
+          service Internet unique qui est constamment mis à jour
+          par livraison continue).
       version_tags:
         description: >-
           Il est PROPOSÉ que les projets identifient chaque version
@@ -1205,19 +1278,40 @@ fr:
       release_notes_vulns:
         description: >-
           Les notes de version DOIVENT identifier toutes les vulnérabilités
-          publiquement connues avec une affectation CVE ou similaire
-          qui est résolue dans chaque nouvelle version, sauf si
-          les utilisateurs ne peuvent pas en général mettre à
-          jour le logiciel eux-mêmes. S'il n'y a pas de notes
-          de version ou qu'il n'y a pas eu de vulnérabilité publiquement
-          connue, choisissez « non applicable » (N/A).
+          connues du public corrigées dans cette version qui avaient
+          déjà une affectation CVE ou similaire lors de la création
+          de la version. Ce critère peut être marqué comme non
+          applicable (N/A) si les utilisateurs ne peuvent pas
+          en général mettre à jour le logiciel eux-mêmes (par
+          exemple, comme c'est souvent le cas pour les mises à
+          jour du noyau). Ce critère s'applique uniquement aux
+          résultats du projet, pas à ses dépendances. S'il n'y
+          a pas de notes de version ou qu'il n'y a pas eu de vulnérabilité
+          publiquement connue, choisissez N/A.
         details: >-
-          Si les utilisateurs ne peuvent généralement pas mettre
+          Ce critère aide les utilisateurs à déterminer si une
+          mise à jour donnée corrigera une vulnérabilité connue
+          publiquement, pour aider les utilisateurs à prendre
+          une décision éclairée concernant la mise à jour. Si
+          les utilisateurs ne peuvent généralement pas mettre
           à jour le logiciel eux-mêmes sur leur ordinateur, mais
-          doivent plutôt dépendre d'un intermédiaire pour effectuer
-          la mise à niveau (comme c'est souvent le cas pour un
-          noyau et un logiciel de bas niveau associé à un noyau),
-          le projet peut choisir "non applicable" (N/A)
+          doivent à la place dépendre d'un ou plusieurs intermédiaires
+          pour effectuer la mise à niveau (comme c'est souvent
+          le cas pour un noyau et un logiciel de bas niveau associé
+          à un noyau), le projet peut choisir « non applicable
+          » (N/A) à la place, car ces informations supplémentaires
+          ne seront pas utiles à ces utilisateurs. De même, un
+          projet peut choisir N/A si tous les destinataires n'exécutent
+          que la dernière version (par exemple, il s'agit du code
+          d'un site Web ou d'un service Internet unique qui est
+          constamment mis à jour par livraison continue). Ce critère
+          s'applique uniquement aux résultats du projet, pas à
+          ses dépendances. Énumérer les vulnérabilités de toutes
+          les dépendances transitives d'un projet devient ingérable
+          à mesure que les dépendances augmentent et varient,
+          et n'est pas nécessaire car les outils qui examinent
+          et suivent les dépendances peuvent le faire de manière
+          plus évolutive.
       report_process:
         description: >-
           Le projet DOIT fournir un processus permettant aux utilisateurs
@@ -1262,13 +1356,18 @@ fr:
           Le projet DOIT publier le processus de signalement des
           vulnérabilités sur le site du projet.
         details: >-
-          Par exemple, une adresse postale clairement désignée
-          sur https://PROJECTSITE/security, souvent sous la forme
-          security@example.org. Cela PEUT être identique à son
-          processus de signalement des bogues. Les signalements
-          de vulnérabilités PEUVENT toujours être publics, mais
-          de nombreux projets disposent d'un mécanisme privé de
-          signalement des vulnérabilités.
+          Les projets hébergés sur GitHub DEVRAIENT envisager
+          <a href="https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability"
+          >d'activer le signalement privé d'une vulnérabilité
+          de sécurité</a> . Les projets sur GitLab DEVRAIENT envisager
+          d'utiliser sa capacité à <a href="https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability"
+          >signaler une vulnérabilité en privé</a> . Les projets
+          PEUVENT identifier une adresse postale sur https://PROJECTSITE/security,
+          souvent sous la forme security@example.org. Ce processus
+          de rapport de vulnérabilité PEUT être le même que son
+          processus de rapport de bogue. Les rapports de vulnérabilité
+          PEUVENT toujours être publics, mais de nombreux projets
+          ont un mécanisme de rapport de vulnérabilité privé.
       vulnerability_report_private:
         description: >-
           Si les signalements de vulnérabilités privés sont pris
@@ -1327,7 +1426,11 @@ fr:
           Le projet DOIT utiliser au moins une suite de tests
           automatisée publiée publiquement comme FLOSS (cette
           suite de tests peut être maintenue sous la forme d'un
-          projet FLOSS distinct).
+          projet FLOSS distinct). Le projet DOIT clairement montrer
+          ou documenter comment exécuter la ou les suites de tests
+          (par exemple, via un script d'intégration continue (CI)
+          ou via la documentation dans des fichiers tels que BUILD.md,
+          README.md ou CONTRIBUTING.md).
         details: >-
           Le projet PEUT utiliser plusieurs suites de tests automatisées
           (par exemple, une qui s'exécute rapidement, par rapport
@@ -1437,7 +1540,7 @@ fr:
           les « détails » pour les exigences exactes.)
         details: >-
           Cela nécessite de comprendre les principes de conception
-          suivants, y compris les 8 principes de <a href="http://web.mit.edu/Saltzer/www/publications/protection/">Saltzer
+          suivants, y compris les 8 principes de <a href="https://web.mit.edu/Saltzer/www/publications/protection/">Saltzer
           et Schroeder</a> : <ul> <li>économie de moyens (maintenez
           la conception aussi simple et petite que pratique, par
           exemple en adoptant des simplifications conséquentes)
@@ -1490,7 +1593,16 @@ fr:
           (s'il y en a un), peuvent accepter des contributions
           au nom du projet, ou effectuer les distributions finales
           du logiciel du projet. S'il n'y a qu'un seul développeur,
-          cette personne est le développeur principal.
+          cette personne est le développeur principal. De nombreux
+          livres et cours sont disponibles pour vous aider à comprendre
+          comment développer des logiciels plus sûrs et pour discuter
+          de leur conception. Par exemple, le cours <a href="https://openssf.org/edx-courses/">Bases
+          du développement logiciel sécurisé</a> est un ensemble
+          gratuit de trois cours qui expliquent comment développer
+          des logiciels plus sûrs (il est possible de le suivre
+          gratuitement comme auditeur ; il est aussi possible
+          de payer pour obtenir un certificat prouvant que vous
+          avez compris les enseignements du cours).
       know_common_errors:
         description: >-
           Au moins l'un des principaux développeurs du projet
@@ -1502,9 +1614,19 @@ fr:
           Des exemples (selon le type de logiciel) incluent l'injection
           SQL, l'injection OS, le débordement mémoire classique,
           le cross-site scripting, l'authentification manquante
-          et l'autorisation manquante. Voir <a href="http://cwe.mitre.org/top25/">CWE/SANS
+          et l'autorisation manquante. Voir <a href="https://cwe.mitre.org/top25/">CWE/SANS
           top 25</a> ou <a href="https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project">OWASP
-          Top 10</a> pour les listes couramment utilisées.
+          Top 10</a> pour les listes couramment utilisées. De
+          nombreux livres et cours sont disponibles pour vous
+          aider à comprendre comment développer des logiciels
+          plus sûrs et discuter des erreurs courantes de mise
+          en œuvre qui conduisent à des vulnérabilités. Par exemple,
+          le cours <a href="https://openssf.org/edx-courses/">Bases
+          du développement logiciel sécurisé</a> est un ensemble
+          gratuit de trois cours qui expliquent comment développer
+          des logiciels plus sûrs (gratuitement ; vous pouvez
+          payer pour obtenir un certificat démontrant que vous
+          avez assimilé le matériel présenté).
       crypto_published:
         description: >-
           Le logiciel produit par le projet DOIT utiliser, par
@@ -1551,7 +1673,7 @@ fr:
           couvert par cette longueur de bit, plus d'informations
           sur le hachage de mot de passe peuvent être trouvées
           dans le critère <a href="#crypto_password_storage">crypto_password_storage</a>).
-          Voir <a href="http://www.keylength.com">http://www.keylength.com</a>
+          Voir <a href="https://www.keylength.com">https://www.keylength.com</a>
           pour une comparaison des recommandations sur les longueurs
           de clés de diverses organisations. Le logiciel PEUT
           permettre de plus petites longueurs de clés dans certaines
@@ -1568,7 +1690,7 @@ fr:
           sont nécessaires pour implémenter un protocole d'interopérabilité
           (où le protocole implémenté est la version la plus récente
           du standard supporté largement par l'écosystème du réseau,
-          l'écosystème requière l'utilisation de cet algorithme
+          l'écosystème requiert l'utilisation de cet algorithme
           ou mode, et cet écosystème n'offre pas d'alternative
           plus sûre). La documentation DOIT décrire tous les risques
           de sécurité appropriés et les parades connues si ces
@@ -1614,17 +1736,21 @@ fr:
           externes, les mots de passe DOIVENT être sauvegardés
           comme hachages itérés avec un salage par utilisateur
           en utilisant un algorithme d'étirement de clé (itéré)
-          (par exemple PBKDF2, Bcrypt ou Scrypt).
+          (par exemple Argon2id, Bcrypt, Scrypt, ou PBKDF2). Voir
+          également le <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">pense-bête
+          sur le stockage des clés d'OWASP</a>.
         details: >-
           Ce critère s'applique uniquement lorsque le logiciel
           applique l'authentification des utilisateurs utilisant
-          des mots de passe, telles que des applications Web côté
-          serveur. Il ne s'applique pas dans les cas où le logiciel
-          sauvegarde des mots de passe pour l'authentification
-          dans d'autres systèmes (par exemple, le logiciel implémente
-          un client pour un autre système), car au moins certaines
-          parties de ce logiciel doivent avoir souvent accès au
-          mot de passe en clair.
+          des mots de passe pour les utilisateurs extérieurs (càd
+          l'authentification entrante), telles que des applications
+          Web côté serveur. Il ne s'applique pas dans les cas
+          où le logiciel sauvegarde des mots de passe pour l'authentification
+          dans d'autres systèmes (càd l'authentification sortante,
+          par exemple, le logiciel implémente un client pour un
+          autre système), car au moins certaines parties de ce
+          logiciel doivent avoir souvent accès au mot de passe
+          en clair.
       crypto_random:
         description: >-
           Les mécanismes de sécurité dans le logiciel produit
@@ -1666,26 +1792,40 @@ fr:
         details: Ces hachages peuvent être modifiés en transit.
       vulnerabilities_fixed_60_days:
         description: >-
-          Il NE DOIT PAS y avoir de vulnérabilités non corrigées
-          de gravité moyenne ou élevée connues publiquement depuis
-          plus de 60 jours.
+          Il ne DOIT pas y avoir de vulnérabilités non corrigées
+          de gravité moyenne ou supérieure connues publiquement
+          depuis plus de 60 jours.
         details: >-
           La vulnérabilité doit être corrigée et diffusée par
           le projet lui-même (les correctifs peuvent être développés
           ailleurs). Une vulnérabilité devient publique (à cet
-          effet) une fois qu'il a un CVE avec des informations
-          non payantes publiquement publiées (signalé, par exemple,
+          effet) une fois qu'elle a un CVE avec des informations
+          non payantes publiquement publiées (signalée, par exemple,
           dans la <a href="https://nvd.nist.gov/">Base de données
           Nationale des Vulnérabilités</a>) ou lorsque le projet
           a été informé et que l'information a été diffusée au
           public (éventuellement par le projet). Une vulnérabilité
-          est de gravité moyenne à élevée si son score de base
-          <a href="https://nvd.nist.gov/cvss.cfm">CVSS 2.0</a>
-          est 4 ou supérieur. <strong>Note</strong> : cela signifie
-          que les utilisateurs peuvent être laissés vulnérables
-          à tous les attaquants du monde entier jusqu'à 60 jours.
-          Ce critère est souvent beaucoup plus facile à atteindre
-          que ce que Google recommande dans son <a href="https://security.googleblog.com/2010/07/rebooting-responsible-disclosure-focus.html">Redémarrage
+          est considérée de gravité moyenne ou supérieure si son
+          score de base qualitatif du <a href="https://www.first.org/cvss/">Système
+          Commun d'Évaluation des Vulnérabilités (CVSS)</a> est
+          moyen ou supérieur. Dans les versions CVSS 2.0 à 3.1,
+          cela équivaut à un score CVSS de 4.0 ou supérieur. Les
+          projets peuvent utiliser le score CVSS publié dans une
+          base de données de vulnérabilité largement utilisée
+          (telle que la <a href="https://nvd.nist.gov">base de
+          données nationale des vulnérabilités</a>) en utilisant
+          la version la plus récente de CVSS rapportée dans cette
+          base de données. Les projets peuvent aussi calculer
+          eux-mêmes la gravité à l'aide de la dernière version
+          de <a href="https://www.first.org/cvss/">CVSS</a> au
+          moment de la divulgation de la vulnérabilité, si les
+          entrées de calcul sont révélées publiquement une fois
+          que la vulnérabilité est connue du public.<strong>Note</strong>
+          : cela signifie que les utilisateurs peuvent être laissés
+          vulnérables à tous les attaquants du monde entier jusqu'à
+          60 jours. Ce critère est souvent beaucoup plus facile
+          à atteindre que ce que Google recommande dans son <a
+          href="https://security.googleblog.com/2010/07/rebooting-responsible-disclosure-focus.html">Redémarrage
           de la divulgation responsable</a>, car Google recommande
           que la période de 60 jours commence lorsque le projet
           est notifié <em>même</em> si le rapport n'est pas public.
@@ -1742,12 +1882,12 @@ fr:
           encore proposent une combinaison de ces deux types d'outils.
           Des exemples de tels outils d'analyse statique de code
           incluent <a href="http://cppcheck.sourceforge.net/">cppcheck</a>
-          (C, C++), <a href="http://clang-analyzer.llvm.org/">clang
+          (C, C++), <a href="https://clang-analyzer.llvm.org/">clang
           static analyzer</a> (C, C++), <a href="https://spotbugs.github.io/">SpotBugs</a>
           (Java), <a href="http://findbugs.sourceforge.net/">FindBugs</a>
           (Java) (y compris <a href="https://h3xstream.github.io/find-sec-bugs/">FindSecurityBugs</a>),
           <a href="https://pmd.github.io/">PMD</a> (Java), <a
-          href="http://brakemanscanner.org/">Brakeman</a> (Ruby
+          href="https://brakemanscanner.org/">Brakeman</a> (Ruby
           on Rails), <a href="https://cran.r-project.org/web/packages/lintr/index.html">lintr</a>
           (R), <a href="https://cran.r-project.org/web/packages/goodpractice/index.html">goodpractice</a>
           (R), <a href="https://scan.coverity.com/">Coverity Quality
@@ -1758,14 +1898,11 @@ fr:
           endroits tels que <a href="https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis">la
           liste Wikipedia d'outils pour l'analyse statique de
           code</a>, <a href="https://www.owasp.org/index.php/Static_Code_Analysis">l'information
-          OWASP sur l'analyse statique de code</a>, <a href="http://samate.nist.gov/index.php/Source_Code_Security_Analyzers.html">la
+          OWASP sur l'analyse statique de code</a>, <a href="https://samate.nist.gov/index.php/Source_Code_Security_Analyzers.html">la
           liste NIST des analyseurs de sécurité du code source</a>
-          et <a href="http://www.dwheeler.com/essays/static-analysis-tools.html">la
+          et <a href="https://www.dwheeler.com/essays/static-analysis-tools.html">la
           liste des outils d'analyse statique de Wheeler</a >.
-          <a href="https://continuousassurance.org/">SWAMP</a>
-          est une plate-forme gratuite pour évaluer les vulnérabilités
-          dans les logiciels utilisant une variété d'outils. S'il
-          n'y a pas d'outil d'analyse statique FLOSS disponible
+          S'il n'y a pas d'outil d'analyse statique FLOSS disponible
           pour le(s) langage(s) d'implémentation utilisé(s), sélectionnez
           « N/A ».
         na_placeholder: >-
@@ -1790,13 +1927,29 @@ fr:
       static_analysis_fixed:
         description: >-
           Toutes les vulnérabilités exploitables de gravité moyenne
-          et élevée découvertes avec une analyse statique de code
+          ou plus découvertes avec une analyse statique de code
           DOIVENT être corrigées en temps approprié après leur
           confirmation.
         details: >-
-          Une vulnérabilité est de gravité moyenne à élevée si
-          son <a href="https://nvd.nist.gov/cvss.cfm">CVSS 2.0</a>
-          est 4 ou supérieur.
+          Une vulnérabilité est considérée comme étant de gravité
+          moyenne ou supérieure si son score qualitatif de base
+          du <a href="https://www.first.org/cvss/">Système Commun
+          d'Évaluation des Vulnérabilités (CVSS)</a> est moyen
+          ou supérieur. Dans les versions CVSS 2.0 à 3.1, cela
+          équivaut à un score CVSS de 4.0 ou supérieur. Les projets
+          peuvent utiliser le score CVSS publié dans une base
+          de données de vulnérabilité largement utilisée (telle
+          que la <a href="https://nvd.nist.gov">base de données
+          nationale des vulnérabilités</a>) en utilisant la version
+          la plus récente de CVSS rapportée dans cette base de
+          données. Les projets peuvent aussi calculer eux-mêmes
+          la gravité à l'aide de la dernière version de <a href="https://www.first.org/cvss/">CVSS</a>
+          au moment de la divulgation de la vulnérabilité, si
+          les entrées de calcul sont révélées publiquement une
+          fois que la vulnérabilité est connue du public. Remarquez
+          que le critère vulnerabilities_fixed_60_days nécessite
+          que de telles vulnérabilités soient corrigées dans les
+          60 jours de leur divulgation publique.
       static_analysis_often:
         description: >-
           Il est PROPOSÉ que l'analyse statique du code source
@@ -1813,7 +1966,7 @@ fr:
           <a href="http://lcamtuf.coredump.cx/afl/">American Fuzzy
           Lop</a>) ou un scanner d'application Web (par exemple,
           <a href="https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project">OWASP
-          ZAP</a> ou <a href="http://w3af.org/">w3af</a>). Dans
+          ZAP</a> ou <a href="https://w3af.org/">w3af</a>). Dans
           certains cas, le projet <a href="https://github.com/google/oss-fuzz#introduction">OSS-Fuzz</a>
           peut être prêt à appliquer des tests de fuzzing à votre
           projet. Aux fins de ce critère, l'outil d'analyse dynamique
@@ -1842,30 +1995,100 @@ fr:
           Des exemples de mécanismes pour détecter les problèmes
           de sécurité de la mémoire comprennent <a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">Address
           Sanitizer (ASAN)</a> (disponible dans GCC et LLVM),
-          <a href="http://clang.llvm.org/docs/MemorySanitizer.html">Memory
+          <a href="https://clang.llvm.org/docs/MemorySanitizer.html">Memory
           Sanitizer</a> et <a href="http://valgrind.org/">valgrind</a>.
           D'autres outils potentiellement utilisés incluent <a
-          href="http://clang.llvm.org/docs/ThreadSanitizer.html">thread
-          sanitizer</a> et <a href="http://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">undefined
+          href="https://clang.llvm.org/docs/ThreadSanitizer.html">thread
+          sanitizer</a> et <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">undefined
           behavior sanitizer</a>. La généralisation de l'utilisation
           des assertions fonctionnera également.
       dynamic_analysis_enable_assertions:
         description: >-
-          Il est PROPOSÉ que le logiciel produit par le projet
-          comprenne de nombreuses assertions à l'exécution qui
-          sont vérifiées lors d'une analyse dynamique.
+          Il est PROPOSÉ que le projet utilise une configuration
+          pour au moins une analyse dynamique (comme le test ou
+          le fuzzing) qui active de nombreuses assertions. Dans
+          de nombreux cas, ces assertions <i>ne</i> doivent <i>pas</i>
+          être activées dans les versions de production.
+        details: >-
+          Ce critère ne suggère <i>pas</i> d'activer les assertions
+          en production ; c'est entièrement au projet et à ses
+          utilisateurs de le décider. L'objectif de ce critère
+          est plutôt d'améliorer la détection des défauts lors
+          de l'analyse dynamique <i>avant </i> le déploiement.
+          L'activation des assertions en <i>production</i> est
+          <i>complètement</i> différente de l'activation des assertions
+          pendant l'analyse dynamique (comme les tests). Dans
+          certains cas, il est extrêmement imprudent d'activer
+          les assertions en production (en particulier dans les
+          composants à haute intégrité). Il existe de nombreux
+          arguments contre l'activation des assertions en production,
+          par exemple, les bibliothèques ne devraient pas faire
+          échouer les appelants, leur présence peut provoquer
+          le rejet par les magasins d'applications et/ou l'activation
+          d'une assertion en production peut exposer des données
+          privées telles que des clés privées. Attention, dans
+          de nombreuses distributions Linux, <tt>NDEBUG</tt> n'est
+          pas défini, donc <t>assert()</tt> sera activé par défaut
+          en C/C++ pour la production dans ces environnements.
+          Il peut être important d'utiliser un mécanisme d'assertion
+          différent ou de définir <tt>NDEBUG</tt> pour la production
+          dans ces environnements.
       dynamic_analysis_fixed:
         description: >-
           Toutes les vulnérabilités exploitables de gravité moyenne
-          et élevée découvertes avec une analyse de code dynamique
+          ou plus découvertes avec une analyse de code dynamique
           DOIVENT être corrigées en un temps approprié après leur
           confirmation.
         details: >-
-          Une vulnérabilité est de gravité moyenne à élevée si
-          son score de base <a href="https://nvd.nist.gov/cvss.cfm">CVSS
-          2.0</a> est 4. Si vous n'utilisez pas d'analyse de code
-          dynamique et donc n'avez trouvé aucune vulnérabilité
-          de cette façon, choisissez « non applicable » (N/A).
+          Si vous n'utilisez pas d'analyse de code dynamique et
+          n'avez donc trouvé aucune vulnérabilité de cette manière,
+          choisissez « non applicable » (N/A). Une vulnérabilité
+          est considérée comme étant de gravité moyenne ou supérieure
+          si son score qualitatif de base du <a href="https://www.first.org/cvss/">Système
+          Commun d'Évaluation des Vulnérabilités (CVSS)</a> est
+          moyen ou supérieur. Dans les versions CVSS 2.0 à 3.1,
+          cela équivaut à un score CVSS de 4.0 ou supérieur. Les
+          projets peuvent utiliser le score CVSS publié dans une
+          base de données de vulnérabilité largement utilisée
+          (telle que la <a href="https://nvd.nist.gov">base de
+          données nationale des vulnérabilités</a>) en utilisant
+          la version la plus récente de CVSS rapportée dans cette
+          base de données. Les projets peuvent aussi calculer
+          eux-mêmes la gravité à l'aide de la dernière version
+          de <a href="https://www.first.org/cvss/">CVSS</a> au
+          moment de la divulgation de la vulnérabilité, si les
+          entrées de calcul sont révélées publiquement une fois
+          que la vulnérabilité est connue du public.
+      maintained:
+        description: Le projet DOIT être maintenu.
+        details: >-
+          Au minimum, le projet doit tenter de répondre aux rapports
+          de problèmes et de vulnérabilités importants. Un projet
+          qui poursuit activement un badge est probablement maintenu.
+          Tous les projets et tous les individus ont des ressources
+          limitées, et les projets typiques doivent rejeter certaines
+          modifications proposées, de sorte que les ressources
+          limitées et les rejets de propositions n'indiquent pas
+          en eux-mêmes un projet non maintenu. <br><br> Lorsqu'un
+          projet sait qu'il ne sera plus maintenu, il doit définir
+          ce critère comme « Non satisfait » et utiliser le(s)
+          mécanisme(s) approprié(s) pour indiquer aux autres qu'il
+          n'est pas maintenu. Par exemple, utiliser « DEPRECATED
+          » comme premier en-tête de son fichier README, ajouter
+          « DEPRECATED » au début de sa page d'accueil, ajouter
+          « DEPRECATED » au début de la description de projet
+          de son dépôt de code, ajouter un <a href="https://unmaintained.tech/">badge
+          sans maintenance</a> dans son README et/ou sa page d'accueil,
+          le marquer comme obsolète dans tous les dépôts de paquets
+          (par exemple, <a href="https://docs.npmjs.com/deprecating-and-undeprecating-packages-or-package-versions">npm
+          deprecate</a>), et/ou utiliser le système de marquage
+          du dépôt de code pour l'archiver (par exemple, le <a
+          href="https://docs.github.com/en/enterprise-server@2.21/github/creating-cloning-and-archiving-repositories/archiving-a-github-repository">paramètre
+          « archive »</a> de GitHub, le <a href="https://docs.gitlab.com/ee/user/project/settings/#archiving-a-project">marquage
+          « archivé »</a> de GitLab, le statut « lecture seule
+          » de Gerrit ou le statut de projet « abandonné » de
+          SourceForge). Une discussion supplémentaire peut être
+          trouvée <a href="https://medium.com/maintainer-io/how-to-deprecate-a-repository-on-github-8f0ceb9155e">ici</a>.
     '1':
       contribution_requirements:
         description: >-
@@ -1880,7 +2103,7 @@ fr:
           logiciel du projet affirment qu'ils sont légalement
           autorisés à effectuer ces contributions. L'approche
           la plus commune et facilement mise en œuvre pour ce
-          faire est d'utiliser un <a href="http://developercertificate.org/">Certificat
+          faire est d'utiliser un <a href="https://developercertificate.org/">Certificat
           d'origine du développeur (DCO)</a>, où les utilisateurs
           ajoutent une information « sign-off-by » dans leurs
           commits et le projet pointe vers le site Web du DCO.
@@ -1942,7 +2165,7 @@ fr:
           sur le comportement au sein de la communauté / lieu
           de travail du projet. Des exemples de codes de conduite
           sont le <a href="https://www.kernel.org/doc/html/latest/process/code-of-conduct.html">code
-          de conduite</a> du noyau Linux, le <a href="http://contributor-covenant.org/">code
+          de conduite</a> du noyau Linux, le <a href="https://contributor-covenant.org/">code
           de conduite du pacte de contributeur</a>, le <a href="https://www.debian.org/code_of_conduct">code
           de conduite du projet Debian</a>, le <a href="https://www.ubuntu.com/about/about-ubuntu/conduct">code
           de conduite du projet Ubuntu</a>, le <a href="https://getfedora.org/code-of-conduct">code
@@ -1957,8 +2180,9 @@ fr:
           Le projet DOIT clairement définir et documenter publiquement
           les rôles clés dans le projet et leurs responsabilités,
           y compris les tâches que ces rôles doivent accomplir.
-          Il DOIT être clair qui a quel(s) rôle(s), mais cela
-          pourrait ne pas être documenté de la même manière.
+          Il DOIT être clairement exprimé qui a quel(s) rôle(s),
+          mais cela pourrait ne pas être documenté de la même
+          manière.
         details: >-
           La documentation pour la <a href="#governance">gouvernance</a>
           et les rôles et responsabilités peut être à un seul
@@ -1966,17 +2190,18 @@ fr:
       access_continuity:
         description: >-
           Le projet DOIT pouvoir continuer avec une interruption
-          minimale si une personne est invalide ou tuée. En particulier,
+          minimale si une personne décède, est invalidée ou ne
+          peut/veut plus continuer à maintenir le projet. En particulier,
           le projet DOIT être en mesure de créer et de fermer
           des problèmes, d'accepter les modifications proposées
           et de publier des versions du logiciel, dans un délai
-          d'une semaine après confirmation qu'un individu est
-          invalide ou tué. Cela PEUT être fait en s'assurant que
-          quelqu'un d'autre possède les clés, les mots de passe
-          et les droits juridiques nécessaires pour poursuivre
-          le projet. Les personnes qui exécutent un projet FLOSS
-          PEUVENT faire cela en fournissant des clés dans un coffre-fort
-          et un testament fournissant les droits légaux nécessaires
+          d'une semaine après confirmation du retrait d'un individu
+          du projet. Cela PEUT être fait en s'assurant que quelqu'un
+          d'autre possède les clés, les mots de passe et les droits
+          juridiques nécessaires pour poursuivre le projet. Les
+          personnes qui exécutent un projet FLOSS PEUVENT faire
+          cela en fournissant des clés dans un coffre-fort et
+          un testament fournissant les droits légaux nécessaires
           (par exemple, pour les noms DNS).
       bus_factor:
         description: Le projet DEVRAIT avoir un « bus factor »
@@ -2073,7 +2298,7 @@ fr:
           au projet et utiliser les résultats du projet où il
           est raisonnable de le faire.
         details: |-
-          Pour les applications Web, consultez les <a href="https://www.w3.org/TR/WCAG20/">Directives d'accessibilité des contenus Web (WCAG 2.0)</a> et son document à l'appui <a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/Overview.html">Comprendre WCAG 2.0</a> ; voir aussi <a href="https://www.w3.org/standards/webdesign/accessibility">les informations d'accessibilité du W3C</a>. Pour les applications IHM, envisagez d'utiliser les directives d'accessibilité spécifiques à l'environnement (telles que <a href="https://developer.gnome.org/accessibility-devel-guide/stable/">Gnome</a>, <a href="https://accessibility.kde.org/">KDE</a>, <a href="http://docs.xfce.org/xfce/xfce4-settings/accessibility">XFCE</a>, <a href="https://developer.android.com/guide/topics/ui/accessibility/">Android</a>, <a href="https://developer.apple.com/accessibility/ios/">IOS</a>, <a href="http://www.apple.com/accessibility/osx/voiceover/">Mac</a> et <a href="https://docs.microsoft.com/fr-fr/windows/uwp/accessibility/accessibility-overview">Windows</a>). Certaines applications IHM textuelles (par exemple, les programmes « ncurses ») peuvent faire certaines choses pour se rendre plus accessibles (par exemple, le paramètre « force-arrow-cursor » de « alpine »). La plupart des applications en ligne de commande sont assez accessibles telles quelles. Ce critère est souvent N/A, par exemple, pour les bibliothèques. Voici quelques exemples d'actions à prendre ou de questions à considérer : <ul> <li>Fournir des alternatives de texte pour tout contenu non textuel afin qu'il puisse être changé en d'autres formes dont les gens ont besoin, comme une plus grande taille, le braille, une sortie vocale, des symboles ou une langue plus simple (<a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv.html">WCAG 2.0 directive 1.1</a>)
+          Pour les applications Web, consultez les <a href="https://www.w3.org/TR/WCAG20/">Directives d'accessibilité des contenus Web (WCAG 2.0)</a> et son document à l'appui <a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/Overview.html">Comprendre WCAG 2.0</a> ; voir aussi <a href="https://www.w3.org/standards/webdesign/accessibility">les informations d'accessibilité du W3C</a>. Pour les applications IHM, envisagez d'utiliser les directives d'accessibilité spécifiques à l'environnement (telles que <a href="https://developer.gnome.org/accessibility-devel-guide/stable/">Gnome</a>, <a href="https://accessibility.kde.org/">KDE</a>, <a href="https://docs.xfce.org/xfce/xfce4-settings/accessibility">XFCE</a>, <a href="https://developer.android.com/guide/topics/ui/accessibility/">Android</a>, <a href="https://developer.apple.com/accessibility/ios/">IOS</a>, <a href="https://www.apple.com/accessibility/osx/voiceover/">Mac</a> et <a href="https://docs.microsoft.com/fr-fr/windows/uwp/accessibility/accessibility-overview">Windows</a>). Certaines applications IHM textuelles (par exemple, les programmes « ncurses ») peuvent faire certaines choses pour se rendre plus accessibles (par exemple, le paramètre « force-arrow-cursor » de « alpine »). La plupart des applications en ligne de commande sont assez accessibles telles quelles. Ce critère est souvent N/A, par exemple, pour les bibliothèques. Voici quelques exemples d'actions à prendre ou de questions à considérer : <ul> <li>Fournir des alternatives de texte pour tout contenu non textuel afin qu'il puisse être changé en d'autres formes dont les gens ont besoin, comme une plus grande taille, le braille, une sortie vocale, des symboles ou une langue plus simple (<a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv.html">WCAG 2.0 directive 1.1</a>)
           <li>La couleur n'est pas utilisée comme le seul moyen visuel de transmettre des informations, d'indiquer une action, de provoquer une réponse ou de distinguer un élément visuel. (<a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-without-color.html">WCAG 2.0 directive 1.4.1</a>)
           <li>La présentation visuelle du texte et des images du texte a un taux de contraste d'au moins 4,5:1, à l'exception du grand texte, du texte incident, et des logotypes (<a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html">WCAG 2.0 directive 1.4.3</a>)
           <li>Rendez toutes les fonctionnalités disponibles à partir d'un clavier (WCAG directive 2.1) <li>Une IHM ou un projet basé sur le Web DEVRAIT tester avec au moins un lecteur d'écran sur la (les) plate-forme(s) cible(s) (par exemple NVDA, Jaws ou WindowEyes sur Windows ; VoiceOver sur Mac & iOS ; Orca sous Linux/BSD ; TalkBack sur Android). Les programmes IHM textuels PEUVENT travailler à réduire le retrait excessif pour éviter la lecture redondante par les lecteurs d'écran.</ul>
@@ -2109,20 +2334,21 @@ fr:
           d'utilisateurs externes, les mots de passe DOIVENT être
           entreposés comme hachages itérés avec salage par utilisateur
           en utilisant un algorithme d'étirement des clés (itéré)
-          (par exemple, PBKDF2, Bcrypt ou Scrypt). Si les sites
-          du projet n'entreposent pas de mots de passe à cette
-          fin, sélectionnez « non applicable » (N/A).
+          (par exemple, Argon2id, Bcrypt, Scrypt, ou PBKDF2).
+          Si les sites du projet n'entreposent pas de mots de
+          passe à cette fin, sélectionnez « non applicable » (N/A).
         details: >-
           Notez que l'utilisation de <a href="https://help.github.com/articles/github-security/">GitHub</a>
           répond à ce critère. Ce critère s'applique uniquement
           aux mots de passe utilisés pour l'authentification d'utilisateurs
-          externes sur les sites du projet. Si les sites du projet
-          doivent se connecter à d'autres sites, ils devront peut-être
-          entreposer différemment des mots de passe à cette fin
-          (puisque l'utilisation d'un algorithme comme Bcrypt
-          rendrait ces mots de passe inutilisables). Ceci applique
-          le critère crypto_password_storage aux sites du projet,
-          de manière similaire à sites_https.
+          externes sur les sites du projet (càd l'authentification
+          entrante). Si les sites du projet doivent se connecter
+          à d'autres sites (càd l'authentification sortante),
+          ils devront peut-être entreposer différemment des jetons
+          d'identification à cette fin (puisque conserver un code
+          de hachage serait inutile). Ceci applique le critère
+          crypto_password_storage aux sites du projet, de manière
+          similaire à sites_https.
       maintenance_or_update:
         description: >-
           Le projet DOIT maintenir les anciennes versions les
@@ -2315,12 +2541,13 @@ fr:
           et corriger les vulnérabilités exploitables ou les vérifier
           comme inexploitables.
         details: >-
-          Cela peut se faire à l'aide d'un outil d'analyse d'origine
-          ou de vérification de dépendance tel que <a href="https://www.owasp.org/index.php/OWASP_Dependency_Check">Dependency-Check
+          Cela peut se faire à l'aide d'un outil d'analyse d'origine,
+          de vérification de dépendance ou d'analyse de la composition
+          du logiciel tel que <a href="https://www.owasp.org/index.php/OWASP_Dependency_Check">Dependency-Check
           d'OWASP</a>, <a href="https://www.sonatype.com/nexus-auditor">Nexus
-          Auditeur de Sonartype</a>, <a href="https://www.blackducksoftware.com/products/protex">Protex
-          de Black Duck</a> , <a href="http://www.protecode.com/">Protecode
-          de Synopsys</a>, et <a href="https://github.com/rubysec/bundler-audit">Bundler-audit
+          Auditeur de Sonartype</a>, <a href="https://www.synopsys.com/software-integrity/security-testing/software-composition-analysis.html">Black
+          Duck Software Composition Analysis de Synopsys</a>,
+          et <a href="https://github.com/rubysec/bundler-audit">Bundler-audit
           (pour Ruby)</a>. Certains gestionnaires de paquets comprennent
           des mécanismes pour le faire. Il est acceptable que
           la vulnérabilité des composants ne puisse pas être exploitée,
@@ -2350,7 +2577,7 @@ fr:
           sur le cloud ; si le fournisseur du cloud met à jour
           ses librairies « standard » mais que le programme ne
           les utilise pas, les mises à jour ne vous aideront pas.
-          Voir, par exemple, <a href="http://spot.livejournal.com/312320.html">«
+          Voir, par exemple, <a href="https://spot.livejournal.com/312320.html">«
           Chromium : pourquoi il n'est pas encore un vrai paquet
           dans Fedora » par Tom Callaway</a>.
       interfaces_current:
@@ -2430,23 +2657,23 @@ fr:
         description: >-
           Les résultats du projet DOIVENT vérifier toutes les
           entrées provenant de sources potentiellement non fiables
-          pour s'assurer qu'elles sont valides (une *liste blanche*)
-          et rejeter les entrées non valides, en cas de restrictions
-          sur les données.
+          pour s'assurer qu'elles sont valides (une <em>liste
+          blanche</em>) et rejeter les entrées non valides, en
+          cas de restrictions sur les données.
         details: >-
           Notez que la comparaison de l'entrée par rapport à une
-          liste de « mauvais formats » (aussi appelée *liste noire*)
-          n'est normalement pas suffisante, car les attaquants
-          peuvent souvent contourner une liste noire. En particulier,
-          les nombres sont convertis en formats internes puis
-          vérifiés pour s'assurer s'ils se situent entre leur
-          minimum et maximum (inclus), et les chaînes de texte
-          sont vérifiées pour s'assurer qu'elles sont des motifs
-          de texte valides (par exemple, UTF-8 valide, longueur
-          valide, syntaxe valide, etc.). Certaines données peuvent
-          avoir besoin d'être « du tout venant » (par exemple,
-          un téléchargement de fichier), mais celles-ci sont généralement
-          rares.
+          liste de « mauvais formats » (aussi appelée <em>liste
+          noire</em>) n'est normalement pas suffisante, car les
+          attaquants peuvent souvent contourner une liste noire.
+          En particulier, les nombres sont convertis en formats
+          internes puis vérifiés pour s'assurer s'ils se situent
+          entre leur minimum et maximum (inclus), et les chaînes
+          de texte sont vérifiées pour s'assurer qu'elles sont
+          des motifs de texte valides (par exemple, UTF-8 valide,
+          longueur valide, syntaxe valide, etc.). Certaines données
+          peuvent avoir besoin d'être « du tout venant » (par
+          exemple, un téléchargement de fichier), mais celles-ci
+          sont généralement rares.
       hardening:
         description: >-
           Les mécanismes de durcissement DOIVENT être utilisés
@@ -2518,7 +2745,7 @@ fr:
         details: >-
           Notez que la vérification incorrecte du certificat TLS
           est une erreur courante. Pour plus d'informations, voir
-          <a href="http://crypto.stanford.edu/~dabo/pubs/abstracts/ssl-client-bugs.html">«
+          <a href="https://crypto.stanford.edu/~dabo/pubs/abstracts/ssl-client-bugs.html">«
           Le code le plus dangereux du monde : la validation des
           certificats SSL dans du logiciel qui ne vient pas d'un
           navigateur » de Martin Georgiev et al.</a> et <a href="https://blogs.gnome.org/mcatanzaro/2016/03/12/do-you-trust-this-application/">«
@@ -2598,7 +2825,7 @@ fr:
           lequel un ensemble spécifié de revendications critiques
           concernant les propriétés d'un système est adéquatement
           justifié pour une application donnée dans un environnement
-          donné » (<a href="http://nvlpubs.nist.gov/nistpubs/ir/2009/ir7608.pdf">«
+          donné » (<a href="https://www.nist.gov/publications/software-assurance-using-structured-assurance-case-models">«
           Software Assurance Using Structured Assurance Case Models
           », Thomas Rhodes et al, NIST Interagency Report 7608</a>).
           Les limites de confiance sont des limites où les données
@@ -2640,23 +2867,24 @@ fr:
           ou au moins 20 pages de documentation.
       copyright_per_file:
         description: >-
-          Le projet DOIT inclure une déclaration de copyright
-          dans chaque fichier source, identifiant au moins une
-          année pertinente et un titulaire du droit d'auteur.
+          Le projet DOIT inclure une déclaration de droit d'auteur
+          dans chaque fichier source, identifiant le détenteur
+          du droit d'auteur (par exemple, les contributeurs de
+          [nom du projet]).
         details: >-
-          Cela PEUT être fait en incluant ce qui suit dans un
-          commentaire près du début de chaque fichier : « <tt>Copyright
-          [année où ce projet ou contenu a commencé] - [dernière
-          année de modification], [fondateur du projet] et les
-          contributeurs de [nom du projet].</tt> »
+          Cela PEUT être fait en incluant ce qui suit à l'intérieur
+          d'un commentaire au début de chaque fichier: « <tt>Copyright
+          les contributeurs de [nom du projet].</tt> ». Voir <a
+          href="https://www.linuxfoundation.org/blog/2020/01/copyright-notices-in-open-source-software-projects/">«
+          Avis de droits d'auteur dans les projets de logiciels
+          Open Source » par Steve Winslow</a>.
       license_per_file:
         description: >-
           Le projet DOIT inclure une déclaration de licence dans
           chaque fichier source. Cela PEUT être fait en incluant
-          ce qui suit dans un commentaire près du début de chaque
-          fichier : <a href="https://spdx.org/using-spdx#identifiers">
-          <tt>SPDX-License-Identifier : [expression d'une licence
-          SPDX pour le projet]</tt> </a>.
+          ce qui suit à l'intérieur d'un commentaire au début
+          de chaque fichier : <a href="https://spdx.dev/ids/#how"><tt>SPDX-License-Identifier
+          : [expression d'une licence SPDX pour le projet]</tt></a>.
         details: >-
           Cela PEUT également être fait en incluant une déclaration
           en langage naturel identifiant la licence. Le projet
@@ -2684,8 +2912,8 @@ fr:
           Cette identification se fait typiquement en marquant
           les problèmes sélectionnés dans un outil de suivi de
           problèmes avec une ou plusieurs étiquettes que le projet
-          utilise à cet effet, par exemple <a href="http://up-for-grabs.net/#/">up-for-grabs</a>,
-          <a href="http://www.firsttimersonly.com/">first-timers-only</a>,
+          utilise à cet effet, par exemple <a href="https://up-for-grabs.net/#/">up-for-grabs</a>,
+          <a href="https://www.firsttimersonly.com/">first-timers-only</a>,
           « Small fix », microtask ou IdealFirstBug. Ces nouvelles
           tâches n'ont pas besoin d'ajouter des fonctionnalités
           ; elles peuvent améliorer la documentation, ajouter
@@ -2806,16 +3034,18 @@ fr:
           DOIVENT inclure des en-têtes clés de durcissement avec
           des valeurs non admises.
         details: >-
-          Notez que GitHub est connu pour le faire. Des sites
-          tels que https://securityheaders.io/ peuvent le vérifier
-          rapidement. Les en-têtes clés de durcissement sont :
-          Content Security Policy (CSP), HTTP Strict Transport
+          Notez que GitHub et GitLab sont connus pour le faire.
+          Des sites tels que https://securityheaders.com/ peuvent
+          le vérifier rapidement. Les en-têtes clés de durcissement
+          sont : Content Security Policy (CSP), HTTP Strict Transport
           Security (HSTS), X-Content-Type-Options (comme « nosniff
-          »), X-Frame-Options et X-XSS-Protection. Les sites Web
-          statiques sans possibilité de se connecter à travers
-          les pages Web peuvent omettre les entêtes de durcissement
-          HTTP CSP et X-XSS-Protection, car ces entêtes sont moins
-          utiles dans ces situations.
+          ») et X-Frame-Options. Les sites Web complètement statiques
+          sans possibilité de se connecter à travers les pages
+          Web peuvent éventuellement omettre certains entêtes
+          de durcissement avec moins de risques, mais il n'existe
+          aucune manière fiable de détecter ces sites, donc nous
+          exigeons ces en-têtes mêmes pour les sites complètement
+          statiques.
       security_review:
         description: >-
           Le projet DOIT avoir effectué une évaluation de la sécurité
@@ -2851,27 +3081,24 @@ fr:
   static_pages:
     home:
       badge_program: Programme de badge des meilleures pratiques
-        de la CII
+        de la OpenSSF
       get_your_badge: Obtenez votre badge immédiatement !
       p1_html: |-
         Le programme de badge des meilleures pratiques de
-        la <a href="https://www.coreinfrastructure.org/">Core Infrastructure Initiative (CII)</a> de la <a href="https://www.linuxfoundation.org/">Fondation Linux</a> est un moyen pour les projets de logiciel libre (FLOSS) de montrer qu'ils suivent les meilleures pratiques de développement. Les projets peuvent s'auto-évaluer de manière volontaire, sans frais, en utilisant cette application Web pour expliquer comment ils suivent chacune des meilleures pratiques. Le programme de badge des meilleures pratiques de la CII s'inspire des nombreux badges disponibles aux projets sur GitHub. Les consommateurs du badge peuvent évaluer rapidement quels projets de logiciel libre suivent les meilleures pratiques et, par conséquent, sont plus susceptibles de produire des logiciels sûrs et de meilleure qualité.
+        la Open Source Security Foundation (OpenSSF) de la <a href="https://www.linuxfoundation.org/">Fondation Linux</a> est un moyen pour les projets de logiciel libre (FLOSS) de montrer qu'ils suivent les meilleures pratiques de développement. Les projets peuvent s'auto-évaluer de manière volontaire, sans frais, en utilisant cette application Web pour expliquer comment ils suivent chacune des meilleures pratiques. Le programme de badge des meilleures pratiques de la OpenSSF s'inspire des nombreux badges disponibles aux projets sur GitHub. Les consommateurs du badge peuvent évaluer rapidement quels projets de logiciel libre suivent les meilleures pratiques et, par conséquent, sont plus susceptibles de produire des logiciels sûrs et de meilleure qualité.
       p2_html: |-
-        Plus d'informations sur le programme de badge
-        des meilleures pratiques de la CII,
-        incluant des renseignements généraux et
-        <a href='https://github.com/coreinfrastructure/cii-best-practices-badge/blob/master/doc/criteria.md'>les
-        critères</a>, sont
-        <a href='https://github.com/coreinfrastructure/cii-best-practices-badge'>disponibles sur GitHub</a>.
-        <a href="/fr/project_stats">Les statistiques du projet</a> et
-        <a href="/fr/criteria">des statistiques sur les critères</a> sont
+        Vous pouvez facilement voir les <a href="/fr/criteria/0">critères pour le badge basique</a>. Plus d'informations sur le programme de badge
+        des meilleures pratiques de la OpenSSF sont
+        <a href='https://github.com/coreinfrastructure/best-practices-badge'>disponibles sur GitHub</a>.
+        <a href="/fr/project_stats">Les statistiques des projets</a> et
+        <a href="/fr/criteria_stats">les statistiques sur les critères</a> sont
         disponibles.  La <a href="/fr/projects">page des projets</a> liste les
         projets participants et permet des requêtes (par exemple, vous
         pouvez y voir
         <a href="/fr/projects?gteq=100">les projets ayant obtenu le
-        badge</a>). Vous pouvez également y voir
+        badge basique</a>). Vous pouvez également y voir
         <a href='/fr/projects/1/0'>un exemple (où nous essayons
-        d'obtenir notre propre badge)</a>.
+        d'obtenir notre propre badge)</a>. Ce projet était connu à l'origine comme le projet de Badge des Meilleures Pratiques de la Core Infrastructure Initiative (CII), et a été développé à l'origine dans le cadre de la CII. Il fait maintenant partie du <a href="https://github.com/ossf/wg-best-practices-os-developers">Groupe de travail (GT) sur les meilleures pratiques</a> de l'<a href="https://openssf.org/">Open Source Security Foundation (OpenSSF)</a>. OpenSSF est une fondation de la <a href="https://www.linuxfoundation.org/">Fondation Linux</a>. Le projet a été formellement renommé depuis le « Badge des Meilleures Pratiques de la CII » le 2021-12-24.
       p3_html: >-
         <em>Confidentialité et problèmes juridiques</em> : Consultez
         notre <a href="https://www.linuxfoundation.org/privacy">politique
@@ -2889,10 +3116,10 @@ fr:
         (CC-BY-3.0+).  Pour faire référence globalement à ces
         contenus, ou en l'absence d'instructions spécifiques,
         veuillez mentionner comme source les contributeurs du
-        programme de badge des meilleures pratiques de la CII.
+        programme de badge des meilleures pratiques de la OpenSSF.
       check_us_out: >-
         Consultez le site Web du badge des meilleures pratiques
-        de la CII !
+        de la OpenSSF !
       share_header_html: "<p> Merci de partager ceci : </p>"
       twitter: Twitter
       reddit: Reddit
@@ -2901,26 +3128,6 @@ fr:
       email: Email
       projects_earned_badge: 'Quelques possesseurs de badges :'
       hacker_news: Hacker News
-    criteria:
-      criteria: Critères
-      detailed_criteria_on_github: Les critères détaillés sont
-        disponibles sur GitHub.
-      project_stats_html: |-
-        Les critères « actifs » sont ceux qui sont inclus dans les calculs de pourcentages (contrairement aux critères « futurs »). Les colonnes suivantes identifient le nombre de critères actifs à chaque niveau qui DOIVENT, DEVRAIENT ou PEUVENT être respectés, qui autorisent « N/A » comme réponse, qui requièrent une URL, qui incluent des détails, ou qui sont nouveaux à ce niveau. Les critères « futurs » sont affichés sur le formulaire, et devraient être ajoutés comme critères actifs à un certain niveau dans le futur, mais ne sont pas inclus dans les calculs de complétion. <br><br>
-        Vous pouvez voir des statistiques sur les projets au cours du temps sur la <a href="/fr/project_stats">page des statistiques du projet</a>.
-      level: Niveau
-      must: DOIT
-      should: DEVRAIT
-      suggested: PROPOSÉ
-      total_active: Total actif
-      allow_na: Autoriser N/A
-      require_url: Exiger une URL
-      details: Comprend des détails
-      future: Futur
-      new_this_level: Nouveau à ce niveau
-      met_justification_required: Justification requise
-      met_justification_or_url_required: Justification ou URL
-        requise
     cookies:
       cookies_header: À propos des cookies
       cookies_info_html: >-
@@ -2974,6 +3181,31 @@ fr:
       heading: Erreur 404 - Page non trouvée
       no_such_page: Désolé, cette page n'existe pas.
       please_home: Allez s'il vous plaît à la page d'accueil.
+    criteria_stats:
+      criteria: Statistiques des critères
+      project_stats_html: |-
+        Les critères « actifs » sont ceux qui sont inclus dans les calculs de pourcentages (contrairement aux critères « futurs »). Les colonnes suivantes identifient le nombre de critères actifs à chaque niveau qui DOIVENT, DEVRAIENT ou PEUVENT être respectés, qui autorisent « N/A » comme réponse, qui requièrent une URL, qui incluent des détails, ou qui sont nouveaux à ce niveau. Les critères « futurs » sont affichés sur le formulaire, et devraient être ajoutés comme critères actifs à un certain niveau dans le futur, mais ne sont pas inclus dans les calculs de complétion. <br><br>
+        Vous pouvez voir des statistiques sur les projets au cours du temps sur la <a href="/fr/project_stats">page des statistiques du projet</a>.
+      level: Niveau
+      must: DOIT
+      should: DEVRAIT
+      suggested: PROPOSÉ
+      total_active: Total actif
+      allow_na: Autoriser N/A
+      require_url: Exiger une URL
+      details: Comprend des détails
+      future: Futur
+      new_this_level: Nouveau à ce niveau
+      met_justification_required: Justification requise
+      met_justification_or_url_required: Justification ou URL
+        requise
+      see_actual_criteria: Vous pouvez également voir les critères
+        réels.
+    error_409:
+      heading: 'Erreur 409 : conflit'
+      conflict: >-
+        Désolé, plusieurs entrées correspondent à la demande,
+        ce qui entraîne un conflit.
   headings:
     Accessibility and internationalization: Accessibilité et internationalisation
     Analysis: Analyse
@@ -3036,9 +3268,407 @@ fr:
       many: Le formulaire contient %{count} erreurs.
     not_an_email: " n'est pas un email"
     known_bad_password: " est un (mauvais) mot de passe bien connu"
-    valid_text: >2-
+    valid_text: |2-
        doit avoir un codage UTF-8 valide et aucun caractère de
       contrôle invalide
     url_message: |2-
        doit commencer par http: ou https: et utiliser un jeu de caractères
           limité
+  criteria_overall:
+    beginning_header_all: Critères des meilleures pratiques FLOSS
+      (tous les niveaux)
+    beginning_header_0: Critères des meilleures pratiques FLOSS
+      (niveau basique)
+    beginning_header_1: Critères des meilleures pratiques FLOSS
+      (niveau Argent)
+    beginning_header_2: Critères des meilleures pratiques FLOSS
+      (niveau Or)
+    beginning_all_html: >-
+      <p> Il s'agit de l'ensemble des meilleures pratiques pour
+      les projets de logiciels libres et open source (FLOSS) pour
+      obtenir les badges des meilleures pratiques de la Open Source
+      Security Foundation (OpenSSF) aux niveaux basique, argent
+      et or. Vous pouvez afficher cette liste avec <a href="/fr/criteria">uniquement
+      les critères</a> ou avec <a href="/fr/criteria?details=true&rationale=true">des
+      informations supplémentaires</a>. Vous pouvez également
+      afficher uniquement les critères du niveau <a href="/fr/criteria/0">basique</a>
+      , <a href="/fr/criteria/1">argent</a> et <a href="/fr/criteria/2">or</a>,
+      ainsi que les <a href="/fr/criteria_stats">statistiques
+      des critères</a>.
+    beginning_0_html: >-
+      <p> Il s'agit de l'ensemble des meilleures pratiques pour
+      les projets de logiciels libres et open source (FLOSS) pour
+      obtenir le badge des meilleures pratiques de la Open Source
+      Security Foundation (OpenSSF) au niveau basique. Vous pouvez
+      afficher cette liste avec <a href="/fr/criteria/0">uniquement
+      les critères</a> ou avec <a href="/fr/criteria/0?details=true&rationale=true">des
+      informations supplémentaires</a>. <a href="/fr/criteria">L'ensemble
+      complet des critères pour tous les niveaux de badge</a>
+      est également disponible.
+    beginning_1_html: >-
+      <p> Il s'agit de l'ensemble des meilleures pratiques pour
+      les projets de logiciels libres et open source (FLOSS) pour
+      obtenir le badge des meilleures pratiques de la Open Source
+      Security Foundation (OpenSSF) au niveau argent. Vous pouvez
+      afficher cette liste avec <a href="/fr/criteria/1">uniquement
+      les critères</a> ou avec <a href="/fr/criteria/1?details=true&rationale=true">des
+      informations supplémentaires</a>. <a href="/fr/criteria">L'ensemble
+      complet des critères pour tous les niveaux de badge</a>
+      est également disponible.
+    beginning_2_html: >-
+      <p> Il s'agit de l'ensemble des meilleures pratiques pour
+      les projets de logiciels libres et open source (FLOSS) pour
+      obtenir le badge des meilleures pratiques de la Open Source
+      Security Foundation (OpenSSF) au niveau or. Vous pouvez
+      afficher cette liste avec <a href="/fr/criteria/2">uniquement
+      les critères</a> ou avec <a href="/fr/criteria/2?details=true&rationale=true">des
+      informations supplémentaires</a>. <a href="/fr/criteria">L'ensemble
+      complet des critères pour tous les niveaux de badge</a>
+      est également disponible.
+    see_discussion_html: >-
+      <p> Voir la <a href="/fr/criteria_discussion">discussion
+      des critères</a> pour plus d'informations sur ces critères.
+    future: "{Futur}"
+    na_allowed: "{N/A autorisé}"
+    na_justification_required: "{N/A justification}"
+    met_justification_required: "{Atteint justification}"
+    met_url_required: "{Atteint URL}"
+  criteria_discussion:
+    intro_p01_html: >-
+      <h1 id='criteria_discussion'>Discussion sur les critères</h1>
+    intro_p02_html: >-
+      <p> Il n’existe aucun ensemble de pratiques pouvant <i>garantir</i>
+      que les logiciels ne présenteront jamais de défauts ou de
+      vulnérabilités. Même les méthodes formelles peuvent échouer
+      si les spécifications ou les hypothèses sont erronées. Il
+      n’existe pas non plus d’ensemble de pratiques garantissant
+      qu’un projet maintiendra une communauté de développement
+      saine et qui fonctionne bien. </p>
+    intro_p03_html: |-
+      <p> Cependant,
+      suivre certaines meilleures pratiques peut aider à améliorer les résultats des projets. Par exemple, certaines pratiques permettent un examen par plusieurs personnes avant la publication, ce qui peut à la fois aider à trouver des vulnérabilités techniques autrement difficiles à trouver et à renforcer la confiance et le désir d'interactions répétées entre les développeurs de différentes organisations. </p>
+    intro_p04_html: >-
+      <p> Cette page présente l'ensemble des meilleures pratiques
+      pour les projets de logiciels libres et open source (FLOSS)
+      développé pour le badge des meilleures pratiques de la Open
+      Source Security Foundation (OpenSSF). Les projets qui suivent
+      ces meilleures pratiques pourront s'auto-certifier volontairement
+      et montrer qu'ils ont obtenu le badge correspondant. Les
+      projets peuvent le faire, sans frais, en utilisant une application
+      Web (BadgeApp) pour expliquer comment ils respectent ces
+      pratiques et leurs critères détaillés. </p>
+    intro_p05_html: "<p> Ces bonnes pratiques ont été créées pour
+      : </p>"
+    intro_p06_html: >-
+      <ol > <li> encourager les projets à suivre les meilleures
+      pratiques, </li> <li> aider les nouveaux projets à découvrir
+      quelles sont ces pratiques, et </li> <li> aider les utilisateurs
+      à savoir quels projets suivent les meilleures pratiques
+      (afin que les utilisateurs puissent choisir ces projets).
+      </li> </ol>
+    intro_p07_html: |-
+      <p> L'idiome « meilleures pratiques » signifie « une procédure ou un ensemble de procédures qui est préféré ou considéré comme standard au sein d'une organisation, d'un secteur, etc. » (source : <a href="http://www.dictionary.com/browse/best-practice" rel="nofollow">Dictionary.com</a>).
+      Ces critères sont ce que nous pensons être largement « préféré ou considéré comme standard » dans la communauté FLOSS au sens large. </p>
+    intro_p08_html: >-
+      <p> Pour plus d'informations sur la manière dont ces critères
+      ont été développés, consultez le <a href="https://github.com/coreinfrastructure/best-practices-badge">site
+      GitHub du badge des meilleures pratiques OpenSSF</a>. </p>
+      <p> Vous pouvez également <a href="/fr/criteria"> voir les
+      critères complets</a>. </p>
+    structure_p01_html: >-
+      <p> </p> <h2 id='criteria_structure'>Structure des critères</h2>
+    structure_p02_html: >-
+      <p> Les critères de bonnes pratiques sont divisés en trois
+      niveaux : <ul> <li> <b> Basique </b> se concentre sur les
+      meilleures pratiques que les projets FLOSS bien gérés suivent
+      généralement déjà. Obtenir le badge basique est une réussite
+      ; à tout moment, seuls 10% environ des projets poursuivant
+      un badge atteignent le niveau basique. <li> <b> Argent </b>
+      est un ensemble de critères plus stricts que basique, mais
+      devrait être réalisable par des projets de petite taille
+      et mono-organisation. <li> <b> Or </b> est encore plus strict
+      qu'argent et inclut des critères qui ne sont pas réalisables
+      par des projets de petite taille ou d'une seule organisation.
+      </ul>
+    structure_p03_html: >-
+      <p> Chaque critère a un nom court, indiqué sous forme de
+      texte en exposant entre crochets après le texte du critère.
+    other_p01_html: >-
+      <p> </p> <h2 id='criteria_other_projects'>Relation avec
+      d'autres projets</h2>
+    other_p02_html: >-
+      <p> La Fondation Linux parraine également le <a href="https://www.openchainproject.org/"
+      rel = "nofollow">Projet OpenChain</a>, qui identifie les
+      critères d'un « programme de conformité aux logiciels libres
+      et open source (FLOSS) de haute qualité ». OpenChain se
+      concentre sur la façon dont les organisations peuvent utiliser
+      au mieux le FLOSS et contribuer en retour aux projets FLOSS,
+      tandis que le badge des meilleures pratiques de la OpenSSF
+      se concentre sur les projets FLOSS eux-mêmes. Le badge des
+      meilleures pratiques de la OpenSSF et OpenChain travaillent
+      ensemble pour aider à améliorer le FLOSS et la façon dont
+      le FLOSS est utilisé.
+    automation_p01_html: >-
+      </p> <p> <h2 id = 'criteria_automation'>Automatisation des
+      critères</h2>
+    automation_p02_html: >-
+      <p>Dans certains cas, nous testons et remplissons automatiquement
+      les informations si le projet suit les conventions standard
+      et est hébergé sur un site (par exemple, GitHub) avec un
+      support API décent. </p>
+    automation_p03_html: >-
+      <p> Nous avons l'intention d'améliorer cette automatisation
+      à l'avenir. Les améliorations apportées à l'automatisation
+      sont les bienvenues ! </p>
+    automation_p04_html: >-
+      <p> Cependant, nous avons délibérément priorisé « ce qui
+      est important », même s'il ne peut pas être automatisé en
+      pratique. Nous aimons les mesures automatisées, mais tout
+      ce qui est important n'est pas automatisable ou ne peut
+      pas être automatisé en pratique. </p>
+    changes_p01_html: >-
+      <p> </p> <h2 id = 'criteria_changes'>Changements au fil
+      du temps</h2>
+    changes_p02_html: >-
+      <p> Nous nous attendons à ce que ces  pratiques et leurs
+      critères détaillés soient mis à jour au fil du temps. Nous
+      prévoyons d'ajouter de nouveaux critères mais de les marquer
+      comme critères « futurs », afin que les projets puissent
+      ajouter ces informations et conserver leur badge. </p>
+    changes_p03_html: >-
+      <p> Les commentaires sont <em>très</em> bienvenus via le
+      <a href="https://github.com/coreinfrastructure/best-practices-badge">site
+      GitHub en tant que problèmes ou pull request</a>. Il existe
+      également une <a href="https://lists.coreinfrastructure.org/mailman/listinfo/cii-badges"
+      rel="nofollow">liste de diffusion pour une discussion générale</a>.
+      </p>
+    keywords_p01_html: "<p> </p> <h2 id = 'keywords'>Mots clés</h2>"
+    keywords_p02_html: >-
+      <p> Les mots clés « DOIT », « NE DOIT PAS », « DEVRAIT »,
+      « NE DEVRAIT PAS » et « PEUT » dans ce document sont à interpréter
+      comme décrit dans la <a href="https://tools.ietf.org/html/rfc2119"
+      rel="nofollow">RFC 2119</a>. Le terme supplémentaire PROPOSÉ
+      est ajouté. En résumé, ces mots clés ont les significations
+      suivantes : </p>
+    keywords_p03_html: >-
+      <ul> <li> Le terme DOIT est une exigence absolue, et NE
+      DOIT PAS est une interdiction absolue. </li>
+    keywords_p04_html: >-
+      <li> Le terme DEVRAIT indique un critère normalement requis,
+      mais il peut exister des raisons valables dans des circonstances
+      particulières de l'ignorer. Cependant, toutes les implications
+      doivent être comprises et soigneusement pesées avant de
+      choisir un cours différent. </li>
+    keywords_p05_html: >-
+      <li> Le terme PROPOSÉ est utilisé à la place de DEVRAIT
+      lorsque le critère doit être considéré, mais les raisons
+      valables de ne pas le faire sont encore plus communes que
+      pour DEVRAIT. </li>
+    keywords_p06_html: >-
+      <li> Le terme PEUT fournit une façon de faire quelque chose,
+      par exemple, pour indiquer clairement que l'implémentation
+      décrite est acceptable. </li> </ul>
+    keywords_p07_html: >-
+      <p>Souvent, un critère est énoncé comme quelque chose qui
+      DEVRAIT être fait, ou est PROPOSÉ, car il peut être difficile
+      à mettre en œuvre ou les coûts pour le faire peuvent être
+      élevés. </p>
+    achieving_p01_html: >-
+      <p> </p> <h2 id = 'criteria_achieving_badge '>Obtenir un
+      badge</h2>
+    achieving_p02_html: >-
+      <p> Pour obtenir un badge, tous les critères DOIT et NE
+      DOIT PAS doivent être remplis, tous les critères DEVRAIT
+      doivent être remplis OU non remplis avec justification,
+      et tous les critères PROPOSÉ doivent être pris en compte
+      (il doit être marqué comme satisfait ou non, mais aucune
+      justification n'est requise, sauf indication contraire).
+      Une réponse N/A (« non applicable »), lorsqu'elle est autorisée,
+      est considérée comme satisfaite. Dans certains cas, en particulier
+      aux niveaux supérieurs, une justification et / ou une URL
+      peuvent être requises. </p>
+    achieving_p03_html: >-
+      <p> Certains critères ont des marquages ​​spéciaux qui influencent
+      ceci : <ul> <li> <b> {N/A autorisé} </b> - « N/A » (« Non
+      applicable ») est autorisé. <li> <b> {N/A justification}
+      </b> - « N/A » (« Non applicable ») est autorisé et nécessite
+      une justification. <li> <b> {Atteint justification} </b>
+      - « Atteint » nécessite une justification. <li> <b> {Atteint
+      URL} </b> - « Atteint » nécessite une justification avec
+      une URL. <li> <b> {Futur} </b> - la réponse à ce critère
+      n'a actuellement aucun effet, mais elle peut être requise
+      à l'avenir. </ul>
+    achieving_p04_html: >-
+      <p> Un projet doit atteindre le niveau précédent pour atteindre
+      le niveau suivant. Dans certains cas, les critères DEVRAIT
+      deviennent DOIT dans les badges de niveau supérieur, et
+      certains critères PROPOSÉ à des niveaux inférieurs deviennent
+      DEVRAIT ou DOIT aux badges de niveau supérieur. Les niveaux
+      supérieurs nécessitent également plus de justification,
+      car nous voulons que d'autres puissent comprendre <i>comment</i>
+      les critères sont remplis. </p>
+    achieving_p05_html: >-
+      <p> Les (nombreux) critères cryptographiques ne s'appliquent
+      pas toujours, car certains logiciels n'ont pas besoin d'utiliser
+      directement les capacités cryptographiques. Dans ces cas,
+      répondez N/A.
+    achieving_p06_html: >-
+      <p> Il y a un critère de réussite implicite - chaque projet
+      DOIT avoir un site Web public avec une URL stable. Cela
+      est nécessaire pour créer une entrée de badge en premier
+      lieu. </p>
+    terminology_p01_html: "<p> </p> <h2 id = 'criteria_terminology'>Terminologie</h2>"
+    terminology_p02_html: >-
+      <p> Si vous n'êtes pas familier avec le développement de
+      logiciels ou l'exécution d'un projet FLOSS, des ressources
+      telles que <a href="http://producingoss.com/" rel="nofollow">
+      <em> Produire un logiciel Open Source </em> par Karl Fogel
+      </a> peuvent vous être utiles. </p>
+    terminology_p03_html: "<p>Voici quelques termes clés: </p>
+      <ul>"
+    terminology_p04_html: >-
+      <li> Un <em> projet </em> est une entité active qui a des
+      membres du projet et produit des résultats de projet. Ses
+      membres utilisent les sites du projet pour coordonner et
+      diffuser les résultats. Un projet n'a pas besoin d'être
+      une entité juridique formelle. </li>
+    terminology_p05_html: >-
+      <li> Les <em>membres</em> du projet sont le groupe d'une
+      ou plusieurs personnes ou entreprises qui travaillent ensemble
+      pour tenter de produire des résultats de projet. Certains
+      projets FLOSS peuvent avoir différents types de membres,
+      avec des rôles différents, mais cela ne relève pas de notre
+      portée. </li>
+    terminology_p06_html: >-
+      <li> Les <em>résultats</em> du projet sont ce que les membres
+      du projet produisent ensemble comme objectif final de leur
+      travail. Il s'agit normalement d'un logiciel, mais les résultats
+      du projet peuvent également inclure d'autres éléments. Les
+      critères qui font référence aux « logiciels produits par
+      le projet » font référence aux résultats du projet. </li>
+    terminology_p07_html: >-
+      <li> Les <em> sites </em> du projet sont les sites dédiés
+      au développement et à la diffusion des résultats du projet,
+      et incluent le site Web du projet, les dépôts et sites de
+      téléchargement, le cas échéant (voir <a href="#sites_https">sites_https</a>).
+      </li>
+    terminology_p08_html: >-
+      <li> Le <em>site Web</em> du projet, également appelé page
+      d'accueil du projet, est la page principale du World Wide
+      Web (WWW) qu'un nouvel utilisateur visiterait généralement
+      pour voir des informations sur le projet ; il peut être
+      le même que le dépôt du projet (c'est souvent le cas sur
+      GitHub). </li>
+    terminology_p09_html: >-
+      <li> Le <em> dépôt </em> du projet gère et stocke les résultats
+      du projet et l'historique des révisions des résultats du
+      projet. Ceci est également appelé le <em> dépôt source </em>
+      du projet, car nous n'avons besoin que de la gestion et
+      du stockage des versions modifiables et non des résultats
+      générés automatiquement (dans de nombreux cas, les résultats
+      générés ne sont pas stockés dans un dépôt). </li>
+    terminology_p10_html: >-
+      <li> Un <em> mécanisme de sécurité du projet </em> est un
+      mécanisme de sécurité fourni par le logiciel du projet livré.
+      </ul>
+    noncriteria_p01_html: "<p> </p> <h2 id = 'criteria_noncriteria'>
+      Non-critères </h2>"
+    noncriteria_p02_html: "<p> Les critères : <ul>"
+    noncriteria_p03_html: >-
+      <li> ne nécessitent <em> aucune </em> technologie, produit
+      ou service spécifique. Par exemple, ils n'ont <em> pas </em>
+      besoin de git, GitHub ou GitLab. Les critères <em> fournissent
+      </em> des conseils et une aide pour les cas courants, car
+      ces informations peuvent aider les gens à comprendre et
+      à répondre aux critères. Il existe une automatisation spéciale
+      pour les projets utilisant git ou GitHub, pour aider les
+      utilisateurs dans ces cas courants, mais ils ne sont pas
+      <em> obligatoires</em>. Ainsi, à mesure que de nouveaux
+      outils et capacités deviennent disponibles, les projets
+      peuvent rapidement y basculer. À titre d'exception, les
+      critères nécessitent une page Web de projet et TLS.
+    noncriteria_p04_html: >-
+      <li> n'exigent ou n'interdisent <em> pas </em> un langage
+      de programmation particulier. Ils exigent que des mesures
+      supplémentaires soient prises pour certains <em> types </em>
+      de langages de programmation, mais c'est différent.
+    noncriteria_p05_html: >-
+      <li> n'exigent <em> jamais </em> l’utilisation d’un logiciel
+      propriétaire, d’un service propriétaire ou d’une technologie
+      propriétaire, car de nombreux développeurs de <a href="https://www.gnu.org/philosophy/free-sw.fr.html"
+      rel="nofollow"> logiciels libres </a> rejetteraient ces
+      critères. Les projets sont <em> autorisés </em> à les utiliser
+      et à en dépendre.
+    noncriteria_p06_html: >-
+      <li> ne nécessitent <em> pas </em> de développement actif
+      ou de discussion utilisateur au sein d'un projet. Certains
+      projets très matures changent rarement et peuvent donc avoir
+      peu d'activité. Les critères <em> exigent</em>, cependant,
+      que le projet soit réactif si des vulnérabilités sont signalées
+      au projet.
+    noncriteria_p07_html: >-
+      <li> n’exigent <em> pas </em> de frais pour obtenir un badge.
+    noncriteria_p08_html: >-
+      <li> n'exigent <em> pas </em> que tous les critères soient
+      mis en œuvre en même temps ; la plupart des projets les
+      mettent en œuvre au fil du temps. </ul>
+    noncriteria_p09_html: >-
+      <p> Le niveau basique ne comprend pas de critères qui ne
+      seraient pas pratiques pour un projet à une seule personne,
+      par exemple, quelque chose qui nécessite une somme d'argent
+      importante. De nombreux projets FLOSS sont petits et nous
+      ne voulons pas les priver de leurs droits.
+    identify_p01_html: >-
+      <p> </p> <h2 id = 'criteria_id_project'> Identification
+      d'un projet </h2>
+    identify_p02_html: >-
+      <p> Notre application attribue à chaque entrée de projet
+      un identifiant unique, mais cela n'aide pas les personnes
+      à rechercher le projet. Pour nos besoins, le nom <em> réel
+      </em> d'un projet est l'URL de son dépôt, et là où ce n'est
+      pas disponible, l'URL de la « page d'accueil » du projet.
+      Nous limitons la fréquence des modifications apportées à
+      l'URL du dépôt pour éviter certaines absurdités. Les projets
+      ont normalement un nom lisible par les humains, mais ces
+      noms ne sont pas assez uniques.
+    criteria_why_p01_html: >-
+      <p> </p> <h2 id = 'criteria_why'> Pourquoi avoir des critères
+      ? </h2>
+    criteria_why_p02_html: |-
+      <p> Le document <a href="http://www.researchinlearningtechnology.net/index.php/rlt/article/view/23563" rel="nofollow"> Badges ouverts pour l'éducation : quelles implications à l'intersection des systèmes ouverts et des badges ? </a> identifie trois raisons générales pour les systèmes de badges (tous sont valables ici) : </p>
+      <ol>
+    criteria_why_p03_html: >-
+      <li> Les badges comme motivateurs de comportement. Nous
+      espérons qu'en identifiant les meilleures pratiques, nous
+      encouragerons les projets à mettre en œuvre ces meilleures
+      pratiques s'ils ne les appliquent pas déjà. </li>
+    criteria_why_p04_html: >-
+      <li> Les badges comme outil pédagogique. Certains projets
+      peuvent ne pas être conscients de certaines des meilleures
+      pratiques appliquées par d'autres, ni de la manière dont
+      elles peuvent être appliquées dans la pratique. Le badge
+      les aidera à en prendre conscience et à les mettre en œuvre.
+      </li>
+    criteria_why_p05_html: >-
+      <li> Les badges comme signifiant ou identifiant. Les utilisateurs
+      potentiels veulent utiliser des projets qui appliquent les
+      meilleures pratiques pour produire systématiquement de bons
+      résultats ; les badges permettent aux projets de signifier
+      facilement qu'ils respectent les meilleures pratiques et
+      permettent aux utilisateurs de voir facilement quels projets
+      le font. </li> </ol>
+    self_certification_p01_html: >-
+      <h3 id="criteria_self_certification"> Pourquoi l'auto-certification
+      ? </h3>
+    self_certification_p02_html: >-
+      <p> Nous avons choisi d'utiliser l'autocertification, car
+      cela permet à un grand nombre de projets (même petits) de
+      participer. Il existe des millions de projets FLOSS et le
+      fait de payer des tiers pour évaluer chacun d'eux de manière
+      indépendante ne passe pas à l'échelle. Il y a un risque
+      que les projets fassent de fausses déclarations, mais nous
+      pensons que le risque est faible, les utilisateurs peuvent
+      vérifier les allégations par eux-mêmes et les fausses déclarations
+      peuvent être annulées. Nous utilisons également l'automatisation
+      pour remplacer les fausses déclarations lorsque nous pouvons
+      être sûrs des résultats. </p>

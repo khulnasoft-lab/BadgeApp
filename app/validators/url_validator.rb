@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'uri'
@@ -28,9 +28,9 @@ class UrlValidator < ActiveModel::EachValidator
         https?://
         [A-Za-z0-9][-A-Za-z0-9_.]*  # domain name per DNS spec; includes I18N.
         (/
-          ([-A-Za-z0-9_.:/+!,#]|    # allow these ASCII chars.
+          ([-A-Za-z0-9_.:/+!,#@~]|    # allow these ASCII chars.
            %(20|[89A-Ea-e][0-9A-Fa-f]|[Ff][0-7]))*  # Allow some %-encoded
-        )?)\z}x
+        )?)\z}x.freeze
 
   # Unescape but do *not* force an encoding (so we can force it separately
   # and check for validity).
@@ -47,12 +47,12 @@ class UrlValidator < ActiveModel::EachValidator
 
   # Return true if URL matches URL_REGEX and its decoding is valid UTF-8.
   def url_acceptable?(value)
-    if value !~ URL_REGEX
-      false
-    else
+    if URL_REGEX.match?(value)
       # The unescapes the *entire* URL, but that's okay because we've
       # already confirmed that the domain name doesn't have "%"
       unescape_unforced(value).force_encoding('UTF-8').valid_encoding?
+    else
+      false
     end
   end
 

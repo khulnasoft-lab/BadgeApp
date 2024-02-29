@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # *MUST* load 'simplecov' FIRST, before any other code is run.
@@ -48,7 +48,7 @@ else
   Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new
 end
 
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 
 # We must specially allow web calls by test drivers, e.g.,
@@ -82,49 +82,45 @@ VCR.configure do |config|
   # end
   # config.match_on [:skip_changers]
   # Allow calls needed by test drivers
-  config.ignore_hosts(*driver_urls)
+  # config.ignore_hosts(*driver_urls)
 end
 
-require 'minitest/rails/capybara'
+# The chromedriver occasionally calls out with its own API,
+# which isn't part of the system under test. This can occasionally
+# cause an error of this form:
+# An HTTP request has been made that VCR does not know how to handle:
+# GET https://chromedriver.storage.googleapis.com/LATEST_RELEASE_87.0.4280
+# The following code resolves it, see:
+# https://github.com/titusfortner/webdrivers/wiki/Using-with-VCR-or-WebMock
+# https://github.com/titusfortner/webdrivers/issues/109
 
-Capybara.default_max_wait_time = 5
-Capybara.server_port = 31_337
-
-# Set up a test environment to run client-side JavaScript.
-# Setup Capybara -> selenium -> webdriver -> headless chrome/chromium. See:
-# https://robots.thoughtbot.com/headless-feature-specs-with-chrome
-
-require 'selenium/webdriver'
 require 'webdrivers'
+require 'uri'
 
-# Register "chrome" driver - use it via Selenium.
-Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
-end
+# With activesupport gem
+# driver_hosts =
+# Webdrivers::Common.subclasses.map do |this_driver|
+# URI(this_driver.base_url).host
+# end
 
-# Register "headless_chrome" driver - use it via Selenium.
-# The configuration approach documented here isn't actually headless:
-# https://robots.thoughtbot.com/headless-feature-specs-with-chrome
-# So we instead use the approach documented in:
-# https://github.com/teamcapybara/capybara/blob/master/spec/
-# selenium_spec_chrome.rb#L6
-Capybara.register_driver :headless_chrome do |app|
-  browser_options = Selenium::WebDriver::Chrome::Options.new
-  browser_options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil) if ENV['CI']
-  browser_options.args << '--headless'
-  browser_options.args << '--disable-gpu' if Gem.win_platform?
-  driver = Capybara::Selenium::Driver.new(
-    app, browser: :chrome, options: browser_options
-  )
-  driver.browser.download_path = Capybara.save_path
-  driver
-end
+# VCR.configure { |config| config.ignore_hosts(*driver_hosts) }
 
-# Note that DRIVER only controls the Capybara javascript_driver.
-driver = ENV['DRIVER'].try(:to_sym)
-Capybara.javascript_driver = driver.present? ? driver : :headless_chrome
+# NOTE: We *could* speed up test execution by disabling PaperTrail
+# except in cases where we check PaperTrail results. PaperTrail records all
+# project creation and change events (enabling you to see older versions),
+# so in some cases Papertrail slows tests slightly.  To do this, see:
+# https://github.com/paper-trail-gem/paper_trail
+# However, we have intentionally chosen to *not* do that.
+# Where reasonable we have tried to keep the test environment
+# the *same* as the production environment where it's reasonable to do so;
+# every difference can hide a problem from our tests.
+# The tests run fast enough as it is, and avoiding problems due to such
+# differences is more important. At the least, we're making sure that
+# PaperTrail doesn't cause a crash in the various tests, and that's worth
+# checking.
 
 module ActiveSupport
+  # rubocop: disable Metrics/ClassLength
   class TestCase
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical
     # order.
@@ -134,13 +130,13 @@ module ActiveSupport
 
     # Add more helper methods to be used by all tests here...
 
-    def configure_omniauth_mock
+    def configure_omniauth_mock(cassette = 'github_login')
       OmniAuth.config.test_mode = true
-      OmniAuth.config.add_mock(:github, omniauth_hash)
+      OmniAuth.config.add_mock(:github, omniauth_hash(cassette))
     end
 
     def contents(file_name)
-      IO.read "test/fixtures/files/#{file_name}"
+      File.read "test/fixtures/files/#{file_name}"
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -167,25 +163,22 @@ module ActiveSupport
     # Using "password" helps test that users can log in to their
     # existing accounts, even if we make the password rules harsher later.
     def log_in_as(
-      user, password: 'password', provider: 'local', remember_me: '1',
-      time_last_used: Time.now.utc
+      user,
+      password: 'password',
+      provider: 'local',
+      remember_me: '1',
+      make_old: false
     )
       # This is based on "Ruby on Rails Tutorial" by Michael Hargle, chapter 8,
       # https://www.railstutorial.org/book
-      if integration_test?
-        post login_path, params: {
-          session: {
-            email:  user.email, password: password,
-            provider: provider, remember_me: remember_me,
-            time_last_used: time_last_used
-          }
+      time_last_used = Time.now.utc
+      post "#{login_path}#{'?make_old=true' if make_old}", params: {
+        session: {
+          email:  user.email, password: password,
+          provider: provider, remember_me: remember_me,
+          time_last_used: time_last_used
         }
-        # Do this instead, it at least checks the password:
-        # session[:user_id] = user.id if user.try(:authenticate, password)
-      else
-        session[:user_id] = user.id
-        session[:time_last_used] = time_last_used
-      end
+      }
     end
     # rubocop:enable Metrics/MethodLength
 
@@ -227,27 +220,26 @@ module ActiveSupport
       defined?(post_via_redirect)
     end
 
-    def omniauth_hash
+    def omniauth_hash(cassette)
       {
         'provider' => 'github',
         'uid' => '12345',
-        'credentials' => { 'token' => vcr_oauth_token },
+        'credentials' => { 'token' => vcr_oauth_token(cassette) },
         'info' => {
           'name' => 'CII Test',
           'email' => 'test@example.com',
-          'nickname' => 'CIITheRobot'
+          'nickname' => 'bestpracticestest'
         }
       }
     end
 
-    def vcr_oauth_token
-      github_login_vcr_file = 'test/vcr_cassettes/github_login.yml'
-      return Null unless File.exist?(github_login_vcr_file)
+    def vcr_oauth_token(cassette)
+      github_login_vcr_file = "test/vcr_cassettes/#{cassette}.yml"
+      return unless File.exist?(github_login_vcr_file)
 
-      y = YAML.load_file(github_login_vcr_file)
-              .with_indifferent_access
-      url = y[:http_interactions][1][:request][:uri]
-      Addressable::URI.parse(url).query_values['access_token']
+      y = YAML.load_file(github_login_vcr_file).with_indifferent_access
+      query_string = y[:http_interactions][0][:response][:body][:string]
+      Rack::Utils.parse_nested_query(query_string)['access_token']
     end
 
     def key_with_nil_value(hash)
@@ -262,5 +254,19 @@ module ActiveSupport
       end
       ''
     end
+
+    # Re-implement assert_select - return true iff a CSS selection
+    # using *selector* contains exactly "contents".
+    # The problem is that assert_select fails oddly when running a global
+    # "rails test" (though it works fine if running "rails test FILENAME").
+    # To solve this, we re-implement assert_select so we have a working version.
+    def my_assert_select(selector, contents)
+      results = css_select(selector)
+      results.each do |selection|
+        return true if selection.content == contents
+      end
+      false
+    end
   end
+  # rubocop: enable Metrics/ClassLength
 end

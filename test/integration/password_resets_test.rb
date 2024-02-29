@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'test_helper'
@@ -21,20 +21,20 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     post password_resets_path,
          params: { password_reset: { email: '' }, locale: :en }
     assert_not flash.empty?
-    assert_template 'password_resets/new'
+    assert_redirected_to root_url(locale: :en)
     # Valid email, github user
     post password_resets_path,
          params: { password_reset: { email: @ghuser.email }, locale: :en }
     assert_equal 0, ActionMailer::Base.deliveries.size
     assert_not flash.empty?
-    assert_redirected_to login_url(locale: :en)
+    assert_redirected_to root_url(locale: :en)
     # Valid email
     post password_resets_path,
          params: { password_reset: { email: @user.email }, locale: :en }
     assert_not_equal @user.reset_digest, @user.reload.reset_digest
     assert_equal 1, ActionMailer::Base.deliveries.size
     assert_not flash.empty?
-    assert_redirected_to root_url
+    assert_redirected_to root_url(locale: :en)
     # Password reset form
     user = assigns(:user)
     # Wrong email

@@ -24,6 +24,7 @@ es:
     format:
       delimiter: "."
       precision: 3
+      round_mode: default
       separator: ","
       significant: false
       strip_insignificant_zeros: false
@@ -31,6 +32,7 @@ es:
       format:
         delimiter: ''
         format: "%n %"
+        precision: 1
     precision:
       format:
         delimiter: ''
@@ -60,7 +62,7 @@ es:
         ó: o
         ú: u
         ü: u
-        ñ: n
+        ñ: "n"
         Á: A
         É: E
         Í: I

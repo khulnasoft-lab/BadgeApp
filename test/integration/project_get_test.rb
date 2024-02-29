@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'test_helper'
@@ -39,7 +39,7 @@ class ProjectGetTest < ActionDispatch::IntegrationTest
     assert_equal(
       "default-src 'self'; base-uri 'self'; block-all-mixed-content; " \
       "form-action 'self'; frame-ancestors 'none'; " \
-      "img-src secure.gravatar.com avatars.githubusercontent.com 'self'; " \
+      "img-src 'self' secure.gravatar.com avatars.githubusercontent.com; " \
       "object-src 'none'; script-src 'self'; style-src 'self'",
       @response.headers['Content-Security-Policy']
     )
@@ -47,22 +47,13 @@ class ProjectGetTest < ActionDispatch::IntegrationTest
       'no-referrer-when-downgrade',
       @response.headers['Referrer-Policy']
     )
-    assert_equal(
-      'nosniff',
-      @response.headers['X-Content-Type-Options']
-    )
-    assert_equal(
-      'DENY',
-      @response.headers['X-Frame-Options']
-    )
+    assert_equal('nosniff', @response.headers['X-Content-Type-Options'])
+    assert_equal('DENY', @response.headers['X-Frame-Options'])
     assert_equal(
       'none',
       @response.headers['X-Permitted-Cross-Domain-Policies']
     )
-    assert_equal(
-      '1; mode=block',
-      @response.headers['X-XSS-Protection']
-    )
+    assert_equal('1; mode=block', @response.headers['X-XSS-Protection'])
     # Check warning on development system
     assert_match 'This is not the production system', response.body
 
@@ -100,5 +91,32 @@ class ProjectGetTest < ActionDispatch::IntegrationTest
     # when using CORS.  However, it's important for security, so let's
     # verify that caching varies depending on the Origin.
     assert_equal('Accept-Encoding, Origin', @response.headers['Vary'])
+  end
+
+  test 'Redirect malformed query string criteria_level,2' do
+    get project_path(id: @project_one.id, locale: 'en') + '?criteria_level,2'
+    # Should redirect
+    assert_response 301
+    assert_redirected_to project_path(
+      id: @project_one.id, locale: 'en', criteria_level: 2
+    )
+  end
+
+  test 'Redirect malformed query string criteria_level,1' do
+    get project_path(id: @project_one.id, locale: 'de') + '?criteria_level,1'
+    # Should redirect
+    assert_response 301
+    assert_redirected_to project_path(
+      id: @project_one.id, locale: 'de', criteria_level: 1
+    )
+  end
+
+  test 'Redirect malformed query string criteria_level,0' do
+    get project_path(id: @project_one.id, locale: 'fr') + '?criteria_level,0'
+    # Should redirect
+    assert_response 301
+    assert_redirected_to project_path(
+      id: @project_one.id, locale: 'fr', criteria_level: 0
+    )
   end
 end

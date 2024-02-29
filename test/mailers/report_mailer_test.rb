@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'test_helper'
@@ -30,9 +30,16 @@ class ReportMailerTest < ActionMailer::TestCase
     # This is a quick sanity test, not an in-depth test.
     # Use 'example.org' per RFC 2606
     ENV['REPORT_MONTHLY_EMAIL'] = 'mytest@example.org'
+    awesome_projects = [
+      [
+        projects(:perfect_passing), projects(:perfect_silver),
+        projects(:perfect)
+      ], [projects(:perfect_silver), projects(:perfect)],
+      [projects(:perfect)]
+    ]
     email = ReportMailer
             .report_monthly_announcement(
-              [@perfect_project], '2015-02',
+              awesome_projects, '2015-02',
               project_stats(:one), project_stats(:two)
             )
             .deliver_now

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # rubocop:disable Metrics/ClassLength
@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   has_many :projects, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
+
   before_create :create_activation_digest
 
   has_many :additional_rights, dependent: :destroy
@@ -35,18 +36,23 @@ class User < ApplicationRecord
   DIGITS_OF_EMAIL_ENCRYPTION_KEY = 256 / 8 * 2 # 256-bit AES key in hex
   DIGITS_OF_EMAIL_BLIND_INDEX_KEY = 256 / 8 * 2 # 256-bit HMAC key in hex
 
+  # For tests
+  TEST_EMAIL_ENCRYPTION_KEY = '1' * DIGITS_OF_EMAIL_ENCRYPTION_KEY
+  TEST_EMAIL_BLIND_INDEX_KEY = '2' * DIGITS_OF_EMAIL_BLIND_INDEX_KEY
+
   # Email addresses are stored as encrypted values.
   # If a key isn't provided, use a bogus one to make testing easy.
-  attr_encrypted :email, algorithm: 'aes-256-gcm', key: [(
-    ENV['EMAIL_ENCRYPTION_KEY'] || '1' * DIGITS_OF_EMAIL_ENCRYPTION_KEY
-  )].pack('H*')
+  attr_encrypted :email, algorithm: 'aes-256-gcm', key: [
+    ENV['EMAIL_ENCRYPTION_KEY'] || TEST_EMAIL_ENCRYPTION_KEY
+  ].pack('H*')
+
   # Email addresses are indexed as blind indexes of downcased email addresses,
   # so we can efficiently search for them while keeping them encrypted.
-  # Usage: User.where(email: "test@example.org")
-  # or:    User.where(email: "test@example.org", provider: "local")
-  blind_index :email, key: [(
-    ENV['EMAIL_BLIND_INDEX_KEY'] || '2' * DIGITS_OF_EMAIL_BLIND_INDEX_KEY
-  )].pack('H*'), expression: ->(v) { v.try(:downcase) }
+  # Usage: User.where(email: 'test@example.org')
+  # or:    User.where(email: 'test@example.org', provider: 'local')
+  blind_index :email, key: [
+    ENV['EMAIL_BLIND_INDEX_KEY'] || TEST_EMAIL_BLIND_INDEX_KEY
+  ].pack('H*'), expression: ->(v) { v.try(:downcase) }
 
   scope :created_since, (
     lambda do |time|
@@ -70,7 +76,7 @@ class User < ApplicationRecord
   # and works regardless of the underlying RDBMS.  The RDBMS-level index
   # check, however, is immune to races where supported (PostgreSQL does),
   # because the RDBMS is the final arbiter.
-  validates :email, uniqueness: { scope: :provider }, case_sensitive: false,
+  validates :email, uniqueness: { scope: :provider, case_sensitive: false },
                     if: ->(u) { u.provider == 'local' }
 
   # Validate passwords; this is obviously security-related.
@@ -165,6 +171,7 @@ class User < ApplicationRecord
   # Always return "false" for an unactivated account.
   def login_allowed_now?
     return false unless activated?
+
     start_time = can_login_starting_at
     start_time.blank? || Time.zone.now >= start_time
   end
@@ -206,6 +213,7 @@ class User < ApplicationRecord
   # This will raise an exception if the old key doesn't work.
   def rekey(old_key)
     return if encrypted_email_iv.blank? || encrypted_email.blank?
+
     old_iv = Base64.decode64(encrypted_email_iv)
     # Get the old email address; this will raise an exception if the
     # given key is wrong.
@@ -259,8 +267,6 @@ class User < ApplicationRecord
     # only thing we care about is if we get 200 (success) or not.
     response.code == 200
   end
-
-  private
 
   # Creates and assigns the activation token and digest.
   def create_activation_digest

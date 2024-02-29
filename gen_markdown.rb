@@ -49,7 +49,7 @@ def puts_criterion(key, criterion)
     print ' (Justification required for "N/A".)'
   end
   print ' (URL required for "met".)' if criterion.key?('met_url_required')
-  print " <sup>[<a href=\"\##{key}\">#{key}</a>]</sup>"
+  print " <sup>[<a href=\"##{key}\">#{key}</a>]</sup>"
   if CriteriaText[key].key?('details') || criterion.key?('rationale')
     print '<dl>' # Put details and rationale in a detail list
     show_details(key)
@@ -62,8 +62,8 @@ end
 # rubocop:enable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
 
 # Generate results
-$stdout.reopen('doc/criteria.md', 'w') || abort('Cannot write')
-print_file('doc/criteria-header.markdown')
+$stdout.reopen('docs/criteria.md', 'w') || abort('Cannot write')
+print_file('docs/criteria-header.markdown')
 FullCriteriaHash['0'].each do |major, major_value|
   puts ''
   puts "### #{major}"
@@ -78,4 +78,4 @@ FullCriteriaHash['0'].each do |major, major_value|
     puts '</ul>'
   end
 end
-print_file('doc/criteria-footer.markdown')
+print_file('docs/criteria-footer.markdown')

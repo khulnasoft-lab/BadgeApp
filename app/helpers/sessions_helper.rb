@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # rubocop:disable Metrics/ModuleLength
 module SessionsHelper
   SESSION_TTL = 48.hours # Automatically log off session if inactive this long
-  PRODUCTION_HOSTNAME = 'bestpractices.coreinfrastructure.org'
+  RESET_SESSION_TIMER = 1.hour # Active sessions older than this reset timer
+  GITHUB_PATTERN = %r{
+    \Ahttps://github.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)/?\Z
+  }x.freeze
   require 'uri'
 
   # Remove the "locale=value", if any, from the url_query provided
@@ -24,6 +27,7 @@ module SessionsHelper
   # rubocop: disable Metrics/AbcSize
   def force_locale_url(original_url, locale)
     url = URI.parse(original_url)
+    url.host = ENV.fetch('PUBLIC_HOSTNAME', url.host)
     # Remove locale from query string and main path.  The removing
     # substitution will sometimes remove too much, so we prepend a '/'
     # if that happens.
@@ -54,6 +58,7 @@ module SessionsHelper
   # rubocop:disable Metrics/MethodLength
   def current_user
     return if Rails.application.config.deny_login
+
     # Extra parens used here to indicate safe assignment in condition
     if (user_id = session[:user_id])
       @current_user ||= User.find_by(id: user_id)
@@ -96,11 +101,6 @@ module SessionsHelper
     cookies.delete(:remember_token)
   end
 
-  # Return true iff an html_url in array repo_list is url.
-  def repo_url_in?(repo_list, url)
-    repo_list.any? { |project| project[:html_url] == url }
-  end
-
   # Return true iff the current user can edit the given url.
   #
   # The GitHub API documentation here:
@@ -109,28 +109,32 @@ module SessionsHelper
   # says that if you retrieve:
   # GET /repos/:owner/:repo/collaborators/:username/permission
   # If "permission" is write or admin then that user can modify it.
-  # HOWEVER, to use that API you have to have a token that's the admin
-  # of the repo, otherwise you just get a "Bad credentials" message.
-  # So while that *looks* useful, it doesn't work for our situation.
+  # HOWEVER, the use of that API is not allowed with an OAuth token, only
+  # normal access token. So while that *looks* useful, it doesn't work for our
+  # situation.
   #
-  # The only way we've found that works for us is to ask GitHub to list the
-  # repos this user can control, and then return true if there's a match.
-  # The "client" parameter exists to simplify (unit) testing.
-  def github_user_projects_include?(url, client = Octokit::Client)
+  # As of 2020-04-16, retrieving a repo using GitHub repos API (using
+  # https://api.github.com/:owner/:repo) with a users OAuth token will include
+  # a field `permissions`.  We consider a user with `push` permissions an
+  # editor and check for that.
+  def github_user_can_push?(url, client = Octokit::Client)
+    github_path = get_github_path(url)
+    return false if github_path.nil?
+
     github = client.new access_token: session[:user_token]
-    github.auto_paginate = false
-    page = 1
-    repo_list = github.repos # Read first page of list
-    loop do
-      return false if repo_list.blank?
-      return true if repo_url_in?(repo_list, url)
-      # We should be able to do this, but it doesn't work:
-      # return false if github.last_response.rels[:next].blank?
-      # repo_list = github.last_response.rels[:next].get.data
-      # So we'll retrieve by requesting page numbers instead.
-      page += 1
-      repo_list = github.repos(nil, page: page)
+    begin
+      github.repo(github_path).permissions.presence && github.repo(github_path).permissions[:push]
+    # If you suddenly get a lot of 503's most likely github has changed
+    # its API, make this a generic rescue
+    # Disable rubocop - Style/RescueStandardError if that is needed
+    rescue Octokit::NotFound
+      return false
     end
+  end
+
+  def current_user_is_github_owner?(url)
+    current_user.present? && current_user.provider == 'github' &&
+      session[:github_name] == get_github_owner(url)
   end
 
   # Retrieve list of all GitHub projects, used when displaying
@@ -138,13 +142,13 @@ module SessionsHelper
   def github_user_projects
     github = Octokit::Client.new access_token: session[:user_token]
     github.auto_paginate = true
-    github.repos.map(&:html_url).reject(&:blank?)
+    github.repos.map(&:html_url).compact_blank
   end
 
   # Logs out the current user.
   def log_out
     forget(current_user)
-    session.delete(:user_id)
+    reset_session
     @current_user = nil
   end
 
@@ -173,21 +177,21 @@ module SessionsHelper
     false
   end
 
-  # Returns true iff the current_user can *edit* the @project repo
+  # Returns true iff the current_user can push to the @project repo
   # according to GitHub.  We try to avoid calling GitHub if it is
   # is obviously unnecessary.
   def can_current_user_edit_on_github?(url)
-    current_user.provider == 'github' &&
-      url.present? &&
-      url.starts_with?('https://github.com/') &&
-      github_user_projects_include?(url)
+    return false unless current_user.provider == 'github' &&
+                        valid_github_url?(url)
+
+    current_user_is_github_owner?(url) || github_user_can_push?(url)
   end
 
-  def in_development?
-    hostname = ENV['PUBLIC_HOSTNAME']
-    return true if hostname.nil?
-
-    hostname != PRODUCTION_HOSTNAME
+  # Returns true iff this is not the REAL final production system,
+  # including the master/main and staging systems.
+  # It only returns false if we are "truly in production"
+  def in_development?(is_real = ENV.fetch('BADGEAPP_REAL_PRODUCTION', nil))
+    return is_real.nil?
   end
 
   # Redirects to stored location (or to the default)
@@ -214,24 +218,47 @@ module SessionsHelper
   def session_expired
     return true unless session.key?(:time_last_used)
 
-    session[:time_last_used] < SESSION_TTL.ago.utc
+    last_used = session[:time_last_used]
+    last_used < SESSION_TTL.ago.utc
   end
 
   def validate_session_timestamp
     return unless logged_in? && session_expired
 
     reset_session
+    # Set "current_user" to invalid value (session hash is not empty)
     session[:current_user] = nil
     redirect_to login_path
   end
 
+  # Set session timestamp. For efficiency, we only do this if the last
+  # session timestamp is more than RESET_SESSION_TIMER ago.
+  # This efficiency measure avoids constantly updating the session cookie
+  # for many closely-related interactions (as is typical).
   def persist_session_timestamp
-    session[:time_last_used] = Time.now.utc if logged_in?
+    return unless logged_in? && !session.key?(:make_old)
+
+    old = !session.key?(:time_last_used) ||
+          (session[:time_last_used] < RESET_SESSION_TIMER.ago.utc)
+
+    session[:time_last_used] = Time.now.utc if old
   end
 
   private
 
-  # Check if refering url is internal, if so, save it.
+  def get_github_owner(url)
+    return unless url.present? && valid_github_url?(url)
+
+    url.match(GITHUB_PATTERN).captures[0]
+  end
+
+  def get_github_path(url)
+    return unless url.present? && valid_github_url?(url)
+
+    url.match(GITHUB_PATTERN).captures.join('/')
+  end
+
+  # Check if referring url is internal, if so, save it.
   def store_internal_referer
     return if request.referer.nil?
 
@@ -240,6 +267,10 @@ module SessionsHelper
     return if [login_url, signup_url].include? ref_url
 
     session[:forwarding_url] = ref_url
+  end
+
+  def valid_github_url?(url)
+    url.present? && url.match(GITHUB_PATTERN).present?
   end
 end
 # rubocop:enable Metrics/ModuleLength

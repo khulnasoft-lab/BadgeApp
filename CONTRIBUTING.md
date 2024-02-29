@@ -7,12 +7,15 @@ Feedback and contributions are very welcome!
 Here's help on how to make contributions, divided into the following sections:
 
 * general information,
-* vulnerability reporting,
+* [vulnerability reporting](#how_to_report_vulnerabilities),
 * documentation changes,
+* translations,
+* criteria changes,
 * code changes,
 * how to check proposed changes before submitting them,
-* reuse (supply chain for third-party components, including updating them), and
-* keeping up with external changes.
+* reuse (supply chain for third-party components, including updating them),
+* keeping up the main branch, and
+* handling the rename of the "master" branch to "main".
 
 ## General information
 
@@ -25,20 +28,23 @@ via our
 For general discussion, feel free to use the
 [cii-badges mailing list](https://lists.coreinfrastructure.org/mailman/listinfo/cii-badges).
 
-The "doc/" directory has information you may find helpful, for example:
+We use GitHub. You may find
+[GitHub CLI (`gh`)](https://github.com/coreinfrastructure/best-practices-badge.git)
+helpful if you're using the command line.
+It supports commands like `gh auth login` (login) and
+`gh pr create` (create a new pull request
+with the current branch).
 
--   [governance.md](doc/governance.md) describes our governance model
+The "docs/" directory has information you may find helpful, for example:
+
+-   [governance.md](docs/governance.md) describes our governance model
     (how we decide things)
--   [implementation.md](doc/implementation.md) provies implementation details
--   [background.md](doc/background.md) provides background info on criteria
+-   [implementation.md](docs/implementation.md) provides implementation details
+-   [background.md](docs/background.md) provides background info on criteria
 
-You can see the entire set of "passing" criteria in the generated file
-[criteria.md](doc/criteria.md).
-The documentation for higher-level badge criteria is in
-[other.md](doc/other.md).
 If you want *change* the criteria, see below.
 
-The [INSTALL.md](doc/INSTALL.md) file explains how to install the program
+The [INSTALL.md](docs/INSTALL.md) file explains how to install the program
 locally (highly recommended if you're going to make code changes).
 It also provides a quick start guide.
 
@@ -46,7 +52,7 @@ If you're new to the project (or FLOSS in general), the
 [Up-for-grabs](https://github.com/coreinfrastructure/best-practices-badge/labels/up-for-grabs)
 issues are smaller tasks that may typically take 1-3 days.
 You are welcome aboard!
-The [roadmap.md](doc/roadmap.md) file provides an overview of future plans.
+The [roadmap.md](docs/roadmap.md) file provides an overview of future plans.
 See [CODE OF CONDUCT](./CODE_OF_CONDUCT.md) for our code of conduct;
 in short, "Be excellent to each other".
 
@@ -57,7 +63,7 @@ For more about how to create a pull request, see
 <https://help.github.com/articles/using-pull-requests/>.
 
 We recommend creating different branches for different (logical)
-changes, and creating a pull request when you're done into the master branch.
+changes, and creating a pull request when you're done into the main branch.
 See the GitHub documentation on
 [creating branches](https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/)
 and
@@ -98,7 +104,7 @@ We achieve this by splitting proposals into two kinds:
 ### Developer Certificate of Origin (DCO)
 
 All contributions (including pull requests) must agree to
-the [Developer Certificate of Origin (DCO) version 1.1](doc/dco.txt).
+the [Developer Certificate of Origin (DCO) version 1.1](docs/dco.txt).
 This is exactly the same one created and used by the Linux kernel developers
 and posted on <http://developercertificate.org/>.
 This is a developer's certification that he or she has the right to
@@ -157,7 +163,7 @@ We also release the software as open source software so others can review it.
 Since early detection and impact reduction can never be perfect, we also try to
 detect and repair problems during deployment as quickly as possible.
 This is *especially* true for security issues; see our
-[security information](doc/security.md) for more.
+[security information](docs/security.md) for more.
 
 ### No trailing whitespace
 
@@ -167,34 +173,11 @@ Since they are often not visible, they can cause silent problems
 and misleading unexpected changes.
 For example, some editors (e.g., Atom) quietly delete them by default.
 
-## Vulnerability reporting (security issues)
+## <span id="how_to_report_vulnerabilities">Vulnerability reporting (security issues)</a>
 
-If you find a significant vulnerability, or evidence of one,
-please send an email to the security contacts that you have such
-information, and we'll tell you the next steps.
-For now, the security contacts are:
-David A. Wheeler <dwheelerNOSPAM@dwheeler.com>,
-Jason Dossett <jdossettNOSPAM@utdallas.edu>,
-and
-Dan Kohn <danNOSPAM@linuxfoundation.com>
-(remove the NOSPAM markers).
+Please privately report vulnerabilities you find, so we can fix them!
 
-Please use an email system (like Gmail) that supports
-hop-to-hop encryption using STARTTLS when reporting vulnerabilities.
-Examples of such systems include Gmail, Outlook.com, and runbox.com.
-See [STARTTLS Everywhere](https://starttls-everywhere.org/)
-if you wish to learn more about efforts to encourage the use of STARTTLS.
-Your email client should use encryption to communicate with
-your email system (i.e., if you use a web-based email client then use HTTPS,
-and if you use email client software then configure it to use encryption).
-Hop-to-hop encryption isn't as strong as end-to-end encryption,
-but we've decided that it's strong enough for this purpose
-and it's much easier to get everyone to use it.
-
-We will gladly give credit to anyone who reports a vulnerability
-so that we can fix it.
-If you want to remain anonymous or pseudonymous instead,
-please let us know that; we will gladly respect your wishes.
+See [SECURITY.md](./SECURITY.md) for information on how to privately report vulnerabilities.
 
 ## Documentation changes
 
@@ -237,23 +220,80 @@ Do not use trailing two spaces for line breaks, since these cannot be
 seen and may be silently removed by some tools.
 Instead, use <tt>&lt;br&nbsp;/&gt;</tt> (an HTML break).
 
+## Translations
+
+Please help us have *good* native language translations -
+we love to have them!
+Native language translations
+help both developers and potential users understand the state
+of a software project, even if they speak a variety of different languages.
+
+Each translation is led by one or more trusted translators.
+If you want to be a trusted translator, you basically need to convince
+us that you're trustworthy and will maintain a *good* idiomatic translation.
+If you are trustworthy we would love to have you!
+Trusted translators are given access to the
+[translation.io](https://translation.io/) service, which provides a
+simple web interface for translating every English phrase into the
+language(s) the trusted translator manages.
+
+If you want to propose specific *changes* to a translation, and you are
+not a trusted translator, there are two main options:
+
+* The usual option is to open an issue and simply propose the text changes.
+  Make sure you tell us which locale you're referring to!
+* You *can* propose changes as edits to the appropriate files in
+  `config/locales`, but unlike most changes that will not work directly.
+  One of the trusted translators will then need to hand-copy
+  each change into the `translation.io` website
+  (our workflow (see below) currently does *not* support copying from GitHub
+  to the translation.io site; it only copies the other direction).
+  If we merely accepted translation changes to `config/locales`, the changes
+  would be overwritten the next time we sync'ed with translation.io,
+  and we don't want to lose good changes!
+  This approach works as long as there aren't *too* many changes.
+
+Here's how we handle translations.
+We periodically "sync" translation.io with the development version of the
+badge application using the command `rake translation:sync`.
+Sync'ing loads the updated English text `config/locales/en.yml`
+to the translation.io website,
+and also copies the translations in the translation.io website
+into the badge application directory `config/locales/`.
+When this updated version of the badge application is later
+put into production, the updated translations are used.
+This makes it very easy for translators to translate text.
+Note that there are intermediate steps between the updating a translation
+and deployment to users, so there's a delay between editing the translation
+and seeing it deployed.
+
+If you want to become a trusted translator in a locale we don't already support,
+there are a few steps we have to take to add the locale.
+In particular, we need to know the locale code.
+If the language is not written left-to-right (e.g., Arabic and Hebrew),
+there are some additional steps we will need to take.
+And of course, you need to convince us that you'll produce trustworthy
+translations, because others are counting on you.
+
+More information is in [docs/translators.md](docs/translators.md).
+
 ## Criteria changes
 
 Changing *criteria* can have a much larger impact on participating
 projects than simply changing the supporting software, so we have special
 rules about them. For those rules, see
-[governance.md](doc/governance.md).
+[governance.md](docs/governance.md).
 
 For the technical details on how to implement new criteria,
 or modify existing criteria (including their text, details, rationale,
 and scoring criteria), see
-[implementation.md](doc/implementation.md).
+[implementation.md](docs/implementation.md).
 
 ## Code changes
 
 To make changes to the "BadgeApp" web application that implements the criteria,
-you may find the following helpful; [INSTALL.md](doc/INSTALL.md)
-(installation information) and [implementation.md](doc/implementation.md)
+you may find the following helpful; [INSTALL.md](docs/INSTALL.md)
+(installation information) and [implementation.md](docs/implementation.md)
 (implementation information).
 
 The code should strive to be DRY (don't repeat yourself),
@@ -276,7 +316,7 @@ Please generally follow the
 [community Ruby style guide](https://github.com/bbatsov/ruby-style-guide)
 and the complementary
 [community Rails style guide](https://github.com/bbatsov/rails-style-guide).
-Our continous integration setups runs Rubocop on each commit to ensure they're
+Our continuous integration setups runs Rubocop on each commit to ensure they're
 being followed.
 For example, in Ruby:
 
@@ -363,7 +403,7 @@ the beginning.  Here is our standard header:
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 ~~~~
 
@@ -440,17 +480,6 @@ or the tests.  On CircleCI you can choose to rebuild.
 Where possible, try to find and fix the problem; we have worked to
 eliminate this, and at this point believe we have fixed it.
 
-If you use an old version of PhantomJS (e.g., if you use
-Ubuntu 14.04 and install PhantomJS via apt-get), you'll see this
-message during tests:
-
-> You're running an old version of PhantomJS,
-> update to >= 2.1.1 for a better experience.
-
-You can eliminate the warnings about old versions of PhantomJS
-by uninstalling the old version and installing a
-[current version of PhantomJS](http://phantomjs.org/download.html).
-
 ### Security, privacy, and performance
 
 Pay attention to security, and work *with* (not against) our
@@ -463,7 +492,10 @@ Protect private information, in particular passwords and email addresses.
 Avoid mechanisms that could be used for tracking where possible
 (we do need to verify people are logged in for some operations),
 and ensure that third parties can't use interactions for tracking.
-For more about security, see [security](doc/security.md).
+When sending an email to an existing account, use the original account
+email not the claimed email address sent now; for why, see
+[Hacking GitHub with Unicode's dotless 'i'](https://eng.getwisdom.io/hacking-github-with-unicode-dotless-i/).
+For more about security, see [security](docs/security.md).
 
 We want the software to have decent performance for typical users.
 [Our goal is interaction in 1 second or less after making a request](https://developers.google.com/web/fundamentals/performance/rail).
@@ -753,11 +785,11 @@ in separate executables (if so, no problem).
 Most software licensed using the GPL version 2.0 is actually
 GPL-2.0+ (GPL version 2 or later), and GPL version 3 is known to be
 compatible with the Apache 2.0 license, so this is not a common problem.
-For more on license decisions see doc/dependency_decisions.yml;
+For more on license decisions see docs/dependency_decisions.yml;
 you can also run 'rake' and see the generated report
 license_finder_report.html.
 Once you've checked, you can approve a library and its license with the
-this command (this quickly modifies doc/dependency_decisions.yml;
+this command (this quickly modifies docs/dependency_decisions.yml;
 you can edit the file as well):
 
 ~~~~
@@ -889,7 +921,7 @@ make the update work.
 
 Specially check any update of nokogiri or loofah;
 we specially analyze those to prevent vulnerabilities in our
-[security assurance case](./doc/security.md).
+[security assurance case](./docs/security.md).
 
 #### Updating Ruby (and handling Ruby updates)
 
@@ -928,14 +960,16 @@ You should normally use `git checkout -b NEW_BRANCH_NAME` for the new branch.
 Then run the following command:
 
 ~~~~sh
-./update-ruby NEW_VERSION_NUMBER
+    ./update-ruby NEW_VERSION_NUMBER
 ~~~~
 
-Note at the end of this script a `git commit -as` will be initiated
-if everything worked correctly. Next you should update the CircleCI build
-image and `.circleci/config.yml` as indicated in the dockerfiles
-[README](dockerfiles/README.md).  You will then need to commit those changes.
-and run `git push`.
+Note at the end of this script it will run `rake` to run a full system test,
+and then (if everything worked correctly) a `git commit -as` will be run.
+Next you should create and push a new CircleCI build image
+as describe in the dockerfiles [README](dockerfiles/README.md).
+Finally, modify `.circleci/config.yml` as described in the dockerfiles
+readme so that it will *use* those new CircleCI build images.
+You will then need to commit those changes, and run `git push`.
 
 For more details about updating Ruby versions with rbenv, see
 <https://github.com/rbenv/ruby-build> and
@@ -958,10 +992,10 @@ warning: please see https://github.com/whitequark/parser#compatibility-with-ruby
 Once the component update has been verified,
 it can be checked in as a new commit.
 
-## Keeping up with external changes
+## Keeping up with the main branch
 
 The installer adds a git remote named 'upstream'.
-Running 'git pull upstream master' will pull the current version from
+Running 'git pull upstream main' will pull the current version from
 upstream, enabling you to sync with upstream.
 
 You can reset this, if something has happened to it, using:
@@ -975,3 +1009,25 @@ If the version of Ruby has changed (in the Gemfile),
 use the 'Ruby itself can be updated' instructions.
 If gems have been added or their versions changed, run
 "bundle install" to install the new ones.
+
+## Keeping dependencies up-to-date
+
+We pin dependencies so that we know and control what we depend on.
+For example, the file `Gemfile.lock` locks the specific version of the
+Ruby libraries ("gems") we use; use "bundle" to control that.
+There are also specific pinned versions identified in `dockerfiles/`
+`.github/workflows/main.yml`, and `.circleci/config.yml` that control
+versions and will need to be updated to switch dependencies.
+
+## Renaming "master" to "main"
+
+We have renamed our "master" branch to "main".
+If you have a copy of our code that uses a "master" branch,
+you can switch by doing the following:
+
+~~~~sh
+git branch -m master main
+git fetch origin
+git branch -u origin/main main
+git remote set-head origin -a
+~~~~

@@ -18,15 +18,17 @@ es:
   feed_title:
   project_name_unknown:
   locale_name:
-    en: Inglés / English (en)
-    de: Alemán / Deutsch (de)
-    fr: Francés / Français (fr)
-    ja: Japonés / 日本語 (ja)
-    ru: Ruso / Русский (ru)
-    zh-CN: Chino (Simplificado) / 简体中文 (zh-CN)
-    es: Español (es)
+    en: Inglés
+    de: Alemán
+    fr: Francés
+    ja: Japonés
+    ru: Ruso
+    zh-CN: Chino (Simplificado)
+    es: Español
+    sw:
+    pt-BR:
   layouts:
-    cii_best_practices: CII Best Practices
+    cii_best_practices: OpenSSF Best Practices
     projects: Proyectos
     users: Usuarios
     account: Cuenta
@@ -47,17 +49,18 @@ es:
   account_activations:
     activated: "¡Cuenta activada!"
     failed_activation: Enlace de activación inválido
+    delay:
+      zero:
+      one:
+      few:
+      other:
   password_resets:
     forgot_password:
     reset_password:
     password_confirmation:
-    email_not_found:
     password_empty:
     password_reset:
     instructions_sent:
-    cant_reset_nonlocal: >-
-      Lo sentimos, no se puede restablecer la contraseña para
-      un usuario no local
     reset_expired:
     update_password:
   sessions:
@@ -80,40 +83,23 @@ es:
     no_login_time:
     login_automatic_signup:
     login_disabled:
+    cannot_login_yet:
   static_pages:
     home:
-      badge_program: Programa de CII Best Practices Badge
+      badge_program: Programa de OpenSSF Best Practices Badge
       get_your_badge: "¡Obtenga su insignia ahora!"
-      check_us_out: "¡Mira el sitio web de CII Best Practices
+      check_us_out: "¡Mira el sitio web de OpenSSF Best Practices
         Badge!"
-      p1_html: >2-
+      p1_html: |2-
          La insignia de Mejores Pr&aacute;cticas [Best Practices
-        badge] de la <a href="https://www.coreinfrastructure.org/">Iniciativa
-        de Infraestructura N&uacute;cleo [Core Infrastructure
-        Initiative (CII)]</a> que es parte de la <a href="https://www.linuxfoundation.org/">Fundaci&oacute;n
-        Linux [Linux Foundation (LF)]</a> constituye una de las
-        maneras en la que proyectos de tipo Free/Libre y Open
-        Source Software (FLOSS) pueden mostrar que est&aacute;n
-        siguiendo las mejores pr&aacute;cticas de dicha comunidad.
-        Los proyectos pueden auto-certificarse voluntaria y gratuitamente
-        llenando el cuestionario que se ofrece en esta p&aacute;gina.
-        Con dicho cuestionario los proyectos pueden explicar como
-        est&aacute;n siendo creados de conformidad con las mejores
-        pr&aacute;cticas. La insignia de Mejores Pr&aacute;cticas
-        fue inspirada por las m&uacute;ltiples insignias que los
-        proyectos en Github tienen a su disposici&oacute;n. Los
-        consumidores de la insignia pueden evaluar r&aacute;pidamente
-        cuales son los proyectos de FLOSS que est&aacute;n siguiendo
-        las mejores pr&aacute;cticas y que por lo tanto tienen
-        una mayor probabilidad de producir c&oacute;digo que es
-        seguro y de alta calidad.
+        badge] de la <a href="https://openssf.org/">Iniciativa de Infraestructura N&uacute;cleo [Open Source Security Foundation (OpenSSF)]</a> que es parte de la <a href="https://www.linuxfoundation.org/">Fundaci&oacute;n Linux [Linux Foundation (LF)]</a> constituye una de las maneras en la que proyectos de tipo Free/Libre y Open Source Software (FLOSS) pueden mostrar que est&aacute;n siguiendo las mejores pr&aacute;cticas de dicha comunidad. Los proyectos pueden auto-certificarse voluntaria y gratuitamente llenando el cuestionario que se ofrece en esta p&aacute;gina. Con dicho cuestionario los proyectos pueden explicar como est&aacute;n siendo creados de conformidad con las mejores pr&aacute;cticas. La insignia de Mejores Pr&aacute;cticas fue inspirada por las m&uacute;ltiples insignias que los proyectos en Github tienen a su disposici&oacute;n. Los consumidores de la insignia pueden evaluar r&aacute;pidamente cuales son los proyectos de FLOSS que est&aacute;n siguiendo las mejores pr&aacute;cticas y que por lo tanto tienen una mayor probabilidad de producir c&oacute;digo que es seguro y de alta calidad.
       p2_html: >-
         M&aacute;s informaci&oacute;n acerca del programa que
         confiere la insignia de Mejores Pr&aacute;cticas, incluyendo
         sus antecedentes y <a href='https://github.com/coreinfrastructure/best-practices-badge/blob/master/doc/criteria.md'>criterios</a>
         aplicables se puede encontrar en <a href='https://github.com/coreinfrastructure/best-practices-badge'>GitHub</a>.
         <a href="/es/project_stats">Las estad&iacute;sticas del
-        proyecto</a> y las <a href="/es/criteria">estad&iacute;sticas
+        proyecto</a> y las <a href="/es/criteria_stats">estad&iacute;sticas
         de los criterios</a> tambi&eacute;n están disponibles.
         La <a href="/es/projects">página de proyectos</a> tiene
         una lista de los proyectos que est&aacute;n participando
@@ -143,7 +129,7 @@ es:
         en esta p&aacute;gina se cita colectivamente o sin anotaci&oacute;n
         de otro tipo, se pide que se le d&eacute; el debido cr&eacute;dito
         a los que han contribuido a la creaci&oacute;n de la insignia
-        CII de Mejores Pr&aacute;cticas.
+        OpenSSF de Mejores Pr&aacute;cticas.
       share_header_html: "<p> Comparta esto: </p>"
       twitter: Twitter
       reddit: Reddit
@@ -155,9 +141,12 @@ es:
     cookies:
       cookies_header:
       cookies_info_html:
-    criteria:
+    error_404:
+      heading:
+      no_such_page:
+      please_home:
+    criteria_stats:
       criteria:
-      detailed_criteria_on_github:
       level:
       must:
       should:
@@ -171,10 +160,10 @@ es:
       new_this_level:
       future:
       project_stats_html:
-    error_404:
+      see_actual_criteria:
+    error_409:
       heading:
-      no_such_page:
-      please_home:
+      conflict:
   users:
     new:
       signup_header:
@@ -189,6 +178,7 @@ es:
     edit:
       update_user_info:
       save_changes:
+      inadequate_privileges:
     update:
       profile_updated:
     show:
@@ -305,6 +295,7 @@ es:
       sign_in_first:
       original_repos:
       fork_repos:
+      tell_us:
     delete_form:
       info_html:
       rationale_placeholder:
@@ -745,7 +736,11 @@ es:
         details:
       dynamic_analysis_enable_assertions:
         description:
+        details:
       dynamic_analysis_fixed:
+        description:
+        details:
+      maintained:
         description:
         details:
     '1':
@@ -1011,3 +1006,80 @@ es:
     valid_text:
     url_message:
   last_entry:
+  criteria_overall:
+    beginning_header_all:
+    beginning_header_0:
+    beginning_header_1:
+    beginning_header_2:
+    beginning_all_html:
+    beginning_0_html:
+    beginning_1_html:
+    beginning_2_html:
+    see_discussion_html:
+    future:
+    na_allowed:
+    na_justification_required:
+    met_justification_required:
+    met_url_required:
+  criteria_discussion:
+    intro_p01_html:
+    intro_p02_html:
+    intro_p03_html:
+    intro_p04_html:
+    intro_p05_html:
+    intro_p06_html:
+    intro_p07_html:
+    intro_p08_html:
+    structure_p01_html:
+    structure_p02_html:
+    structure_p03_html:
+    other_p01_html:
+    other_p02_html:
+    automation_p01_html:
+    automation_p02_html:
+    automation_p03_html:
+    automation_p04_html:
+    changes_p01_html:
+    changes_p02_html:
+    changes_p03_html:
+    keywords_p01_html:
+    keywords_p02_html:
+    keywords_p03_html:
+    keywords_p04_html:
+    keywords_p05_html:
+    keywords_p06_html:
+    keywords_p07_html:
+    achieving_p01_html:
+    achieving_p02_html:
+    achieving_p03_html:
+    achieving_p04_html:
+    achieving_p05_html:
+    achieving_p06_html:
+    terminology_p01_html:
+    terminology_p02_html:
+    terminology_p03_html:
+    terminology_p04_html:
+    terminology_p05_html:
+    terminology_p06_html:
+    terminology_p07_html:
+    terminology_p08_html:
+    terminology_p09_html:
+    terminology_p10_html:
+    noncriteria_p01_html:
+    noncriteria_p02_html:
+    noncriteria_p03_html:
+    noncriteria_p04_html:
+    noncriteria_p05_html:
+    noncriteria_p06_html:
+    noncriteria_p07_html:
+    noncriteria_p08_html:
+    noncriteria_p09_html:
+    identify_p01_html:
+    identify_p02_html:
+    criteria_why_p01_html:
+    criteria_why_p02_html:
+    criteria_why_p03_html:
+    criteria_why_p04_html:
+    criteria_why_p05_html:
+    self_certification_p01_html:
+    self_certification_p02_html:

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 class SessionsController < ApplicationController
@@ -11,6 +11,7 @@ class SessionsController < ApplicationController
   # because we don't really want the locale.
   skip_before_action :redir_missing_locale, only: :create
 
+  # Show login screen ("new" shows the page for trying to create a session)
   def new
     if logged_in?
       flash[:success] = t('sessions.already_logged_in')
@@ -21,6 +22,7 @@ class SessionsController < ApplicationController
     end
   end
 
+  # Attempt to create a session. In other words, attempt to log in.
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def create
     counter_fixation # Counter session fixation (but save forwarding url)
@@ -38,6 +40,7 @@ class SessionsController < ApplicationController
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
+  # Log out
   def destroy
     log_out if logged_in?
     flash[:success] = t('sessions.signed_out')
@@ -75,13 +78,12 @@ class SessionsController < ApplicationController
   end
 
   def local_login
-    user = User.find_by provider: 'local',
-                        email: params[:session][:email]
-    if !user&.authenticate(params[:session][:password])
+    user = User.find_by provider: 'local', email: params[:session][:email]
+    if user&.authenticate(params[:session][:password])
+      local_login_procedure(user)
+    else
       flash.now[:danger] = t('sessions.invalid_combo')
       render 'new'
-    else
-      local_login_procedure(user)
     end
   end
 
@@ -90,11 +92,12 @@ class SessionsController < ApplicationController
     user = User.find_by(provider: auth['provider'], uid: auth['uid']) ||
            User.create_with_omniauth(auth)
     session[:user_token] = auth['credentials']['token']
+    session[:github_name] = auth['info']['nickname']
     user.name ||= user.nickname
     successful_login(user)
   end
 
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def local_login_procedure(user)
     if !user.activated?
       flash[:warning] = t('sessions.not_activated')
@@ -105,7 +108,12 @@ class SessionsController < ApplicationController
     else
       successful_login(user)
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+      # Support a special make_old testing parameter in non-production.
+      if !Rails.env.production? && params[:make_old] == 'true'
+        session[:time_last_used] = 1000.days.ago
+        session[:make_old] = true
+      end
     end
   end
-  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end

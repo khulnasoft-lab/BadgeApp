@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # Examine repository files at the top level and in key subdirectories
@@ -26,6 +26,14 @@ class RepoFilesExamineDetective < Detective
     @top_level.select do |fso|
       fso['type'] == 'file' && fso['name'].match(name_pattern) &&
         fso['size'] >= minimum_size
+    end
+  end
+
+  # Return first entry iff there's a top-level directory matching name_pattern;
+  # if not found, returns nil
+  def directory_named(name_pattern)
+    @top_level.find do |fso|
+      fso['type'] == 'dir' && fso['name'].match(name_pattern)
     end
   end
 
@@ -55,6 +63,17 @@ class RepoFilesExamineDetective < Detective
       end
   end
 
+  # If a directory found with name_pattern, decide that it's a met_result.
+  # We don't check if the directory has any contents, but most projects
+  # use git and git will not store an empty directory.
+  def override_results_if_dir(status, name_pattern, result_description)
+    html_url_directory = directory_named(name_pattern)
+    return if html_url_directory.blank?
+
+    @results[status] =
+      met_result(result_description, html_url_directory['html_url'])
+  end
+
   # rubocop:disable Metrics/MethodLength
   def analyze(_evidence, current)
     repo_files = current[:repo_files]
@@ -77,6 +96,13 @@ class RepoFilesExamineDetective < Detective
       :license_location_status,
       /\A([A-Za-z0-9]+-)?(license|copying)(\.md|\.txt)?\Z/i,
       NONTRIVIAL_MIN_SIZE, 'license location'
+    )
+
+    # If there's a LICENSES directory, then license_location probably met.
+    override_results_if_dir(
+      :license_location_status,
+      /\ALICENSES\Z/,
+      'licenses directory'
     )
 
     determine_results(

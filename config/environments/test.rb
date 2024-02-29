@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
+# rubocop:disable Metrics/BlockLength
 Rails.application.configure do
   # Settings specified here will take precedence over those in
   # config/application.rb.
@@ -12,7 +13,7 @@ Rails.application.configure do
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs. Don't rely on the data there!
-  config.cache_classes = true
+  config.cache_classes = false
 
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
@@ -27,13 +28,15 @@ Rails.application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
-  config.cache_store = :memory_store, { size: 64.megabytes }
+  config.cache_store =
+    :memory_store,
+    { size: (ENV['RAILS_CACHE_SIZE'] || '128').to_i.megabytes }
 
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
 
   # Raise exceptions during test if a translation is missing
-  config.action_view.raise_on_missing_translations = true
+  config.i18n.raise_on_missing_translations = true
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
@@ -50,9 +53,6 @@ Rails.application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
-
-  # Raises error for missing translations
-  config.action_view.raise_on_missing_translations = true
 
   # Enable Rack's built-in compression mechanism; this is important for people
   # with slow network connections.  Enable during tests to make test
@@ -85,3 +85,4 @@ Rails.application.configure do
     # Bullet.slack = { webhook_url: 'http://some.slack.url', foo: 'bar' }
   end
 end
+# rubocop:enable Metrics/BlockLength

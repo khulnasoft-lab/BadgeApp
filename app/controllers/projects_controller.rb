@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'addressable/uri'
@@ -15,26 +15,28 @@ class ProjectsController < ApplicationController
   skip_before_action :redir_missing_locale, only: :badge
 
   before_action :set_project,
-                only: %i[edit update delete_form destroy show show_json]
+                only: %i[edit update delete_form destroy show show_json show_markdown]
   before_action :require_logged_in, only: :create
   before_action :can_edit_else_redirect, only: %i[edit update]
   before_action :can_control_else_redirect, only: %i[destroy delete_form]
   before_action :require_adequate_deletion_rationale, only: :destroy
   before_action :set_criteria_level, only: %i[show edit update]
+  before_action :set_optional_criteria_level, only: %i[show_markdown]
 
   # Cache with Fastly CDN.  We can't use this header, because logged-in
   # and not-logged-in users see different things (and thus we can't
   # have a cached version that works for everyone):
   # before_action :set_cache_control_headers, only: [:index, :show, :badge]
   # We *can* cache the badge result, and that's what matters anyway.
-  before_action :set_cache_control_headers, only: %i[badge show_json]
+  before_action :set_cache_control_headers, only: %i[badge show_json show_markdown]
 
   helper_method :repo_data
 
   # These are the only allowed values for "sort" (if a value is provided)
   ALLOWED_SORT =
     %w[
-      id name achieved_passing_at tiered_percentage
+      id name tiered_percentage
+      achieved_passing_at achieved_silver_at achieved_gold_at
       homepage_url repo_url updated_at user_id created_at
     ].freeze
 
@@ -44,34 +46,133 @@ class ProjectsController < ApplicationController
 
   TEXT_QUERIES = %i[pq q].freeze
 
-  OTHER_QUERIES = %i[sort sort_direction status ids].freeze
+  OTHER_QUERIES = %i[sort sort_direction status ids url].freeze
 
   ALLOWED_QUERY_PARAMS = (
     INTEGER_QUERIES + TEXT_QUERIES + OTHER_QUERIES
   ).freeze
 
   # Used to validate deletion rationale.
-  AT_LEAST_15_NON_WHITESPACE = /\A\s*(\S\s*){15}.*/
+  AT_LEAST_15_NON_WHITESPACE = /\A\s*(\S\s*){15}.*/.freeze
+
+  # as= values, which redirect to alternative views
+  ALLOWED_AS = %w[badge entry].freeze
+
+  # "Normal case" index after projects are retrieved
+  def show_normal_index
+    select_data_subset
+    sort_projects
+    @projects
+  end
 
   # GET /projects
   # GET /projects.json
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  # rubocop:disable Metrics/PerceivedComplexity, Metrics/BlockNesting
   def index
     validated_url = set_valid_query_url
-    if validated_url != request.original_url
-      redirect_to validated_url
-    else
+    if validated_url == request.original_url
       retrieve_projects
-      sort_projects
-      @projects
+
+      # Omit useless unchanged session cookie for performance & privacy
+      # We *must not* set error messages in the flash area after this,
+      # because flashes are stored in the session.
+      omit_unchanged_session_cookie
+
+      if params[:as] == 'badge' # Redirect to badge view
+        # We redirect, instead of responding directly with the answer, because
+        # then the requesting browser and CDN will handle repeat requests.
+        # We only retrieve ids, because we don't need any other data.
+        # Also, we just need to know if the search is unique, not the
+        # full list of matches, so we limit() ourselves to two responses.
+        ids = @projects.limit(2).ids
+        redir_to_badge(ids)
+      elsif params[:as] == 'entry' # Redirect to badge view
+        ids = @projects.limit(2).ids
+        if ids.size == 1
+          suffix = request&.format&.symbol == :json ? '.json' : ''
+          redirect_to "/#{locale}/projects/#{ids[0]}#{suffix}",
+                      status: :moved_permanently
+        else
+          # If there's not one entry, show the project index instead.
+          show_normal_index
+        end
+      else
+        show_normal_index
+      end
+    else
+      redirect_to validated_url
     end
   end
+  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+  # rubocop:enable Metrics/PerceivedComplexity, Metrics/BlockNesting
+
+  # Redirect to the *single* relevant badge entry, if there is one.
+  # We take a *list* of ids, because if there's >1, it's not unique.
+  # rubocop:disable Metrics/MethodLength
+  def redir_to_badge(id_list)
+    count = id_list.size
+    if count.zero?
+      render(
+        template: 'static_pages/error_404',
+        formats: [:html], layout: false, status: :not_found # 404
+      )
+    elsif count > 1 # There is no unique badge
+      render(
+        template: 'static_pages/error_409',
+        formats: [:html], layout: false, status: :conflict # 409
+      )
+    else
+      suffix = request&.format&.symbol == :json ? '.json' : ''
+      # In *theory* this hasn't "moved permanently", because someone *could*
+      # create a new matching badge entry *and* delete the old badge entry.
+      # They could also make a query ambiguous.
+      # But in practice, ids are as "permanent" as anything on the web gets.
+      # If we say it's moved permanently, then browsers & caches &
+      # search engines will do the right thing, so that's the status used.
+      redirect_to "/projects/#{id_list[0]}/badge#{suffix}",
+                  status: :moved_permanently
+    end
+  end
+  # rubocop:disable Metrics/MethodLength
 
   # GET /projects/1
-  def show; end
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  def show
+    # Omit useless unchanged session cookie for performance & privacy
+    # We *must not* set error messages in the flash area after this,
+    # because flashes are stored in the session.
+    omit_unchanged_session_cookie
+
+    # Fix malformed queries of form "/en/projects/188?criteria_level,2"
+    # These produce parsed.query_values of {"criteria_level,2"=>nil}
+    # They end up as weird special keys, so this is the easy way to detect them
+    # We fix these malformed queries to increase the chance that a user
+    # will find the intended data.
+    parsed = Addressable::URI.parse(request.original_url)
+    if parsed&.query_values&.include?('criteria_level,2')
+      redirect_to project_path(@project, criteria_level: 2),
+                  status: :moved_permanently
+    elsif parsed&.query_values&.include?('criteria_level,1')
+      redirect_to project_path(@project, criteria_level: 1),
+                  status: :moved_permanently
+    elsif parsed&.query_values&.include?('criteria_level,0')
+      redirect_to project_path(@project, criteria_level: 0),
+                  status: :moved_permanently
+    end
+  end
+  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
   # GET /projects/1.json
   def show_json
-    set_surrogate_key_header @project.record_key + '/json'
+    # Tell CDN the surrogate key so we can quickly erase it later
+    set_surrogate_key_header @project.record_key
+  end
+
+  # GET /projects/1.md
+  def show_markdown
+    # Tell CDN the surrogate key so we can quickly erase it later
+    set_surrogate_key_header @project.record_key
   end
 
   # GET /projects/:id/delete_form(.:format)
@@ -81,20 +182,26 @@ class ProjectsController < ApplicationController
     'id, name, updated_at, tiered_percentage, ' \
     'badge_percentage_0, badge_percentage_1, badge_percentage_2'
 
-  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def badge
     # Don't use "set_project", but instead specifically find the project
-    # ourselves.  That way, we can select *only* the fields we need
+    # ourselves.  That way, we select *only* the fields we need
     # (there are very few!).  By selecting only what we actually use, we
     # greatly reduce the number of objects created by ActiveRecord, which is
     # important because this common request is supposed to be quick.
     # Note: If the "find" fails this will raise an exception, which
     # will eventually lead (correctly) to a failure report.
     @project = Project.select(BADGE_PROJECT_FIELDS).find(params[:id])
+
+    # Tell CDN the surrogate key so we can quickly erase it later
+    set_surrogate_key_header @project.record_key
+
+    # Never send session cookie
+    request.session_options[:skip] = true
+
     respond_to do |format|
       format.svg do
-        set_surrogate_key_header @project.record_key + '/badge'
-        send_data Badge[value_for_badge],
+        send_data Badge[@project.badge_value],
                   type: 'image/svg+xml', disposition: 'inline'
       end
       format.json do
@@ -102,7 +209,7 @@ class ProjectsController < ApplicationController
       end
     end
   end
-  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
   # GET /projects/new
   def new
@@ -115,7 +222,7 @@ class ProjectsController < ApplicationController
   def edit
     return unless @project.notify_for_static_analysis?('0')
 
-    message = t('projects.edit.static_analysis_updated_html')
+    message = t('.static_analysis_updated_html')
     flash.now[:danger] = message
   end
 
@@ -128,8 +235,8 @@ class ProjectsController < ApplicationController
   def create
     @project = current_user.projects.build(project_params)
     project_repo_url = clean_url(@project.repo_url)
-    if project_repo_url
-      @project.repo_url = project_repo_url
+    @project.repo_url = project_repo_url
+    if project_repo_url.present?
       if Project.exists?(repo_url: project_repo_url)
         flash[:info] = t('projects.new.project_already_exists')
         return redirect_to Project.find_by(repo_url: project_repo_url)
@@ -168,6 +275,8 @@ class ProjectsController < ApplicationController
   # rubocop:disable Metrics/PerceivedComplexity
   def update
     if repo_url_change_allowed?
+      # Send CDN purge early, to give it time to distribute purge request
+      purge_cdn_project
       old_badge_level = @project.badge_level
       project_params.each do |key, user_value| # mass assign
         @project[key] = user_value
@@ -183,10 +292,14 @@ class ProjectsController < ApplicationController
       end
 
       respond_to do |format|
-        # Was project.update(project_params)
         update_additional_rights
+        # The project model's "save" method updates the various
+        # percentage values (via a `before_save`), so we can depend on them
+        # after saving.
         if @project.save
           successful_update(format, old_badge_level, @criteria_level)
+          # Also send CDN purge last, to increase likelihood of being purged
+          purge_cdn_project
         else
           format.html { render :edit, criteria_level: @criteria_level }
           format.json do
@@ -215,17 +328,17 @@ class ProjectsController < ApplicationController
     ReportMailer.report_project_deleted(
       @project, current_user, params[:deletion_rationale]
     ).deliver_now
-    purge_cdn_project
     # @project.purge
     # @project.purge_all
     respond_to do |format|
       @project.homepage_url ||= project_find_default_url
       format.html do
         redirect_to projects_path
-        flash[:success] = t('projects.delete.done')
+        flash.now[:success] = t('projects.delete.done')
       end
       format.json { head :no_content }
     end
+    purge_cdn_project
   end
   # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
@@ -235,10 +348,12 @@ class ProjectsController < ApplicationController
   # These are the fields for *projects*; the .recently_updated scope
   # forces loading of user data (where we get the user name/nickname).
   FEED_DISPLAY_FIELDS = 'projects.id as id, projects.name as name, ' \
-    'projects.updated_at as updated_at, projects.created_at as created_at, ' \
-    'tiered_percentage, ' \
-    'badge_percentage_0, badge_percentage_1, badge_percentage_2, ' \
-    'homepage_url, repo_url, description, user_id'
+                        'projects.updated_at as updated_at, ' \
+                        'projects.created_at as created_at, ' \
+                        'tiered_percentage, ' \
+                        'badge_percentage_0, badge_percentage_1, ' \
+                        'badge_percentage_2, ' \
+                        'homepage_url, repo_url, description, user_id'
 
   def feed
     # @projects = Project.select(FEED_DISPLAY_FIELDS).
@@ -294,17 +409,22 @@ class ProjectsController < ApplicationController
   # rubocop:disable Metrics/MethodLength
   def self.send_monthly_announcement
     consider_today = Time.zone.today
-    month = consider_today.prev_month.strftime('%Y-%m')
-    last_stat_in_prev_month =
-      ProjectStat.last_in_month(consider_today.prev_month)
+    prev_month = consider_today.prev_month
+    month_display = prev_month.strftime('%Y-%m')
+    last_stat_in_prev_month = ProjectStat.last_in_month(prev_month)
     last_stat_in_prev_prev_month =
-      ProjectStat.last_in_month(consider_today.prev_month.prev_month)
-    projects = Project.projects_first_passing_in(consider_today.prev_month)
+      ProjectStat.last_in_month(prev_month.prev_month)
+    projects = Array.new(Project::LEVEL_IDS.size)
+    Project::LEVEL_ID_NUMBERS.each do |level|
+      projects[level] = Project.projects_first_in(level, prev_month)
+    end
     ReportMailer.report_monthly_announcement(
-      projects, month, last_stat_in_prev_month, last_stat_in_prev_prev_month
+      projects, month_display, last_stat_in_prev_month,
+      last_stat_in_prev_prev_month
     )
                 .deliver_now
-    projects.map(&:id) # Return a list of project ids that were reminded.
+    # To simplify certain tests, return list of project ids newly passing
+    projects[0].ids
   end
   # rubocop:enable Metrics/MethodLength
   private_class_method :send_monthly_announcement
@@ -318,14 +438,18 @@ class ProjectsController < ApplicationController
     allowed_other_query?(key, value)
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
   def allowed_other_query?(key, value)
     return ALLOWED_SORT.include?(value) if key == 'sort'
     return %w[desc asc].include?(value) if key == 'sort_direction'
     return ALLOWED_STATUS.include?(value) if key == 'status'
     return integer_list?(value) if key == 'ids'
+    return ALLOWED_AS.include?(value) if key == 'as'
+    return true if key == 'url'
 
     false
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   # Returns true if current_user can edit, else redirect to a different URL
   def can_edit_else_redirect
@@ -341,6 +465,7 @@ class ProjectsController < ApplicationController
     redirect_to root_path
   end
 
+  # rubocop:disable Metrics/AbcSize
   def require_adequate_deletion_rationale
     return true if current_user&.admin?
 
@@ -349,13 +474,14 @@ class ProjectsController < ApplicationController
     if deletion_rationale.length < 20
       flash[:danger] = t('projects.delete_form.too_short')
       redirect_to delete_form_project_path(@project)
-    elsif AT_LEAST_15_NON_WHITESPACE !~ deletion_rationale
+    elsif !AT_LEAST_15_NON_WHITESPACE.match?(deletion_rationale)
       flash[:danger] = t('projects.delete_form.more_non_whitespace')
       redirect_to delete_form_project_path(@project)
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
-  # Forceably set additional_rights on project "id" given string description
+  # Forcibly set additional_rights on project "id" given string description
   # Presumes permissions are granted & valid syntax in new_additional_rights
   # rubocop:disable Metrics/MethodLength
   def update_additional_rights_forced(id, new_additional_rights)
@@ -374,7 +500,7 @@ class ProjectsController < ApplicationController
   end
   # rubocop:enable Metrics/MethodLength
 
-  VALID_ADD_RIGHTS_CHANGES = /\A[+-](\d+(,\d+)*)+\z/
+  VALID_ADD_RIGHTS_CHANGES = /\A[+-](\d+(,\d+)*)+\z/.freeze
 
   # Examine proposed changes to additional rights - if okay, call
   # update_additional_rights_forced to do them.
@@ -431,6 +557,7 @@ class ProjectsController < ApplicationController
     # Blank urls don't make any sense. Consider them not the same.
     return false if url1.blank?
     return false if url2.blank?
+
     extracted_url(url1) == extracted_url(url2)
   end
 
@@ -444,6 +571,7 @@ class ProjectsController < ApplicationController
   def repo_url_delay_expired?
     repo_url_updated_at = @project.repo_url_updated_at
     return true if repo_url_updated_at.nil?
+
     repo_url_updated_at < REPO_URL_CHANGE_DELAY.days.ago
   end
 
@@ -467,6 +595,7 @@ class ProjectsController < ApplicationController
     return true if current_user.admin?
 
     return true if basically_same(project_params[:repo_url], @project.repo_url)
+
     repo_url_delay_expired?
   end
 
@@ -478,17 +607,10 @@ class ProjectsController < ApplicationController
     !(value =~ /\A[1-9][0-9]{0,15}( *, *[1-9][0-9]{0,15}){0,20}\z/).nil?
   end
 
-  # Purge the badge from the CDN (if any)
+  # Purge data about this project from the CDN (if the CDN has any)
   def purge_cdn_project
-    cdn_badge_key = @project.record_key + '/badge'
-    cdn_json_key = @project.record_key + '/json'
-    # If we can't authenticate to the CDN, complain but don't crash.
-    begin
-      FastlyRails.purge_by_key cdn_badge_key
-      FastlyRails.purge_by_key cdn_json_key
-    rescue StandardError => e
-      Rails.logger.error "FAILED TO PURGE #{cdn_badge_key} , #{e.class}: #{e}"
-    end
+    cdn_badge_key = @project.record_key
+    FastlyRails.purge_by_key cdn_badge_key
   end
 
   # Maximum number of GitHub repos to retrieve when retrieving a list of
@@ -502,6 +624,7 @@ class ProjectsController < ApplicationController
   # that might lead to a timeout), so we prioritize recently pushed repos.
   # We omit repos that are already pursuing a badge.
   # rubocop:disable Style/MethodCalledOnDoEndBlock, Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def repo_data
     github = Octokit::Client.new access_token: session[:user_token]
     # Take extra steps to prevent a timeout when retrieving repo data.
@@ -515,17 +638,22 @@ class ProjectsController < ApplicationController
     # we pass a per_page value to control this.  For more information, see:
     # https://developer.github.com/v3/#pagination
     github.auto_paginate = false
-    repos = github.repos(
-      nil,
-      sort: 'pushed', per_page: MAX_GITHUB_REPOS_FROM_USER
-    )
+    begin
+      repos = github.repos(
+        nil,
+        sort: 'pushed', per_page: MAX_GITHUB_REPOS_FROM_USER
+      )
+    rescue Octokit::Unauthorized
+      return
+    end
     return if repos.blank?
 
-    # Only include repos not already in our database.  This willl cause
-    # a quick flurry of checks on the database, but they are indexed and
-    # limited by the number of records we request from GitHub.
+    # Find & remove the repos already in our database.
     # We do this to make the user's job easier.
-    repos = repos.reject { |repo| Project.exists?(repo_url: repo.html_url) }
+    repo_urls = repos.pluck(:html_url) # URLs of all of this user's repos
+    already = Project.where(repo_url: repo_urls).pluck(:repo_url).to_set
+    repos = repos.reject { |repo| already.member?(repo.html_url) }
+
     # Sort by name for user convenience:
     repos.sort_by! { |v| v['full_name'] }
 
@@ -533,13 +661,16 @@ class ProjectsController < ApplicationController
       [repo.full_name, repo.fork, repo.homepage, repo.html_url]
     end.compact
   end
+  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Style/MethodCalledOnDoEndBlock, Metrics/MethodLength
 
   HTML_INDEX_FIELDS = 'projects.id, projects.name, description, ' \
-    'homepage_url, repo_url, license, projects.user_id, ' \
-    'achieved_passing_at, projects.updated_at, badge_percentage_0, ' \
-    'tiered_percentage'
+                      'homepage_url, repo_url, license, projects.user_id, ' \
+                      'achieved_passing_at, projects.updated_at, badge_percentage_0, ' \
+                      'tiered_percentage'
 
+  # Retrieve project data using the various query parameters.
+  # The parameters determine what to select *and* fields to load
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
@@ -552,21 +683,37 @@ class ProjectsController < ApplicationController
     @projects = @projects.lteq(params[:lteq]) if params[:lteq].present?
     # "Prefix query" - query against *prefix* of a URL or name
     @projects = @projects.text_search(params[:pq]) if params[:pq].present?
+    # "url query" - query for a URL match (home page or repo)
+    @projects = @projects.url_search(params[:url]) if params[:url].present?
     # "Normal query" - text search against URL, name, and description
     # This will NOT match full URLs, but will match partial URLs.
     @projects = @projects.search_for(params[:q]) if params[:q].present?
     if params[:ids].present?
-      @projects = @projects.where(
-        'id in (?)', params[:ids].split(',').map { |x| Integer(x) }
-      )
+      @projects = @projects.where(id: params[:ids].split(',').map do |x|
+                                        Integer(x)
+                                      end)
     end
-    @count = @projects.count
+    @projects
+  end
+
+  # Subset to only the rows and fields we need
+  def select_data_subset
     # If we're supplying html (common case), select only needed fields
     format = request&.format&.symbol
     if !format || format == :html
       @projects = @projects.select(HTML_INDEX_FIELDS)
+    # JSON includes additional_rights; load them at one time to prevent
+    # and N+1 query (do this for CSV also if we ever add that field to CSV)
+    elsif format == :json
+      @projects = @projects.includes(:additional_rights)
     end
-    @projects = @projects.includes(:user).paginate(page: params[:page])
+    @pagy, @projects = pagy(@projects.includes(:user))
+    # We want to know the *total* count, even if we're paging.
+    # Pagy has to figure that out anyway, so instead of doing this:
+    # # @count = @projects.count
+    # we will extract it from pagy.
+    @count = @pagy.count
+    @pagy_locale = I18n.locale.to_s # Pagy requires a string version
   end
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
@@ -593,6 +740,17 @@ class ProjectsController < ApplicationController
     @criteria_level = '0' unless @criteria_level.match?(/\A[0-2]\Z/)
   end
 
+  def set_optional_criteria_level
+    # Apply input filter on criteria_level. If invalid/empty it becomes ''
+    requested_criteria_level = criteria_level_params[:criteria_level] || ''
+    @criteria_level =
+      if requested_criteria_level.match?(/\A[0-2]\Z/)
+        requested_criteria_level.to_str
+      else
+        ''
+      end
+  end
+
   def set_valid_query_url
     # Rewrites /projects?q=&status=failing to /projects?status=failing
     original = request.original_url
@@ -612,7 +770,7 @@ class ProjectsController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def sort_projects
     # Sort, if there is a requested order (otherwise use default created_at)
-    return unless params[:sort].present? && ALLOWED_SORT.include?(params[:sort])
+    return if params[:sort].blank? || ALLOWED_SORT.exclude?(params[:sort])
 
     sort_direction = params[:sort_direction] == 'desc' ? ' desc' : ' asc'
     sort_index = ALLOWED_SORT.index(params[:sort])
@@ -625,7 +783,6 @@ class ProjectsController < ApplicationController
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   # TODO: Break this into smaller pieces
   def successful_update(format, old_badge_level, criteria_level)
-    purge_cdn_project
     criteria_level = nil if criteria_level == '0'
     # @project.purge
     format.html do
@@ -641,7 +798,7 @@ class ProjectsController < ApplicationController
     end
     format.json { render :show, status: :ok, location: @project }
     new_badge_level = @project.badge_level
-    return unless new_badge_level != old_badge_level
+    return if new_badge_level == old_badge_level
 
     # TODO: Eventually deliver_later
     ReportMailer.project_status_change(
@@ -675,15 +832,6 @@ class ProjectsController < ApplicationController
     return url if url.nil?
 
     url.gsub(%r{\/+\z}, '')
-  end
-
-  # This needs to be modified each time you add a new badge level
-  # This method gives the percentage value to be passed to the Badge model
-  # when getting the svg badge for a project
-  def value_for_badge
-    return @project.badge_percentage_0 if @project.badge_level == 'in_progress'
-
-    @project.badge_level
   end
 end
 # rubocop:enable Metrics/ClassLength

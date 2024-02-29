@@ -1,19 +1,5 @@
 <div>
   <span id="project_entry_form"></span>
-  <div class="hidden-print">
-      <button id="toggle-expand-all-panels"
-              class="btn btn-info btn-xs btn-stack"
-              title="<%= t 'projects.misc.in_javascript.expand_all_title' %>"
-              type="button"><%= t 'projects.misc.in_javascript.expand_all' %></button>
-      <button id="toggle-show-all-details"
-              class="btn btn-info btn-xs btn-stack"
-              title="<%= t 'projects.misc.in_javascript.show_all_details' %>"
-              type="button"><%= t 'projects.misc.in_javascript.show_all_details' %></button>
-      <button id="toggle-hide-metna-criteria"
-              class="btn btn-info btn-xs btn-stack"
-              title="<%= t 'projects.misc.in_javascript.hide_met_title' %>"
-              type="button"><%= t 'projects.misc.in_javascript.hide_met_html' %></button>
-  </div>
   <div class="hidden">
     <%= image_tag "result_symbol_check.png", id: "result_symbol_check_img", size: "40x40" %>
     <%= image_tag "result_symbol_x.png", id: "result_symbol_x_img", size: "40x40" %>
@@ -32,12 +18,17 @@
 <% if is_disabled %>
   <% next_level_prefix = project_path %>
   <%= t('projects.form_early.got_badge.description_1') %>
-  <img src='/projects/<%= project.id %>/badge'  width='<%= Badge::BADGE_SPECS[project.badge_level][:width] %>' height='20' alt="<%= t('projects.form_early.got_badge.badge_alt', id: project.id, level: project.badge_level) %>">
+  <!-- DO NOT USE /badge_static in README files! --><img src='<%=
+  project.badge_src_url %>' width='<%=
+  Badge::BADGE_WIDTHS[project.badge_level]
+  %>' height='20' alt="<%=
+  t('projects.form_early.got_badge.badge_alt',
+    id: project.id, level: project.badge_level) %>">
   <%= t('projects.form_early.got_badge.description_2') %>
   <%= render(partial: "details", locals: {
          criterion: "got_badge",
          details: t('projects.form_early.got_badge.details_html',
-                    markdown_embedding: %{<code>[![CII Best Practices](https://#{ badge_hostname }/projects/#{ project.id }/badge)](https://#{ badge_hostname }/projects/#{ project.id })</code>}.html_safe,
+                    markdown_embedding: %{<code>[![OpenSSF Best Practices](https://#{ badge_hostname }/projects/#{ project.id }/badge)](https://#{ badge_hostname }/projects/#{ project.id })</code>}.html_safe,
                     html_embedding: %{<code>&lt;a href="https://#{badge_hostname}/projects/#{ project.id }"&gt;&lt;img src="https://#{ badge_hostname }/projects/#{ project.id }/badge"&gt;&lt;/a&gt; </code>}.html_safe)
       }) %>
 <% else %>
@@ -57,5 +48,29 @@
 
 <div class="col-sm-3">
 </div>
-<%# end row started outside %>
+<%# end row started outside: %>
+</div>
+
+<div class="row">
+   <div class="col-md-12">
+     <div class="hidden-print">
+         <br>
+         <%# This is a terrible way to "move to right" but it works.
+             Improvements welcome. %>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <%# We use btn-primary to ensure these buttons are clearly seen. %>
+         <button id="toggle-expand-all-panels"
+                 class="btn btn-primary btn-xs btn-stack"
+                 title="<%= t 'projects.misc.in_javascript.expand_all_title' %>"
+                 type="button"><%= t 'projects.misc.in_javascript.expand_all' %></button>
+         <button id="toggle-show-all-details"
+                 class="btn btn-primary btn-xs btn-stack"
+                 title="<%= t 'projects.misc.in_javascript.show_all_details' %>"
+                 type="button"><%= t 'projects.misc.in_javascript.show_all_details' %></button>
+         <button id="toggle-hide-metna-criteria"
+                 class="btn btn-primary btn-xs btn-stack"
+                 title="<%= t 'projects.misc.in_javascript.hide_met_title' %>"
+                 type="button"><%= t 'projects.misc.in_javascript.hide_met_html' %></button>
+     </div>
+   </div>
 </div>

@@ -46,3 +46,11 @@ license_okay
 
 # Some environments will have a node_modules file created by the install script.
 /node_modules/
+
+# Ignore railroader directory
+/railroader/
+
+# Ignore rake and byebug files
+.byebug_history
+.rake_tasks~
+

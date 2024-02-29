@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.github.com/repos/david-a-wheeler/test-badge-project/contents//?client_id=3e90194c70b57b71188e&client_secret=d2e3f002838f611a514b84a1727bf6e500a67d2b
+    uri: https://api.github.com/repos/david-a-wheeler/test-badge-project/contents//
     body:
       encoding: US-ASCII
       string: ''
@@ -10,9 +10,11 @@ http_interactions:
       Accept:
       - application/vnd.github.v3+json
       User-Agent:
-      - Octokit Ruby Gem 4.8.0
+      - Octokit Ruby Gem 4.16.0
       Content-Type:
       - application/json
+      Authorization:
+      - Basic M2U5MDE5NGM3MGI1N2I3MTE4OGU6ZDJlM2YwMDI4MzhmNjExYTUxNGI4NGExNzI3YmY2ZTUwMGE2N2QyYg==
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -23,7 +25,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Sun, 25 Feb 2018 17:48:15 GMT
+      - Tue, 11 Feb 2020 17:13:02 GMT
       Content-Type:
       - text/html;charset=utf-8
       Content-Length:
@@ -33,35 +35,38 @@ http_interactions:
       X-Ratelimit-Limit:
       - '5000'
       X-Ratelimit-Remaining:
-      - '4975'
+      - '4970'
       X-Ratelimit-Reset:
-      - '1519584407'
+      - '1581442086'
       Location:
       - https://api.github.com/repositories/74394497/contents/
       Access-Control-Expose-Headers:
-      - ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
-        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
       Access-Control-Allow-Origin:
       - "*"
-      Content-Security-Policy:
-      - default-src 'none'
       Strict-Transport-Security:
       - max-age=31536000; includeSubdomains; preload
-      X-Content-Type-Options:
-      - nosniff
       X-Frame-Options:
       - deny
+      X-Content-Type-Options:
+      - nosniff
       X-Xss-Protection:
       - 1; mode=block
-      X-Runtime-Rack:
-      - '0.019574'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
+      Vary:
+      - Accept-Encoding, Accept
       X-Github-Request-Id:
-      - CEA4:4B61:24CD4D3:471F17B:5A92F6DF
+      - E578:4CC5:9B075:123AA9:5E42E09E
     body:
       encoding: UTF-8
       string: ''
-    http_version:
-  recorded_at: Sun, 25 Feb 2018 17:48:17 GMT
+    http_version: 
+  recorded_at: Tue, 11 Feb 2020 17:13:02 GMT
 - request:
     method: get
     uri: https://api.github.com/repositories/74394497/contents/
@@ -72,9 +77,11 @@ http_interactions:
       Accept:
       - application/vnd.github.v3+json
       User-Agent:
-      - Octokit Ruby Gem 4.8.0
+      - Octokit Ruby Gem 4.16.0
       Content-Type:
       - application/json
+      Authorization:
+      - Basic M2U5MDE5NGM3MGI1N2I3MTE4OGU6ZDJlM2YwMDI4MzhmNjExYTUxNGI4NGExNzI3YmY2ZTUwMGE2N2QyYg==
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -85,7 +92,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Sun, 25 Feb 2018 17:48:16 GMT
+      - Tue, 11 Feb 2020 17:13:02 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -93,15 +100,16 @@ http_interactions:
       Status:
       - 200 OK
       X-Ratelimit-Limit:
-      - '60'
+      - '5000'
       X-Ratelimit-Remaining:
-      - '34'
+      - '4969'
       X-Ratelimit-Reset:
-      - '1519584407'
+      - '1581442085'
       Cache-Control:
       - public, max-age=60, s-maxage=60
       Vary:
       - Accept
+      - Accept-Encoding, Accept
       Etag:
       - W/"9aa962aed560f4d34cee988999c0fd24089d7624"
       Last-Modified:
@@ -109,32 +117,33 @@ http_interactions:
       X-Github-Media-Type:
       - github.v3; format=json
       Access-Control-Expose-Headers:
-      - ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
-        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
       Access-Control-Allow-Origin:
       - "*"
-      Content-Security-Policy:
-      - default-src 'none'
       Strict-Transport-Security:
       - max-age=31536000; includeSubdomains; preload
-      X-Content-Type-Options:
-      - nosniff
       X-Frame-Options:
       - deny
+      X-Content-Type-Options:
+      - nosniff
       X-Xss-Protection:
       - 1; mode=block
-      X-Runtime-Rack:
-      - '0.020010'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
       X-Github-Request-Id:
-      - CEA5:4B61:24CD4E5:471F19E:5A92F6DF
+      - E5A6:471B:11138:29DD1:5E42E09E
     body:
       encoding: ASCII-8BIT
       string: '[{"name":"README.md","path":"README.md","sha":"a981213ae539d59457949e392a188d41a35c009b","size":21,"url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/README.md?ref=master","html_url":"https://github.com/david-a-wheeler/test-badge-project/blob/master/README.md","git_url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/blobs/a981213ae539d59457949e392a188d41a35c009b","download_url":"https://raw.githubusercontent.com/david-a-wheeler/test-badge-project/master/README.md","type":"file","_links":{"self":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/README.md?ref=master","git":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/blobs/a981213ae539d59457949e392a188d41a35c009b","html":"https://github.com/david-a-wheeler/test-badge-project/blob/master/README.md"}},{"name":"doc","path":"doc","sha":"cefcfbb2a10ca405295fe604836fbdcdd1eb50f4","size":0,"url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc?ref=master","html_url":"https://github.com/david-a-wheeler/test-badge-project/tree/master/doc","git_url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/trees/cefcfbb2a10ca405295fe604836fbdcdd1eb50f4","download_url":null,"type":"dir","_links":{"self":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc?ref=master","git":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/trees/cefcfbb2a10ca405295fe604836fbdcdd1eb50f4","html":"https://github.com/david-a-wheeler/test-badge-project/tree/master/doc"}}]'
-    http_version:
-  recorded_at: Sun, 25 Feb 2018 17:48:17 GMT
+    http_version: 
+  recorded_at: Tue, 11 Feb 2020 17:13:02 GMT
 - request:
     method: get
-    uri: https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc?client_id=3e90194c70b57b71188e&client_secret=d2e3f002838f611a514b84a1727bf6e500a67d2b
+    uri: https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc
     body:
       encoding: US-ASCII
       string: ''
@@ -142,9 +151,11 @@ http_interactions:
       Accept:
       - application/vnd.github.v3+json
       User-Agent:
-      - Octokit Ruby Gem 4.8.0
+      - Octokit Ruby Gem 4.16.0
       Content-Type:
       - application/json
+      Authorization:
+      - Basic M2U5MDE5NGM3MGI1N2I3MTE4OGU6ZDJlM2YwMDI4MzhmNjExYTUxNGI4NGExNzI3YmY2ZTUwMGE2N2QyYg==
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -155,7 +166,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Sun, 25 Feb 2018 17:48:16 GMT
+      - Tue, 11 Feb 2020 17:13:02 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -165,13 +176,14 @@ http_interactions:
       X-Ratelimit-Limit:
       - '5000'
       X-Ratelimit-Remaining:
-      - '4973'
+      - '4968'
       X-Ratelimit-Reset:
-      - '1519584407'
+      - '1581442085'
       Cache-Control:
       - public, max-age=60, s-maxage=60
       Vary:
       - Accept
+      - Accept-Encoding, Accept
       Etag:
       - W/"9aa962aed560f4d34cee988999c0fd24089d7624"
       Last-Modified:
@@ -179,32 +191,33 @@ http_interactions:
       X-Github-Media-Type:
       - github.v3; format=json
       Access-Control-Expose-Headers:
-      - ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
-        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
       Access-Control-Allow-Origin:
       - "*"
-      Content-Security-Policy:
-      - default-src 'none'
       Strict-Transport-Security:
       - max-age=31536000; includeSubdomains; preload
-      X-Content-Type-Options:
-      - nosniff
       X-Frame-Options:
       - deny
+      X-Content-Type-Options:
+      - nosniff
       X-Xss-Protection:
       - 1; mode=block
-      X-Runtime-Rack:
-      - '0.025907'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
       X-Github-Request-Id:
-      - CEA6:4B61:24CD4F3:471F1C6:5A92F6E0
+      - 23E2:46A7:9D4F0:12BEA2:5E42E09E
     body:
       encoding: ASCII-8BIT
       string: '[{"name":"somedoc.md","path":"doc/somedoc.md","sha":"9edec62594ff28249393febd3111da1cf8ccc6ff","size":21,"url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?ref=master","html_url":"https://github.com/david-a-wheeler/test-badge-project/blob/master/doc/somedoc.md","git_url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/blobs/9edec62594ff28249393febd3111da1cf8ccc6ff","download_url":"https://raw.githubusercontent.com/david-a-wheeler/test-badge-project/master/doc/somedoc.md","type":"file","_links":{"self":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?ref=master","git":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/blobs/9edec62594ff28249393febd3111da1cf8ccc6ff","html":"https://github.com/david-a-wheeler/test-badge-project/blob/master/doc/somedoc.md"}}]'
-    http_version:
-  recorded_at: Sun, 25 Feb 2018 17:48:17 GMT
+    http_version: 
+  recorded_at: Tue, 11 Feb 2020 17:13:02 GMT
 - request:
     method: get
-    uri: https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?client_id=3e90194c70b57b71188e&client_secret=d2e3f002838f611a514b84a1727bf6e500a67d2b
+    uri: https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md
     body:
       encoding: US-ASCII
       string: ''
@@ -212,9 +225,11 @@ http_interactions:
       Accept:
       - application/vnd.github.v3+json
       User-Agent:
-      - Octokit Ruby Gem 4.8.0
+      - Octokit Ruby Gem 4.16.0
       Content-Type:
       - application/json
+      Authorization:
+      - Basic M2U5MDE5NGM3MGI1N2I3MTE4OGU6ZDJlM2YwMDI4MzhmNjExYTUxNGI4NGExNzI3YmY2ZTUwMGE2N2QyYg==
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -225,7 +240,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Sun, 25 Feb 2018 17:48:16 GMT
+      - Tue, 11 Feb 2020 17:13:02 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -235,13 +250,14 @@ http_interactions:
       X-Ratelimit-Limit:
       - '5000'
       X-Ratelimit-Remaining:
-      - '4972'
+      - '4967'
       X-Ratelimit-Reset:
-      - '1519584407'
+      - '1581442085'
       Cache-Control:
       - public, max-age=60, s-maxage=60
       Vary:
       - Accept
+      - Accept-Encoding, Accept
       Etag:
       - W/"9edec62594ff28249393febd3111da1cf8ccc6ff"
       Last-Modified:
@@ -249,32 +265,33 @@ http_interactions:
       X-Github-Media-Type:
       - github.v3; format=json
       Access-Control-Expose-Headers:
-      - ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
-        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
       Access-Control-Allow-Origin:
       - "*"
-      Content-Security-Policy:
-      - default-src 'none'
       Strict-Transport-Security:
       - max-age=31536000; includeSubdomains; preload
-      X-Content-Type-Options:
-      - nosniff
       X-Frame-Options:
       - deny
+      X-Content-Type-Options:
+      - nosniff
       X-Xss-Protection:
       - 1; mode=block
-      X-Runtime-Rack:
-      - '0.047774'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
       X-Github-Request-Id:
-      - CEA7:4B61:24CD503:471F1E6:5A92F6E0
+      - DF37:53DC:1DCBE:44CDE:5E42E09E
     body:
       encoding: ASCII-8BIT
       string: '{"name":"somedoc.md","path":"doc/somedoc.md","sha":"9edec62594ff28249393febd3111da1cf8ccc6ff","size":21,"url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?ref=master","html_url":"https://github.com/david-a-wheeler/test-badge-project/blob/master/doc/somedoc.md","git_url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/blobs/9edec62594ff28249393febd3111da1cf8ccc6ff","download_url":"https://raw.githubusercontent.com/david-a-wheeler/test-badge-project/master/doc/somedoc.md","type":"file","content":"IyBEb2N1bWVudGF0aW9uIEZpbGUK\n","encoding":"base64","_links":{"self":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?ref=master","git":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/blobs/9edec62594ff28249393febd3111da1cf8ccc6ff","html":"https://github.com/david-a-wheeler/test-badge-project/blob/master/doc/somedoc.md"}}'
-    http_version:
-  recorded_at: Sun, 25 Feb 2018 17:48:17 GMT
+    http_version: 
+  recorded_at: Tue, 11 Feb 2020 17:13:02 GMT
 - request:
     method: get
-    uri: https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?client_id=3e90194c70b57b71188e&client_secret=d2e3f002838f611a514b84a1727bf6e500a67d2b
+    uri: https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md
     body:
       encoding: US-ASCII
       string: ''
@@ -282,9 +299,11 @@ http_interactions:
       Accept:
       - application/vnd.github.v3+json
       User-Agent:
-      - Octokit Ruby Gem 4.8.0
+      - Octokit Ruby Gem 4.16.0
       Content-Type:
       - application/json
+      Authorization:
+      - Basic M2U5MDE5NGM3MGI1N2I3MTE4OGU6ZDJlM2YwMDI4MzhmNjExYTUxNGI4NGExNzI3YmY2ZTUwMGE2N2QyYg==
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -295,7 +314,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Sun, 25 Feb 2018 17:48:16 GMT
+      - Tue, 11 Feb 2020 17:13:03 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -305,13 +324,14 @@ http_interactions:
       X-Ratelimit-Limit:
       - '5000'
       X-Ratelimit-Remaining:
-      - '4971'
+      - '4966'
       X-Ratelimit-Reset:
-      - '1519584407'
+      - '1581442085'
       Cache-Control:
       - public, max-age=60, s-maxage=60
       Vary:
       - Accept
+      - Accept-Encoding, Accept
       Etag:
       - W/"9edec62594ff28249393febd3111da1cf8ccc6ff"
       Last-Modified:
@@ -319,32 +339,33 @@ http_interactions:
       X-Github-Media-Type:
       - github.v3; format=json
       Access-Control-Expose-Headers:
-      - ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
-        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
       Access-Control-Allow-Origin:
       - "*"
-      Content-Security-Policy:
-      - default-src 'none'
       Strict-Transport-Security:
       - max-age=31536000; includeSubdomains; preload
-      X-Content-Type-Options:
-      - nosniff
       X-Frame-Options:
       - deny
+      X-Content-Type-Options:
+      - nosniff
       X-Xss-Protection:
       - 1; mode=block
-      X-Runtime-Rack:
-      - '0.033920'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
       X-Github-Request-Id:
-      - CEA8:4B61:24CD516:471F210:5A92F6E0
+      - E5CD:4262:923BA:116EEC:5E42E09E
     body:
       encoding: ASCII-8BIT
       string: '{"name":"somedoc.md","path":"doc/somedoc.md","sha":"9edec62594ff28249393febd3111da1cf8ccc6ff","size":21,"url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?ref=master","html_url":"https://github.com/david-a-wheeler/test-badge-project/blob/master/doc/somedoc.md","git_url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/blobs/9edec62594ff28249393febd3111da1cf8ccc6ff","download_url":"https://raw.githubusercontent.com/david-a-wheeler/test-badge-project/master/doc/somedoc.md","type":"file","content":"IyBEb2N1bWVudGF0aW9uIEZpbGUK\n","encoding":"base64","_links":{"self":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?ref=master","git":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/blobs/9edec62594ff28249393febd3111da1cf8ccc6ff","html":"https://github.com/david-a-wheeler/test-badge-project/blob/master/doc/somedoc.md"}}'
-    http_version:
-  recorded_at: Sun, 25 Feb 2018 17:48:17 GMT
+    http_version: 
+  recorded_at: Tue, 11 Feb 2020 17:13:02 GMT
 - request:
     method: get
-    uri: https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?client_id=3e90194c70b57b71188e&client_secret=d2e3f002838f611a514b84a1727bf6e500a67d2b
+    uri: https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md
     body:
       encoding: US-ASCII
       string: ''
@@ -352,9 +373,11 @@ http_interactions:
       Accept:
       - application/vnd.github.v3+json
       User-Agent:
-      - Octokit Ruby Gem 4.8.0
+      - Octokit Ruby Gem 4.16.0
       Content-Type:
       - application/json
+      Authorization:
+      - Basic M2U5MDE5NGM3MGI1N2I3MTE4OGU6ZDJlM2YwMDI4MzhmNjExYTUxNGI4NGExNzI3YmY2ZTUwMGE2N2QyYg==
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -365,7 +388,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Sun, 25 Feb 2018 17:48:16 GMT
+      - Tue, 11 Feb 2020 17:13:03 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -375,13 +398,14 @@ http_interactions:
       X-Ratelimit-Limit:
       - '5000'
       X-Ratelimit-Remaining:
-      - '4970'
+      - '4965'
       X-Ratelimit-Reset:
-      - '1519584407'
+      - '1581442086'
       Cache-Control:
       - public, max-age=60, s-maxage=60
       Vary:
       - Accept
+      - Accept-Encoding, Accept
       Etag:
       - W/"9edec62594ff28249393febd3111da1cf8ccc6ff"
       Last-Modified:
@@ -389,27 +413,28 @@ http_interactions:
       X-Github-Media-Type:
       - github.v3; format=json
       Access-Control-Expose-Headers:
-      - ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
-        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval,
+        X-GitHub-Media-Type
       Access-Control-Allow-Origin:
       - "*"
-      Content-Security-Policy:
-      - default-src 'none'
       Strict-Transport-Security:
       - max-age=31536000; includeSubdomains; preload
-      X-Content-Type-Options:
-      - nosniff
       X-Frame-Options:
       - deny
+      X-Content-Type-Options:
+      - nosniff
       X-Xss-Protection:
       - 1; mode=block
-      X-Runtime-Rack:
-      - '0.034140'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
       X-Github-Request-Id:
-      - CEA9:4B61:24CD529:471F241:5A92F6E0
+      - E5FB:1AE9:2D676:72941:5E42E09F
     body:
       encoding: ASCII-8BIT
       string: '{"name":"somedoc.md","path":"doc/somedoc.md","sha":"9edec62594ff28249393febd3111da1cf8ccc6ff","size":21,"url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?ref=master","html_url":"https://github.com/david-a-wheeler/test-badge-project/blob/master/doc/somedoc.md","git_url":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/blobs/9edec62594ff28249393febd3111da1cf8ccc6ff","download_url":"https://raw.githubusercontent.com/david-a-wheeler/test-badge-project/master/doc/somedoc.md","type":"file","content":"IyBEb2N1bWVudGF0aW9uIEZpbGUK\n","encoding":"base64","_links":{"self":"https://api.github.com/repos/david-a-wheeler/test-badge-project/contents/doc/somedoc.md?ref=master","git":"https://api.github.com/repos/david-a-wheeler/test-badge-project/git/blobs/9edec62594ff28249393febd3111da1cf8ccc6ff","html":"https://github.com/david-a-wheeler/test-badge-project/blob/master/doc/somedoc.md"}}'
-    http_version:
-  recorded_at: Sun, 25 Feb 2018 17:48:17 GMT
+    http_version: 
+  recorded_at: Tue, 11 Feb 2020 17:13:03 GMT
 recorded_with: VCR 4.0.0

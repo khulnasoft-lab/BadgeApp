@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# Copyright the Linux Foundation, IDA, and the
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
-# However, much of this is instead from:
+# Much of this file is based on:
 # https://github.com/kickstarter/rack-attack/wiki/Example-Configuration
 
 # This assumes that "ClientIp.acquire" works correctly.
@@ -39,7 +39,7 @@ class Rack::Attack
   ### Throttle Spammy Clients ###
 
   # If any single client IP is making tons of requests, then they're
-  # probably malicious or a poorly-configured scraper. Either way, they
+  # probably malicious or a poorly-configured scraper/spider. Either way, they
   # don't deserve to hog all of the app server's CPU. Cut them off!
   #
   # Note: If you're serving assets through rack, those requests may be
@@ -47,7 +47,13 @@ class Rack::Attack
   # quickly. If so, enable the condition to exclude them from tracking.
   # In the case of the BadgeApp, assets are NOT being served via rack.
 
-  # Throttle all requests by IP (120rpm)
+  # Throttle all requests by IP (default 600/5 minutes, ~120rpm)
+  # This *includes* requests for badge images. The default allowed rate
+  # is high, because there are circumstances when many badge image requests
+  # may be made legitimate. We want *some* limit for absolutely everything,
+  # but we need to make that limit high so legimimate requests aren't blocked.
+  # As noted above, this limit does NOT apply to static files (like images)
+  # in production, as they are served separately.
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
   unless Rails.env.test?
@@ -57,6 +63,34 @@ class Rack::Attack
       period: (ENV['RATE_REQ_IP_PERIOD'] || 5.minutes).to_i
     ) do |req|
       ClientIp.acquire(req) # unless req.path.start_with?('/assets')
+    end
+  end
+
+  # Path for a badge image. Note that this does NOT vary by locale.
+  BADGE_REGEX_PATH = Regexp.compile('^/projects/[1-9][0-9]*/badge$')
+
+  # Throttle all requests other than badge images by IP (default 31/15sec)
+  # Everything other than badge image requests should be made at a reasonable
+  # rate slower than badge images, so enforce a slower rate.
+  # We define a non-badge requests as anything either requesting JSON or
+  # not matching the badge path. Allowing badge images to be requested
+  # more quickly is not a sercurity issue; badge images
+  # are cached by the CDN, are especially fast, and are expected to be
+  # requested much more often anyway (e.g., ~30 at time via /projects).
+  # As noted above, this limit does NOT apply to static files (like images)
+  # in production, as they are served separately.
+  # The default is chosen to allow someone to query a single /projects page
+  # of 30 projects along with JSON requests for data about every project.
+  unless Rails.env.test?
+    throttle(
+      'nonbadge_req/ip',
+      limit: (ENV['NONBADGE_RATE_REQ_IP_LIMIT'] || '31').to_i,
+      period: (ENV['NONBADGE_RATE_REQ_IP_PERIOD'] || '15').to_i
+    ) do |req|
+      if req.env['HTTP_ACCEPT']&.include?('application/json') ||
+         !BADGE_REGEX_PATH.match(req.path)
+        ClientIp.acquire(req)
+      end
     end
   end
 
@@ -160,16 +194,22 @@ class Rack::Attack
   # so we have more time to deal with other things.
   # "/admin" is a common admin URL. "/wp-" handles attacks on WordPress.
   # "/cgi" includes "cgi-bin", a standard prefix for old-school CGI programs.
-  # (?:...) is a non-capturing regexp group - we don't need to capture it.
+  # The pattern near the end that finishes with [%&] is to catch
+  # various naive attacks that append nonsense encoded characters after
+  # project IDs; we see a lot of these in the wild.
+  # (?:...) is a non-capturing regexp group - we don't need to capture this.
   FAIL2BAN_PATH = Regexp.compile(
     ENV['FAIL2BAN_PATH'] ||
-    '^/(?:admin|backup|cgi|command|common|config|' \
+    '\A/(?:admin|backup|cgi|command|common|config|' \
     'data|dbadmin|dump|error_message|install|joomla|' \
     'muieblackcat|myadmin|mysql|onvif|options|' \
     'phpadmin|phpmanager|phpmyadmin|phpMyAdmin|PHPMYADMIN|' \
     'scripts|setup|sqladmin|sql-admin|submitticket|' \
     'temp|upload|w00tw00t|webadmin|' \
-    'wootwoot|WootWoot|WooTWooT|wp-|xmlrpc)'
+    'wootwoot|WootWoot|WooTWooT|wp-|xmlrpc|' \
+    '(?:[a-z]{2}(?:-[A-Z]{2})?/)?' \
+    'projects(?:/[1-9][0-9]*(?:/[1-9][0-9]*)?)?(?:\.json)?[%&]' \
+    ')'
   )
   # FAIL2BAN_QUERY = Regexp.compile(ENV['FAIL2BAN_QUERY'] || '\/etc\/passwd')
   Rack::Attack.blocklist('fail2ban pentesters') do |req|

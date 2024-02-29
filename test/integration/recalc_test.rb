@@ -1,19 +1,16 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'test_helper'
 
 class RecalcTest < ActionDispatch::IntegrationTest
-  setup do
-    @project = projects(:one)
-  end
-
   test 'Make sure recalc percentages only updates levels specified' do
-    old_percentage = Project.find(projects(:one).id).badge_percentage_1
-    assert old_percentage.zero?
+    project = projects(:one)
+    old_percentage = project.badge_percentage_1
+    assert_equal 0, old_percentage, 'Old silver percentage wrong'
     # Update some columns without triggering percentage calculation
     # or change in updated_at
     assert_no_difference [
@@ -22,10 +19,10 @@ class RecalcTest < ActionDispatch::IntegrationTest
       'Project.find(projects(:one).id).badge_percentage_2',
       'Project.find(projects(:one).id).updated_at'
     ] do
-      @project.update_column(:crypto_weaknesses_status, 'Met')
-      @project.update_column(:crypto_weaknesses_justification, 'It is good')
-      @project.update_column(:warnings_strict_status, 'Met')
-      @project.update_column(:warnings_strict_justification, 'It is good')
+      project.update_column(:crypto_weaknesses_status, 'Met')
+      project.update_column(:crypto_weaknesses_justification, 'It is good')
+      project.update_column(:warnings_strict_status, 'Met')
+      project.update_column(:warnings_strict_justification, 'It is good')
     end
     # Run the update task, make sure updated_at and others don't change
     assert_no_difference [
@@ -44,10 +41,11 @@ class RecalcTest < ActionDispatch::IntegrationTest
 
   # rubocop:disable Metrics/BlockLength
   test 'Make sure recalc percentages only updates levels affected' do
-    old_percentage0 = Project.find(projects(:one).id).badge_percentage_0
-    old_percentage1 = Project.find(projects(:one).id).badge_percentage_1
-    assert old_percentage0.zero?
-    assert old_percentage1.zero?
+    project = projects(:one)
+    old_percentage0 = project.badge_percentage_0
+    old_percentage1 = project.badge_percentage_1
+    assert_equal 1, old_percentage0, 'Old passing percentage wrong'
+    assert_equal 0, old_percentage1, 'Old silver percentage wrong'
     # Update some columns without triggering percentage calculation
     # or change in updated_at
     assert_no_difference [
@@ -56,10 +54,10 @@ class RecalcTest < ActionDispatch::IntegrationTest
       'Project.find(projects(:one).id).badge_percentage_2',
       'Project.find(projects(:one).id).updated_at'
     ] do
-      @project.update_column(:crypto_weaknesses_status, 'Met')
-      @project.update_column(:crypto_weaknesses_justification, 'It is good')
-      @project.update_column(:warnings_strict_status, 'Met')
-      @project.update_column(:warnings_strict_justification, 'It is good')
+      project.update_column(:crypto_weaknesses_status, 'Met')
+      project.update_column(:crypto_weaknesses_justification, 'It is good')
+      project.update_column(:warnings_strict_status, 'Met')
+      project.update_column(:warnings_strict_justification, 'It is good')
     end
     # Run the update task, make sure updated_at and others don't change
     assert_no_difference [
@@ -73,11 +71,13 @@ class RecalcTest < ActionDispatch::IntegrationTest
     # Check the badge percentage changed
     assert_not_equal(
       Project.find(projects(:one).id).badge_percentage_0,
-      old_percentage0
+      old_percentage0,
+      'passing badge percentage is supposed to change'
     )
     assert_not_equal(
       Project.find(projects(:one).id).badge_percentage_1,
-      old_percentage1
+      old_percentage1,
+      'silver badge percentage is supposed to change'
     )
   end
   # rubocop:enable Metrics/BlockLength
@@ -87,6 +87,8 @@ class RecalcTest < ActionDispatch::IntegrationTest
   end
 
   test 'Raises ArgumentError' do
-    assert_raises(ArgumentError) { Project.update_all_badge_percentages(['3']) }
+    assert_raises(ArgumentError) do
+      Project.update_all_badge_percentages(['3'])
+    end
   end
 end

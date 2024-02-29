@@ -14,9 +14,9 @@ zh-CN:
     zero: 零项目
     few: "%{count}个项目"
     many: "%{count}个项目"
-  feed_title: CII最佳实践徽章计划更新项目
+  feed_title: OpenSSF最佳实践徽章计划更新项目
   layouts:
-    cii_best_practices: CII最佳实践
+    cii_best_practices: OpenSSF最佳实践
     projects: 项目
     users: 用户
     profile: 资料
@@ -31,11 +31,10 @@ zh-CN:
       <small> <strong>需要帮助？有疑问？发现问题？请 <a href="mailto:&#99;ii&#45;badges&#45;questions&#45;own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;">发送邮件</a>
       或 <em><a href="https://github.com/coreinfrastructure/best-practices-badge/issues"
       target="_blank" rel="noopener">提出问题</a></em>.</strong> ©
-      2015-2017 <a href="https://www.coreinfrastructure.org/"
-      target="_blank" rel="noopener">Core Infrastructure Initiative
-      （核心基础设施计划）</a>, 一个 <a href="https://www.linuxfoundation.org/"
-      target="_blank" rel="noopener">Linux 基金会</a> 合作项目。版权所有。
-      请查阅我们的 <a href="https://www.linuxfoundation.org/privacy"
+      2015-2017 <a href="https://openssf.org/" target="_blank"
+      rel="noopener">Open Source Security Foundation （核心基础设施计划）</a>,
+      一个 <a href="https://www.linuxfoundation.org/" target="_blank"
+      rel="noopener">Linux 基金会</a> 合作项目。版权所有。 请查阅我们的 <a href="https://www.linuxfoundation.org/privacy"
       target="_blank" rel="noopener">隐私策略</a> 和 <a href="https://www.linuxfoundation.org/terms"
       target="_blank" rel="noopener">使用条款</a>. </small>
     account: 帐户
@@ -63,6 +62,7 @@ zh-CN:
     no_login_time: "（没有先前记录的时间。）"
     login_automatic_signup: 如果需要，使用GitHub登录会自动执行注册。
     login_disabled: 所有登录暂时禁用
+    cannot_login_yet: 抱歉，您还不能登录。作为一种反垃圾邮件措施，激活本地帐户后会有一定的延迟才能登录。
   users:
     new:
       signup_header: 注册
@@ -101,6 +101,7 @@ zh-CN:
     edit:
       update_user_info: 更新用户信息
       save_changes: 保存更改
+      inadequate_privileges: 抱歉，您不能这样做。
   project_stats:
     index:
       project_stats_header: 项目统计
@@ -198,6 +199,9 @@ zh-CN:
       new_badge_or: 或
       original_repos: "=>原始GitHub仓库"
       fork_repos: "=> 分支GitHub仓库"
+      tell_us: >-
+        请告诉我们您的自由/自由/开源软件（FLOSS）项目。这<b>必须</b>是FLOSS项目；别无其他。请<b>不要</b>添加无关的网站，试图提高网站的搜索引擎优化（SEO）。禁止这种垃圾邮件发送是因为它危害用户，并且无论如何都不会帮助SEO（所有超链接都标记为<tt>ugc</tt>和<tt>nofollow</tt>
+        ）。
     show:
       edit: 编辑
       delete: 删除
@@ -206,13 +210,13 @@ zh-CN:
       cc_by_3plus_html: >-
         此数据在<a href="https://creativecommons.org/licenses/by/3.0/us"
         target="_blank" rel="noopener">知识共享署名3.0或更高版本许可证（CC-BY-3.0
-        +）</a> 下可用。所有内容都可以自由分享和演绎，但必须给予适当的署名。请署名为%{user}和CII最佳实践徽章贡献者。<br><br>
+        +）</a> 下可用。所有内容都可以自由分享和演绎，但必须给予适当的署名。请署名为%{user}和OpenSSF最佳实践徽章贡献者。<br><br>
       cc_by_3only_html: >-
         此数据在<a href="https://creativecommons.org/licenses/by/3.0/us"
         target="_blank" rel="noopener">知识共享署名3.0版本许可证（CC-BY-3.0）</a>下可用，并依据<a
-        href="https://www.coreinfrastructure.org/" target="_blank"
-        rel="noopener">核心基础设施计划</a> <a href ="https://www.linuxfoundation.org/terms"
-        target="_blank" rel="noopener">使用条款</a>。所有数据都可以自由分享和演绎，但必须给予适当的署名。请署名%{user}和CII最佳实践徽章贡献者。<br>
+        href="https://openssf.org/" target="_blank" rel="noopener">核心基础设施计划</a>
+        <a href ="https://www.linuxfoundation.org/terms" target="_blank"
+        rel="noopener">使用条款</a>。所有数据都可以自由分享和演绎，但必须给予适当的署名。请署名%{user}和OpenSSF最佳实践徽章贡献者。<br>
         <br>
       owned_by: 项目徽章条目拥有者：
       created_at_html: "<strong>最后更新于</strong> %{when},"
@@ -279,7 +283,7 @@ zh-CN:
         placeholder: 更改使用+或 - 后跟逗号分隔的用户标识列表
     form_early:
       badge_intro:
-        description: 遵循以下最佳实践的项目将能够自愿的自我认证，并显示他们已经实现了核心基础设施计划（CII）徽章。
+        description: 遵循以下最佳实践的项目将能够自愿的自我认证，并显示他们已经实现了核心基础设施计划（OpenSSF）徽章。
         details_html: >-
           没有一套可以保证软件永远不会有缺陷或漏洞的做法；如果规范或假设是错误的，即使合适的方法也可能失败。也没有哪些做法可以保证一个项目能够维持健康和运作良好的开发者社区。但是，遵循最佳做法可以帮助改善项目的成果。例如，一些做法可以在发布之前进行多人评估，这可以帮助您找到其他难以找到的技术漏洞，并帮助建立信任，并希望不同公司的开发人员之间进行重复的交互。要获得徽章，必须满足所有“必须”和“禁止”的条款，满足所有“应该”条款或有合适的理由，<em>和</em>所有“建议”条款必须满足或未满足（至少希望考虑）。欢迎通过<a
           href="https://github.com/coreinfrastructure/best-practices-badge">
@@ -358,15 +362,15 @@ zh-CN:
   user_mailer:
     account_activation:
       before_html: |-
-        <h1>CII 最佳实践徽章计划</h1>
+        <h1>OpenSSF 最佳实践徽章计划</h1>
         <p>您好！</p>
         <p>
         欢迎来到徽章计划！
         点击下面的链接激活帐户：
         </p>
-      before_text: |
+      before_text: |-
         您好！
-        欢迎来到CII 最佳实践徽章计划！
+        欢迎来到OpenSSF 最佳实践徽章计划！
         点击下面的链接激活帐户：
       activate: 启用
       subject: 帐号激活
@@ -375,7 +379,7 @@ zh-CN:
         <p>您好，</p>
         <p>
         感谢连接到您的GitHub账户，欢迎来到
-        CII最佳实践徽章计划！
+        OpenSSF最佳实践徽章计划！
         </p>
         <p>
         如果该操作不是由您本人做出，请检查您的 GitHub
@@ -384,7 +388,7 @@ zh-CN:
       before_text: |-
         您好，
         感谢连接到您的GitHub账户，欢迎来到
-        CII最佳实践徽章计划！
+        OpenSSF最佳实践徽章计划！
         如果该操作不是由您本人做出，请检查您的 GitHub
         安全日志：Settings>Security。
       subject: 欢迎来到徽章计划
@@ -393,14 +397,14 @@ zh-CN:
         <h1>重设密码</h1>
         <p>要重设密码，请点击下面的链接：</p>
       before_text: 要重设密码，请点击下面的链接：
-      after_html: |
+      after_html: |-
         <p>此链接将在两个小时后过期。</p>
         <p>
         如果您没有要求重置密码，
         请忽略此电子邮件，
         您的密码将保持原样。
         </p>
-      after_text: |
+      after_text: |-
         此链接将在两个小时后过期。
         如果您没有要求重置密码，
         请忽略此电子邮件，
@@ -420,15 +424,18 @@ zh-CN:
   account_activations:
     activated: 帐户已激活！
     failed_activation: 激活链接无效
+    delay:
+      zero: 您现在可以登录。激活后没有反垃圾邮件延迟。
+      one: 作为一种反垃圾邮件措施，您必须在激活后等待一小时才能登录。
+      few: 作为一种反垃圾邮件措施，您必须在激活后等待%{count}小时才能登录。
+      other: 作为一种反垃圾邮件措施，您必须在激活后等待%{count}小时才能登录。
   password_resets:
     forgot_password: 忘记密码
     reset_password: 重设密码
     password_confirmation: 确认
-    email_not_found: 电子邮件地址未找到
     password_empty: 密码不能为空
     password_reset: 密码已重置
     instructions_sent: 电子邮件发送密码重置说明
-    cant_reset_nonlocal: 对不起，无法重设非本地用户的密码
     reset_expired: 密码重设已过期。
     update_password: 更新密码
   report_mailer:
@@ -452,7 +459,7 @@ zh-CN:
       <p>
       感谢您的时间投入。
       </p>
-    new_project_part3_text: |
+    new_project_part3_text: |-
       我们鼓励持续性的进展。
       如果您想仅查看遗漏的信息，
       访问您的徽章项页面，
@@ -465,21 +472,21 @@ zh-CN:
       感谢您的时间投入。
     in_markdown_add: 在markdown标记文本中，您可以添加：
     in_html_add: 在HTML中，您可以添加：
-    ending: "--- David A. Wheeler，CII最佳实践徽章技术负责人"
+    ending: "--- David A. Wheeler，OpenSSF最佳实践徽章技术负责人"
     subject_achieved_passing: 恭喜获得新的%{new_level}最佳实践徽章！
     subject_no_longer_passing: 您的最佳实践徽章不再是%{old_level}
-    subject_new_project: 您已将项目添加到CII最佳实践徽章计划
+    subject_new_project: 您已将项目添加到OpenSSF最佳实践徽章计划
     subject_reminder: 您的项目还没有“最佳实践”徽章
     subject_project_deleted: 名为%{project_name}的项目%{project_id}已被删除
-    gained_level_part1: |
+    gained_level_part1: |-
       恭喜！
       根据您提供的信息，
-      您的项目获得了CII最佳实践“%{new_level}”徽章。
+      您的项目获得了OpenSSF最佳实践“%{new_level}”徽章。
       有关详细信息，请参阅此URL：
     gained_level_part2: |-
       请将您的徽章添加到您的项目和/或代码仓库网站；
       这是您应得的：
-    gained_level_part3: |
+    gained_level_part3: |-
       我们强烈建议您添加或改进理由陈述，
       包括添加指向更多信息的URL。
       如果您有关于如何改进条款或徽章网络应用程序的建议，请提出问题：
@@ -567,13 +574,15 @@ zh-CN:
       感谢您的时间。
   project_name_unknown: "(未知名称)"
   locale_name:
-    en: 英文 / English (en）
-    fr: 法语 / Français (fr)
-    zh-CN: 中文（简体）/简体中文（zh-CN）
-    de: 德文 / Deutsch (de)
-    ja: 日语 / 日本語 (ja)
-    ru: 俄语 / Русский (ru)
-    es: 西班牙语/西班牙文 / Español (es)
+    en: 英文
+    fr: 法语
+    zh-CN: 中文（简体）
+    de: 德文
+    ja: 日语
+    ru: 俄语
+    es: 西班牙文
+    sw: 斯瓦希里语
+    pt-BR: 巴西葡萄牙语
   criteria:
     '0':
       description_good:
@@ -616,7 +625,12 @@ zh-CN:
         details: OSI （开放源代码促进会）使用严格的审批流程来确定哪些许可证是开源软件（OSS）。
       license_location:
         description: 项目必须将其许可证在其源代码存储库中的标准位置发布。
-        details: 例如，作为名为LICENSE或COPYING的顶级文件。许可证文件名之后可以是扩展名，例如“.txt”或“.md”。
+        details: >-
+          一种约定是将许可证发布为名为LICENSE或COPYING的顶级文件，其后可以带有扩展名，例如“ .txt”或“
+          .md”。另一种约定是使用一个名为LICENSES的目录，其中包含许可证文件。这些文件通常被命名为其SPDX许可证标识符，后跟适当的文件扩展名，如<a
+          href="https://reuse.software/spec/">REUSE Specification中所述</a>。请注意，此标准只是源存储库上的要求。从源代码生成某些内容（例如可执行文件，程序包或容器）时，无需包括许可证文件。例如，在为综合R存档网络（CRAN）生成R软件包时，请遵循标准CRAN惯例：如果许可证是标准许可证，请使用标准简短许可证规范（以避免安装另一文本副本）并列出排除文件（例如.Rbuildignore）中的LICENSE文件。同样，在创建Debian软件包时，您可以在版权文件中放置一个指向/
+          usr / share / common-licenses中的许可证文本的链接，并从创建的软件包中排除许可证文件（例如，通过在调用dh_auto_install之后删除文件）
+          ）。我们鼓励在可行的情况下以生成的格式包含机器可读的许可证信息。
       documentation_basics:
         description: 项目必须为项目生成的软件提供基本文档。
         details: >-
@@ -713,7 +727,9 @@ zh-CN:
           构建系统确定重建软件（以及以什么顺序）需要执行哪些操作，然后执行这些步骤。例如，它可以调用编译器来编译源代码。如果从源代码创建可执行文件，则必须可以修改项目的源代码，然后通过这些修改生成更新的可执行文件。如果项目生成的软件取决于外部库，则构建系统<em>不必</em>构建那些外部库。如果在修改源代码之后不需要构建任何使用该软件的软件，请选择“不适用”（N/A）。
       build_common_tools:
         description: 建议使用通用工具来构建软件。
-        details: 例如，Maven，Ant，cmake，autotools，make或rake。
+        details: >-
+          例如，Maven，Ant，cmake，自动工具，make，rake（Ruby）或<a href="https://cran.r-project.org/web/packages/devtools/index.html">devtools</a>
+          （R）。
       build_floss_tools:
         description: 该项目应该仅使用FLOSS工具来构建。
       test:
@@ -885,11 +901,25 @@ zh-CN:
           href ="http://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>。广泛的断言也将起作用。
       dynamic_analysis_enable_assertions:
         description: 建议由项目生成的软件包括许多运行时断言，在动态分析期间检查。
+        details: >-
+          这个标准<i>并不</i>建议使生产过程中的断言;这完全取决于项目及其用户的决定。该标准的重点是<i>在</i>部署<i>之前的</i>动态分析过程中改善故障检测。在<i>生产</i>使用中启用断言与在动态分析（例如测试）期间启用断言<i>完全</i>不同。在某些情况下，在生产中使用断言是极其不明智的（尤其是在高完整性组件中）。存在许多反对在生产环境中启用断言的论点，例如，库不应使调用程序崩溃，它们的存在可能会导致应用商店拒绝，和/或在生产环境中激活断言可能会暴露诸如私钥之类的私有数据。请注意，在许多Linux发行版中都未定义<tt>NDEBUG</tt>
+          ，因此C / C ++<tt>缺省情况下，assert（）将在这些环境中启用生产。对于那些环境中的生产，使用不同的断言机制或定义<tt>NDEBUG</tt>可能很重要。
       dynamic_analysis_fixed:
         description: 通过动态代码分析发现的所有严重性为中，高的可利用漏洞必须在确认后及时修复。
         details: >-
           如果<a href="https://nvd.nist.gov/cvss.cfm"> CVSS 2.0
           </a>基本分数为4，那么一个漏洞是中等到高的严重性。如果您没有运行动态代码分析，没有发现任何这样的漏洞，选择“不适用”（N/A）。
+      maintained:
+        description: 必须维护该项目。
+        details: >-
+          至少，项目应尝试响应重大问题和漏洞报告。可能正在维护一个积极追求徽章的项目。所有项目和人员的资源都有限，典型项目必须拒绝某些提议的更改，因此有限的资源和提议拒绝本身并不表示未维护的项目。<br><br>当项目知道将不再维护该项目时，应将此标准设置为“未满足”，并使用适当的机制向其他人指示该项目将不会得到维护。例如，使用“
+          DEPRECATED”作为其自述文件的第一个标题，在其主页开头附近添加“ DEPRECATED”，在其代码存储库项目说明的开头添加“
+          DEPRECATED”，在其中添加<a href="https://unmaintained.tech/">无需维护的标志</a>其自述文件和/或主页，在任何软件包存储库中将其标记为已弃用（例如<a
+          href="https://docs.npmjs.com/deprecating-and-undeprecating-packages-or-package-versions">npm
+          deprecate</a> ），和/或使用代码存储库的标记系统对其进行归档（例如GitHub的<a href="https://docs.github.com/en/enterprise-server@2.21/github/creating-cloning-and-archiving-repositories/archiving-a-github-repository">“
+          archive”设置</a>，GitLab的<a href="https://docs.gitlab.com/ee/user/project/settings/#archiving-a-project">“
+          archived”标记</a>， Gerrit的“只读”状态，或SourceForge的“已放弃”项目状态）。<a
+          href="https://medium.com/maintainer-io/how-to-deprecate-a-repository-on-github-8f0ceb9155e">可以在这里</a>找到更多讨论。
     '1':
       contribution_requirements:
         description: 关于如何贡献的信息必须包括对可接受的贡献的要求（例如，引用任何所需的编码标准）。
@@ -1035,12 +1065,10 @@ zh-CN:
       dependency_monitoring:
         description: 项目必须监视或定期检查其外部依赖（包括便利副本）以检测已知的漏洞，并修复可利用的漏洞或将其验证为不可利用的漏洞。
         details: >-
-          这可以使用来源分析器/依赖关系检查工具来完成，例如<a href="https://www.owasp.org/index.php/OWASP_Dependency_Check">
-          OWASP的依赖关系检查</a>，<a href =“ https://www.sonatype.com/nexus-auditor">SonaType's
-          Nexus Auditor </a>，<a href="https://www.blackducksoftware.com/products/protex">
-          Black Duck's Protex</a> ，<a href="http://www.protecode.com/">
-          Synopsys的Protecode </a>和<a href="https://github.com/rubysec/bundler-audit">
-          Bundler-audit （适用于Ruby）</a>。一些包管理器也包括这类机制。如果组件的漏洞不能被利用，这是可以接受的，但这种分析是困难的，有时更新或修复该部件更容易。
+          这可以使用源分析器/依赖项检查工具/软件组成分析工具（例如<a href="https://www.owasp.org/index.php/OWASP_Dependency_Check">OWASP的Dependency-Check</a>
+          ， <a href="https://www.sonatype.com/nexus-auditor">Sonatype的Nexus
+          Auditor</a> ， <a href="https://www.synopsys.com/software-integrity/security-testing/software-composition-analysis.html">Synopsys的Black
+          Duck软件组成分析</a>和<a href="https://github.com/rubysec/bundler-audit">Bundler-audit（针对Ruby））来完成</a>。一些程序包管理器包括执行此操作的机制。如果无法利用组件的漏洞，这是可以接受的，但是这种分析是困难的，有时简单地更新或修复零件就更容易。
       updateable_reused_components:
         description: |-
           该项目必须满足下述情况之一：
@@ -1224,23 +1252,23 @@ zh-CN:
         description: 该项目必须拥有银级徽章。
   static_pages:
     home:
-      badge_program: CII 最佳实践徽章计划
+      badge_program: OpenSSF 最佳实践徽章计划
       get_your_badge: 马上获取徽章！
       p1_html: |-
         The <a href="https://www.linuxfoundation.org/">Linux 基金会 (LF)</a>
-        <a href="https://www.coreinfrastructure.org/">核心基础设施计划
-        (CII)</a>
+        <a href="https://openssf.org/">核心基础设施计划
+        (OpenSSF)</a>
         最佳实践徽章是自由和开放源代码软件(FLOSS)项目展示自己遵循安全最佳实践的>途径。
         项目可以使用本Web应用，自愿、免费的自助认证，来阐述如何遵循每项最佳实践>。
-        The CII 最佳实践徽章受到GitHub上众多可获得的徽章系统的启发。徽章的目标用 户将能够
+        The OpenSSF 最佳实践徽章受到GitHub上众多可获得的徽章系统的启发。徽章的目标用 户将能够
         快速评估哪些FLOSS项目遵循最佳实践，也将更容易地构建高质量的安全软件。
       p2_html: |-
-        关于CII 最佳实践徽章计划的更多信息，
+        关于OpenSSF 最佳实践徽章计划的更多信息，
         包括背景以及
         <a href='https://github.com/coreinfrastructure/best-practices-badge/blob/master/doc/criteria.md'>标准</a>, 可以访问
         <a href='https://github.com/coreinfrastructure/best-practices-badge'>GitHub 项目</a>.
         <a href="/zh-CN/project_stats">项目统计数据</a> 和
-        <a href="/zh-CN/criteria">标准统计数据</a> 也同时提供。
+        <a href="/zh-CN/criteria_stats">标准统计数据</a> 也同时提供。
         <a href="/zh-CN/projects">项目页面</a> 展示所有参与的项目，
         并支持查询（例如，你可以看到
         <a href="/zh-CN/projects?gteq=100">已经获取通过徽章的项目</a>)。
@@ -1258,8 +1286,8 @@ zh-CN:
         新的非代码内容
         使用CC-BY 版本 3.0 或者更高 (CC-BY-3.0+)。
         如果集体引用，或不另外注明，
-        请标明出处为CII最佳实践徽章贡献者。
-      check_us_out: 查看CII最佳实践徽章网站！
+        请标明出处为OpenSSF最佳实践徽章贡献者。
+      check_us_out: 查看OpenSSF最佳实践徽章网站！
       share_header_html: "<p>请分享：</p>"
       twitter: Twitter
       reddit: Reddit
@@ -1268,22 +1296,6 @@ zh-CN:
       email: 电子邮件
       projects_earned_badge: 一些徽章拥有者：
       hacker_news: Hacker News （黑客新闻）
-    criteria:
-      criteria: 条款
-      detailed_criteria_on_github: 详细的条款在GitHub网站。
-      project_stats_html: 您可以在<a href="/project_stats">项目统计信息页面</a>查看有关项目的统计信息。
-      level: 等级
-      must: 必须
-      should: 应该
-      suggested: 建议
-      total_active: 总有效
-      allow_na: 允许N/A
-      require_url: 需要网址
-      details: 包括细节
-      future: 未来
-      new_this_level: 在这个级别的新的
-      met_justification_required: 需要满足理由
-      met_justification_or_url_required: 满足理由或需要URL
     cookies:
       cookies_header: 关于浏览器缓存
       cookies_info_html: >-
@@ -1301,6 +1313,25 @@ zh-CN:
       heading: 错误404：找不到页面
       no_such_page: 对不起，没有找到页面。
       please_home: 请转到主页。
+    criteria_stats:
+      criteria: 条款
+      project_stats_html: 您可以在<a href="/project_stats">项目统计信息页面</a>查看有关项目的统计信息。
+      level: 等级
+      must: 必须
+      should: 应该
+      suggested: 建议
+      total_active: 总有效
+      allow_na: 允许N/A
+      require_url: 需要网址
+      details: 包括细节
+      future: 未来
+      new_this_level: 在这个级别的新的
+      met_justification_required: 需要满足理由
+      met_justification_or_url_required: 满足理由或需要URL
+      see_actual_criteria: 您可能还会看到实际标准。
+    error_409:
+      heading: 错误409：冲突
+      conflict: 抱歉，多个条目与请求匹配，从而导致冲突。
   headings:
     Accessibility and internationalization: 无障碍和国际化
     Analysis: 分析
@@ -1342,10 +1373,8 @@ zh-CN:
   last_entry: 最后翻译条目
   admin_only: 仅限管理员。
   criterion_status:
-    Met: |2-
-      完成
-    Unmet: |2-
-      不完整
+    Met: 完成
+    Unmet: 不完整
     NA: N/A
   error_messages:
     need_home_page_or_url: 至少需要一个主页或存储库URL
@@ -1358,3 +1387,102 @@ zh-CN:
     known_bad_password: " 是一个众所周知的（坏）密码"
     valid_text: " 必须是有效的UTF-8编码，没有无效的控制字符"
     url_message: " 必须以http:或https:开头，并使用有限的字符集"
+  criteria_overall:
+    beginning_header_all: FLOSS 最佳实践标准（所有级别）
+    beginning_header_0: FLOSS 最佳实践标准（通过徽章）
+    beginning_header_1: FLOSS 最佳实践标准（白银徽章）
+    beginning_header_2: FLOSS 最佳实践标准（黄金徽章）
+    beginning_all_html: >-
+      <p>这是自由/自由和开源软件（FLOSS）项目的最佳实践集，以在通过，银色和金色徽章级别获得核心基础设施计划（OpenSSF）最佳实践徽章。您可以<a
+      href="/zh-CN/criteria">仅使用标准</a>或<a href="/zh-CN/criteria?details=true&rationale=true">其他信息</a>来显示此列表。您还可以仅查看<a
+      href="/zh-CN/criteria/0">通过</a>，<a href="/zh-CN/criteria/1">银</a>和<a
+      href="/zh-CN/criteria/2">金</a>标准，以及<a href="/zh-CN/criteria_stats">标准统计信息</a>。
+    beginning_0_html: >-
+      <p>这是自由/自由和开源软件（FLOSS）项目的最佳实践集，以在通过，银色和金色徽章级别获得核心基础设施计划（OpenSSF）最佳实践徽章。您可以<a
+      href="/zh-CN/criteria">仅使用标准</a>或<a href="/zh-CN/criteria?details=true&rationale=true">其他信息</a>来显示此列表。您还可以仅查看<a
+      href="/zh-CN/criteria/0">通过</a>，<a href="/zh-CN/criteria/1">银</a>和<a
+      href="/zh-CN/criteria/2">金</a>标准，以及<a href="/zh-CN/criteria_stats">全套标准</a>。
+    beginning_1_html: >-
+      <p>这是自由/自由和开源软件（FLOSS）项目的最佳实践集，以在通过，银色和金色徽章级别获得核心基础设施计划（OpenSSF）最佳实践徽章。您可以<a
+      href="/zh-CN/criteria">仅使用标准</a>或<a href="/zh-CN/criteria?details=true&rationale=true">其他信息</a>来显示此列表。您还可以仅查看<a
+      href="/zh-CN/criteria/0">通过</a>，<a href="/zh-CN/criteria/1">银</a>和<a
+      href="/zh-CN/criteria/2">金</a>标准，以及<a href="/zh-CN/criteria_stats">全套标准</a>。
+    beginning_2_html: >-
+      <p>这是自由/自由和开源软件（FLOSS）项目的最佳实践集，以在通过，银色和金色徽章级别获得核心基础设施计划（OpenSSF）最佳实践徽章。您可以<a
+      href="/zh-CN/criteria">仅使用标准</a>或<a href="/zh-CN/criteria?details=true&rationale=true">其他信息</a>来显示此列表。您还可以仅查看<a
+      href="/zh-CN/criteria/0">通过</a>，<a href="/zh-CN/criteria/1">银</a>和<a
+      href="/zh-CN/criteria/2">金</a>标准，以及<a href="/zh-CN/criteria_stats">全套标准</a>。
+    see_discussion_html: >-
+      <p>有关这些条件的更多信息，请参见<a href="/zh-CN/criteria_discussion">条件讨论</a>。
+    future:
+    na_allowed:
+    na_justification_required:
+    met_justification_required:
+    met_url_required:
+  criteria_discussion:
+    intro_p01_html:
+    intro_p02_html:
+    intro_p03_html:
+    intro_p04_html:
+    intro_p05_html: "<p>这些最佳实践的创建是为了：</p>"
+    intro_p06_html:
+    intro_p07_html:
+    intro_p08_html:
+    structure_p01_html: "<p></p><h2 id='criteria_structure'>标准结构</h2>"
+    structure_p02_html:
+    structure_p03_html:
+    other_p01_html: "<p></p><h2 id='criteria_other_projects'>与其他项目的关系</h2>"
+    other_p02_html:
+    automation_p01_html: "<p></p><h2 id='criteria_automation'>标准自动化</h2>"
+    automation_p02_html:
+    automation_p03_html:
+    automation_p04_html:
+    changes_p01_html: "<p></p><h2 id='criteria_changes'>随着时间的变化</h2>"
+    changes_p02_html:
+    changes_p03_html:
+    keywords_p01_html: "<p></p><h2 id='keywords'>关键词</h2>"
+    keywords_p02_html:
+    keywords_p03_html:
+    keywords_p04_html:
+    keywords_p05_html:
+    keywords_p06_html:
+    keywords_p07_html:
+    achieving_p01_html: "<p></p><h2 id='criteria_achieving_badge'>获得徽章</h2>"
+    achieving_p02_html:
+    achieving_p03_html:
+    achieving_p04_html:
+    achieving_p05_html:
+    achieving_p06_html:
+    terminology_p01_html: "<p></p><h2 id='criteria_terminology'>术语</h2>"
+    terminology_p02_html:
+    terminology_p03_html: "<p>以下是一些关键术语：</p><ul>"
+    terminology_p04_html:
+    terminology_p05_html:
+    terminology_p06_html: >-
+      <li>项目<em>结果</em>是项目成员共同努力产生的最终目标。通常是软件，但是项目结果可能还包括其他内容。引用“项目产生的软件”的标准是指项目结果。</li>
+    terminology_p07_html: >-
+      <li>项目<em>站点</em>是专用于支持开发和传播项目成果的站点，并且在适用的情况下包括项目网站，仓库和下载站点（请参考<a
+      href="#sites_https">sites_https</a> ）。</li>
+    terminology_p08_html: >-
+      <li>项目<em>网站</em>，又称项目主页，是新用户通常会访问以及查看有关项目信息的万维网（WWW）上的主页；它可能与项目的仓库站点相同（在GitHub上通常如此）。</li>
+    terminology_p09_html: >-
+      <li>项目<em>仓库</em>管理和存储项目结果以及项目结果的修订历史记录。这也称为项目<em>源仓库</em>，因为我们仅需要管理和存储可编辑版本，而不是自动生成的结果（在许多情况下，生成的结果不存储在仓库中）。</li>
+    terminology_p10_html: "<li>A<em>项目安全机制</em>是交付的项目的软件提供的安全机制。</ul>"
+    noncriteria_p01_html: "<p></p><h2 id='criteria_noncriteria'>非标准</h2>"
+    noncriteria_p02_html: "<p>条件：<ul>"
+    noncriteria_p03_html:
+    noncriteria_p04_html:
+    noncriteria_p05_html:
+    noncriteria_p06_html:
+    noncriteria_p07_html: "<li><em>不需要</em>费用就可以获得徽章。"
+    noncriteria_p08_html:
+    noncriteria_p09_html:
+    identify_p01_html: "<p></p><h2 id='criteria_id_project'>识别项目</h2>"
+    identify_p02_html:
+    criteria_why_p01_html: "<h2 id='criteria_why'>为什么要有标准？</h2>"
+    criteria_why_p02_html:
+    criteria_why_p03_html:
+    criteria_why_p04_html:
+    criteria_why_p05_html:
+    self_certification_p01_html: <h3 id="criteria_self_certification">为什么要自我认证？</h3>
+    self_certification_p02_html:

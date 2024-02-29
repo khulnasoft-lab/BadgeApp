@@ -17,7 +17,10 @@
   <tbody>
 
     <% projects.each do |project| %>
-    <% cache [project, locale] do %>
+    <%# The badge URL has one value for some time after the project entry
+       is edited, and then changes. To handle that gracefully, we
+       expire the cache after a period of time. %>
+    <% cache [project, locale], expires_in: 12.hours do %>
       <tr>
         <td><%= link_to project.id, project %></td>
         <td class="project_name"><%=
@@ -39,17 +42,18 @@
           <% end %>
         </td>
         <td class='license'><%= project.license %></td>
-        <td><%= link_to project.user_display_name, project.user,
+        <td><%= link_to project.user_display_name, user_path(project.user_id),
                         rel: 'nofollow ugc' %></td>
         <td><%= project.achieved_passing_at&.
                   to_formatted_s(:db) %></td>
         <td><span data-toggle="tooltip" data-placement="bottom" title="<%=
                     tiered_percent_as_string(project.tiered_percentage)
              %>"><%= project.tiered_percentage %>%</span></td>
-        <td><%= link_to "<img src='/projects/#{project.id}/badge'
+        <td><!-- DO NOT USE /badge_static in README files! --><%=
+                link_to("<img src='#{ project.badge_src_url }'
                   alt='#{t('.badge_level', id: project.id,
                             percent: project.tiered_percentage)}'>".html_safe,
-                  project %></td>
+                  project) %></td>
       </tr>
     <% end %>
   </tbody>

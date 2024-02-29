@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
+
+# This mailer is for reports from the badge system about projects,
+# individually or collectively.  This includes reports about
+# badge status changes, summary reports, reminders that a project
+# isn't done, etc.  This does not include email to a user
+# regarding that user's account; those are handled by UserMailer.
 
 # When sending emails we use I18n.with_locale do..end.
 # If the destination is user.email, use:
@@ -23,13 +29,6 @@ class ReportMailer < ApplicationMailer
   include SessionsHelper
   REPORT_EMAIL_DESTINATION = 'cii-badge-log@lists.coreinfrastructure.org'
 
-  def set_headers
-    # Disable SendGrid's clicktracking, it creates ugly URLs.
-    # See: https://sendgrid.com/docs/API_Reference/SMTP_API/apps.html
-    headers['X-SMTPAPI'] =
-      '{ "filters" : { "clicktrack" : { "settings" : { "enable" : 0 } } } }'
-  end
-
   # Report to Linux Foundation that a project's status has changed.
   def project_status_change(project, old_badge_status, new_badge_status)
     @project = project
@@ -37,7 +36,7 @@ class ReportMailer < ApplicationMailer
     @new_badge_status = new_badge_status
     @project_info_url = project_url(@project, locale: nil)
     @report_destination = REPORT_EMAIL_DESTINATION
-    set_headers
+    set_standard_headers
     I18n.with_locale(I18n.default_locale) do
       mail(
         to: @report_destination,
@@ -65,14 +64,15 @@ class ReportMailer < ApplicationMailer
     user = User.find(project.user_id)
     return if user.nil?
     return unless user.email?
-    return unless user.email.include?('@')
+    return if user.email.exclude?('@')
 
     @project_info_url =
       project_url(@project, locale: user.preferred_locale.to_sym)
     @email_destination = user.email
     @new_level = new_badge_level
     @old_level = old_badge_level
-    set_headers
+    @hostname = ENV.fetch('PUBLIC_HOSTNAME', 'localhost')
+    set_standard_headers
     I18n.with_locale(user.preferred_locale.to_sym) do
       mail(
         to: @email_destination,
@@ -95,12 +95,12 @@ class ReportMailer < ApplicationMailer
     user = User.find(project.user_id)
     return if user.nil?
     return unless user.email?
-    return unless user.email.include?('@')
+    return if user.email.exclude?('@')
 
     @project_info_url =
       project_url(@project, locale: user.preferred_locale.to_sym)
     @email_destination = user.email
-    set_headers
+    set_standard_headers
     I18n.with_locale(user.preferred_locale.to_sym) do
       mail(
         to: @email_destination,
@@ -118,7 +118,7 @@ class ReportMailer < ApplicationMailer
     return if projects.nil?
 
     @projects = projects
-    set_headers
+    set_standard_headers
     I18n.with_locale(I18n.default_locale) do
       mail(
         to: @report_destination,
@@ -132,16 +132,20 @@ class ReportMailer < ApplicationMailer
   # We currently only send these out in English, so it's not internationalized
   # (no point in asking the translators to do unnecessary work).
   def report_monthly_announcement(
-    projects, month, last_stat_in_prev_month, last_stat_in_prev_prev_month
+    projects,
+    month_display,
+    last_stat_in_prev_month,
+    last_stat_in_prev_prev_month
   )
-    @report_destination = ENV['REPORT_MONTHLY_EMAIL']
+    @report_destination = ENV.fetch('REPORT_MONTHLY_EMAIL', nil)
     return if @report_destination.blank?
 
     @projects = projects
-    @month = month
+    @month_display = month_display
     @last_stat_in_prev_month = last_stat_in_prev_month
     @last_stat_in_prev_prev_month = last_stat_in_prev_prev_month
-    set_headers
+    @hostname = ENV.fetch('PUBLIC_HOSTNAME', 'localhost')
+    set_standard_headers
     I18n.with_locale(I18n.default_locale) do
       mail(
         to: @report_destination,
@@ -159,12 +163,12 @@ class ReportMailer < ApplicationMailer
     user = User.find(project.user_id)
     return if user.nil?
     return unless user.email?
-    return unless user.email.include?('@')
+    return if user.email.exclude?('@')
 
     @project_info_url =
       project_url(@project, locale: user.preferred_locale.to_sym)
     @email_destination = user.email
-    set_headers
+    set_standard_headers
     I18n.with_locale(user.preferred_locale.to_sym) do
       mail(
         to: @email_destination,
@@ -181,7 +185,7 @@ class ReportMailer < ApplicationMailer
     @project = project
     @user = user
     @deletion_rationale = deletion_rationale
-    set_headers
+    set_standard_headers
     I18n.with_locale(I18n.default_locale) do
       mail(
         to: @report_destination,

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # rubocop:disable Metrics/ClassLength
@@ -55,10 +55,11 @@ class Criteria
       @criteria.each_value { |level_data| yield level_data }
     end
 
-    def each_key
-      instantiate if @criteria.blank?
-      @criteria.each_key { |level_key| yield level_key }
-    end
+    # No longer needed. Instead use "Project::LEVEL_IDS.each"
+    # def each_key
+    #   instantiate if @criteria.blank?
+    #   @criteria.each_key { |level_key| yield level_key }
+    # end
 
     # This returns an array of all levels where a particular criterion of
     # a given name is present.
@@ -173,14 +174,14 @@ class Criteria
   private
 
   # This method is used to grab text that is the same regardless of
-  # critera level. For example details of a criterion is almost always the
+  # criteria level. For example details of a criterion is almost always the
   # same across criteria levels.  This routine searches the current level
   # and all lower levels for a given text snippet until it is found.  If
   # it doesn't exist, nil is returned.
   def get_text_if_exists(field)
     return unless field.in? LOCALE_ACCESSORS
 
-    Criteria.get_levels(name).reverse.each do |l|
+    Criteria.get_levels(name).reverse_each do |l|
       next if l.to_i > level.to_i
 
       t_key = "criteria.#{l}.#{name}.#{field}"

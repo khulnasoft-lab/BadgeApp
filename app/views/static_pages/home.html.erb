@@ -19,7 +19,13 @@
       </p>
     </div><%# end of column with banner and main text %>
     <div class="col-md-4 col-sm-5">
-      <div class="home-badge center-block"></div>
+    <div class="row">
+      <div class="col-sm-12">
+       <!-- Note: This doesn't include width/height so it'll scale -->
+       <%= image_tag 'openssf_bestpracticesbadge.svg',
+                     alt: 'Best Practices Badge logo', title: 'Best Practices Badge logo' %>
+      </div>
+    </div>
     <div class="row">
       <div class="col-sm-12">
         <br><br>
@@ -39,9 +45,6 @@
       <a href="<%= projects_dir %>/569" class="earner-logo">
         <%= image_tag 'project-logos/Kubernetes.png', width: 171, height: 48,
                       alt: 'Kubernetes', title: 'Kubernetes' %></a>
-      <a href="<%= projects_dir %>/954" class="earner-logo">
-        <%= image_tag 'project-logos/Hyperledger.png', width: 92, height: 48,
-                      alt: 'Hyperledger', title: 'Hyperledger' %></a>
       <a href="<%= projects_dir %>/29" class="earner-logo">
         <%= image_tag 'project-logos/Nodejs.png', width: 71, height: 48,
                       alt: 'Node.js', title: 'Node.js' %></a>
@@ -114,6 +117,10 @@
       <a href="<%= projects_dir %>/164" class="earner-logo">
         <%= image_tag 'project-logos/OPNFV.png', width: 198, height: 48,
                       alt: 'OPNFV', title: 'OPNFV' %></a>
+      <a href="<%= projects_dir %>/955" class="earner-logo">
+        <%= image_tag 'project-logos/Hyperledger.svg',
+                      width: 240, height: 48, alt: 'Hyperledger',
+                      title: 'Hyperledger' %></a>
       </div>
     </div><%# end of logo row %>
     </div><%# end of special column %>

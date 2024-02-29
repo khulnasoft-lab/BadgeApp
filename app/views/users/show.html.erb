@@ -22,7 +22,7 @@
     <br><br>
     <h2><%= t '.projects_owned' %></h2>
     <%= render 'projects/table', projects: @projects %>
-    <%= will_paginate @projects %>
+    <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
   <% end %>
 
   <% if @projects_additional_rights.present? %>
@@ -52,7 +52,7 @@
          user_email = @user.email_if_decryptable
     %>
       | <a href="mailto:<%= CGI::escape(user_email).html_safe %>"><%=
-        t('.send_email_to') + user_email.to_s %></a>
+        t('.send_email_to') %></a>
     <% end %>
     | <%= link_to Icon[:'fa-times-circle'] + t('.delete_link_name'),
                   @user, method: :delete,

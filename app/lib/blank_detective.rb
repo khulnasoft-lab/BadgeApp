@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # require 'json' # uncomment if you need to access GitHub
@@ -14,14 +14,14 @@ class BlankDetective < Detective
   # Individual detectives must identify their inputs, outputs
   INPUTS = [].freeze  # Input Hash required for Search
   OUTPUTS = [].freeze # Output Hash required to set database values.  Please see
-  # database schema for allowed valuses to be set.
+  # database schema for allowed values to be set.
   # Setup and major work goes here.  Do not attempt to return anything from this
   # part of the code as it causes crashes.
 
   def analyze(_evidence, _current)
     {
       # Your return has to go here.  This reformats the hashed return into
-      # chief understands.  Remember the output must corrospond to one of the
+      # chief understands.  Remember the output must correspond to one of the
       # values in the database structure.
       # Typically This would be in the form.
 

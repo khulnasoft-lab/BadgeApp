@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'test_helper'
@@ -74,10 +74,7 @@ class UsersManipulateProjectTest < ActionDispatch::IntegrationTest
 
       # Check that returned settings are correct.
       # Note: You can use byebug... css_select to interactively check things.
-      assert_select(
-        +'#project_name[value=?]',
-        'best-practices-badge'
-      )
+      assert_select(+'#project_name[value=?]', 'best-practices-badge')
       assert_select '#project_discussion_status_met[checked]'
       assert_select '#project_contribution_status_met[checked]'
       assert_select '#project_floss_license_status_met[checked]'

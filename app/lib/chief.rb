@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # A 'chief' instance analyzes project data.  It does this by calling
@@ -69,9 +69,7 @@ class Chief
   def update_value?(project, key, changeset_data)
     if changeset_data.blank?
       false
-    elsif !project.attribute_present?(key) || project[key].blank?
-      true
-    elsif project[key] == '?'
+    elsif !project.attribute_present?(key) || project[key].blank? || project[key] == '?'
       true
     else
       changeset_data[:confidence].present? &&
@@ -94,10 +92,11 @@ class Chief
   end
 
   def log_detective_failure(source, e, detective, proposal, data)
-    Rails.logger.error(
-      "In method #{source}, exception #{e} on #{detective.class.name}, " \
-      "current_proposal= #{proposal}, current_data= #{data}"
-    )
+    Rails.logger.error do
+      'ERROR:: ' \
+        "In method #{source}, exception #{e} on #{detective.class.name}, " \
+        "current_proposal= #{proposal}, current_data= #{data}"
+    end
   end
 
   # Invoke one "Detective", which will
@@ -144,7 +143,7 @@ class Chief
   # rubocop:disable Metrics/PerceivedComplexity
   def apply_changes(project, changes)
     changes.each do |key, data|
-      next unless ALLOWED_FIELDS.include?(key)
+      next if ALLOWED_FIELDS.exclude?(key)
       next unless update_value?(project, key, data)
 
       # Store change:
@@ -152,8 +151,7 @@ class Chief
       # Now add the explanation, if we can.
       next unless key.to_s.end_with?('_status') && data.key?(:explanation)
 
-      justification_key =
-        (key.to_s.chomp('_status') + '_justification').to_sym
+      justification_key = (key.to_s.chomp('_status') + '_justification').to_sym
       if project.attribute_present?(justification_key)
         unless project[justification_key].end_with?(data[:explanation])
           project[justification_key] =

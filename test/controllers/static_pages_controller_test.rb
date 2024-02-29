@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 # copyright 2015-2017, the linux foundation, ida, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'test_helper'
 
-# Inherit from ActionDispatch::IntegrationTest because
-# ActionController::TestCase is now obsolete.
+# NOTE: we inherit from ActionDispatch::IntegrationTest, not
+# ActionController::TestCase, because the latter is obsolete.
 # rubocop: disable Metrics/BlockLength, Metrics/ClassLength
 class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   test 'should get home' do
@@ -19,7 +19,7 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
     assert_includes @response.body, 'More information on the'
     assert_includes @response.body, 'target='
     # target=... better not end immediately, we need rel="noopener"
-    refute_includes @response.body, 'target=[^ >]+>'
+    assert_not_includes @response.body, 'target=[^ >]+>'
     # Check that our preload statements are present
     assert_select(
       'head link[rel="preload"][as="stylesheet"][type="text/css"]' \
@@ -92,27 +92,33 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get criteria' do
-    get criteria_path(locale: :en)
+    get criteria_stats_path(locale: :en)
     assert_response :success
     assert_includes @response.body, 'included in the percentage calculations'
 
-    get criteria_path(locale: :fr)
+    get criteria_stats_path(locale: :fr)
     assert_response :success
     assert_includes @response.body, 'Vous pouvez voir des statistiques'
 
-    get criteria_path(locale: :'zh-CN')
+    get criteria_stats_path(locale: :'zh-CN')
     assert_response :success
     assert_includes @response.body, '条款'
   end
 
   test 'should redirect criteria with trailing slash' do
-    get '/en/criteria/'
-    assert_redirected_to '/en/criteria'
+    get '/en/criteria_stats/'
+    assert_redirected_to '/en/criteria_stats'
     follow_redirect!
     assert_response :success
     # Notice that the trailing slash is now gone
-    assert_equal '/en/criteria', @request.fullpath
+    assert_equal '/en/criteria_stats', @request.fullpath
     assert_includes @response.body, 'included in the percentage calculations'
+  end
+
+  test 'should get criteria discussion' do
+    get '/en/criteria_discussion'
+    assert_response :success
+    assert_includes @response.body, 'no set of practices'
   end
 
   test 'Ban WordPress admin request' do

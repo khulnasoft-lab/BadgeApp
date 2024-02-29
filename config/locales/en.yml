@@ -8,18 +8,20 @@ en:
     few: "%{count} Projects"
     many: "%{count} Projects"
     other: "%{count} Projects"
-  feed_title: CII Best Practices BadgeApp Updated Projects
+  feed_title: OpenSSF Best Practices BadgeApp Updated Projects
   project_name_unknown: "(Name unknown)"
   locale_name:
-    en: English (en)
-    es: Spanish / Español (es)
-    de: German / Deutsch (de)
-    fr: French / Français (fr)
-    ja: Japanese / 日本語 (ja)
-    ru: Russian / Русский (ru)
-    zh-CN: Chinese (Simplified) / 简体中文 (zh-CN)
+    en: English
+    es: Spanish
+    de: German
+    fr: French
+    ja: Japanese
+    pt-BR: Brazilian Portuguese
+    ru: Russian
+    sw: Swahili
+    zh-CN: Chinese (Simplified)
   layouts:
-    cii_best_practices: CII Best Practices
+    cii_best_practices: OpenSSF Best Practices
     toggle_navigation: Toggle collapsible navigation
     projects: Projects
     users: Users
@@ -35,11 +37,10 @@ en:
       Login
     footer_text_html: >-
       <small> <strong>Need help? Have a question? See a problem?
-      Please <em><a href="mailto:&#99;ii&#45;badges&#45;questions&#64;lists&#46;coreinfrastructure&#46;or&#103;">send
-      an email</a> </em>or <em><a href="https://github.com/coreinfrastructure/best-practices-badge/issues"
-      target="_blank" rel="noopener">file an issue</a></em>.</strong> © 2015-2018
-      <a href="https://www.coreinfrastructure.org" target="_blank" rel="noopener">Core
-      Infrastructure Initiative</a>, a <a href="https://www.linuxfoundation.org/"
+      Please <em><a href="https://github.com/coreinfrastructure/best-practices-badge/issues"
+      target="_blank" rel="noopener">file an issue</a></em>.</strong> © 2015-2021
+      <a href="https://openssf.org" target="_blank" rel="noopener">Open Source
+      Security Foundation</a>, a <a href="https://www.linuxfoundation.org/"
       target="_blank" rel="noopener">Linux Foundation</a> Collaborative Project.
       All Rights Reserved. Please see our <a href="https://www.linuxfoundation.org/privacy"
       target="_blank" rel="noopener">privacy policy</a> and <a href="https://www.linuxfoundation.org/terms"
@@ -67,12 +68,10 @@ en:
     forgot_password: Forgot password
     reset_password: Reset password
     password_confirmation: Confirmation
-    email_not_found: Email address not found
     password_empty: Password can't be empty
     password_reset: Password has been reset
-    instructions_sent: Email sent with password reset instructions
-    cant_reset_nonlocal: Sorry, can only reset the password for a custom
-      (local) user
+    instructions_sent: >
+      Email sent with password reset instructions (if a local account exists)
     reset_expired: Password reset has expired.
     update_password: Update password
   sessions:
@@ -80,6 +79,9 @@ en:
     login_with_github_html: <span class="fa fa-github"></span> Log in with GitHub
     login_automatic_signup: >-
       Log in with GitHub will automatically perform a sign up if necessary.
+      Sign up will only occur if you authorize the sign up to GitHub;
+      you'll need to re-authorize this if you've only signed in to
+      bestpractices.coreinfastructure.org (our domain name has changed).
       If you sign up, your name (as provided to GitHub) and GitHub nickname
       will be shown publicly, and you can change your name at any time.
       Your email address will be kept private and
@@ -113,33 +115,49 @@ en:
       heading: "Error 404: Page Not Found"
       no_such_page: Sorry, no such page exists.
       please_home: Please go to the home page.
+    error_409:
+      heading: "Error 409: Conflict"
+      conflict: >-
+        Sorry, multiple entries match the request, leading to a conflict.
     home:
-      badge_program: CII Best Practices Badge Program
+      badge_program: OpenSSF Best Practices Badge Program
       get_your_badge: Get Your Badge Now!
-      check_us_out: Check out the CII Best Practices Badge website!
+      check_us_out: Check out the OpenSSF Best Practices Badge website!
       p1_html: >-
-        The <a href="https://www.linuxfoundation.org/">Linux Foundation
-        (LF)</a> <a href="https://www.coreinfrastructure.org/">Core
-        Infrastructure Initiative (CII)</a> Best Practices badge
+        The <a href="https://openssf.org">Open Source Security Foundation
+        (OpenSSF)</a> Best Practices badge
         is a way for Free/Libre and Open Source Software (FLOSS)
         projects to show that they follow best practices. Projects
         can voluntarily self-certify, at no cost, by using this
         web application to explain how they follow each best practice.
-        The CII Best Practices Badge is inspired by the many badges
+        The OpenSSF Best Practices Badge is inspired by the many badges
         available to projects on GitHub. Consumers of the badge
         can quickly assess which FLOSS projects are
         following best practices and as a result are more likely
         to produce higher-quality secure software.
       p2_html: >-
-        More information on the CII Best Practices Badging program,
-        including background and <a href='https://github.com/coreinfrastructure/best-practices-badge/blob/master/doc/criteria.md'>criteria</a>,
-        is <a href='https://github.com/coreinfrastructure/best-practices-badge'>available
+        You can easily see the <a href="/en/criteria/0">criteria for the
+        passing badge</a>.
+        More information on the OpenSSF Best Practices Badging program is
+        <a href='https://github.com/coreinfrastructure/best-practices-badge'>available
         on GitHub</a>. <a href="/en/project_stats">Project statistics</a>
-        and <a href="/en/criteria">criteria statistics</a> are available.
+        and <a href="/en/criteria_stats">criteria statistics</a> are available.
         The <a href="/en/projects">projects page</a> shows participating
         projects and supports queries (e.g., you can see <a href="/en/projects?gteq=100">projects
         that have a passing badge</a>). You can also see <a href='/en/projects/1/0'>an
-        example (where we try to get our own badge)</a>.
+        example (where we try to earn our own badge)</a>.
+        This project was formerly known as the
+        Core Infrastructure Initiative (CII) Best Practices badge.
+        and was originally developed under the CII.
+        It is now part of the
+        <a href="https://openssf.org/">OpenSSF</a>
+        <a href="https://github.com/ossf/wg-best-practices-os-developers"
+        >Best Practices Working Group (WG)</a>.
+        The OpenSSF is a foundation of the
+        <a href="https://www.linuxfoundation.org/">Linux Foundation
+        (LF)</a>.
+        The project was formally renamed from "CII Best Practices badge"
+        on 2021-12-24.
       p3_html: >-
         <em>Privacy and legal issues</em>: Please see our <a href="https://www.linuxfoundation.org/privacy">privacy
         policy</a>,
@@ -155,7 +173,7 @@ en:
         Commons Attribution License version 3.0 (CC-BY-3.0)</a>;
         newer non-code content is released under CC-BY version
         3.0 or later (CC-BY-3.0+). If referencing collectively
-        or not otherwise noted, please credit the CII Best Practices
+        or not otherwise noted, please credit the OpenSSF Best Practices
         badge contributors.
       share_header_html: >-
         <p>
@@ -218,10 +236,9 @@ en:
         <p>
         This text is intended to comply with UK and EU "Cookie laws".
         </p>
-    criteria:
-      criteria: Criteria
-      detailed_criteria_on_github: The detailed criteria are on
-        GitHub.
+    criteria_stats:
+      criteria: Criteria Statistics
+      see_actual_criteria: You may also see the actual criteria.
       level: Level
       must: MUST
       should: SHOULD
@@ -267,6 +284,8 @@ en:
         <br><br>
         If you didn't receive your activation link,
         please sign up again and we will send you a new one.
+        If you've already created an account here via GitHub, please log in
+        using GitHub instead.
       name: Name
       email: Email
       preferred_locale: Preferred locale
@@ -276,6 +295,7 @@ en:
     edit:
       update_user_info: Update User Information
       save_changes: Save changes
+      inadequate_privileges: Sorry, you are not allowed to do that.
     update:
       profile_updated: Profile updated
     show:
@@ -289,7 +309,7 @@ en:
       local_account: Custom (local) account
       is_admin: This user is a badge application administrator.
       as_admin: 'as an admin, you may also:'
-      send_email_to: 'Send email to:'
+      send_email_to: 'Send email'
       delete_link_name: Delete user account
       confirm_delete: Are you sure you want to delete this user?
     destroy:
@@ -300,8 +320,8 @@ en:
     redirect_existing: That user already exists. Did you mean
       to sign in?
     new_activation_link_created: >-
-      New activation link created. Please check your email to
-      activate your account.
+      New activation link created. Please check your email in a few minutes to
+      activate your account. (There is some intentional delay to counter spam.)
     please_log_in: Please log in.
   project_stats:
     index:
@@ -525,23 +545,23 @@ en:
         target="_blank" rel="noopener">Creative Commons Attribution version 3.0
         or later license (CC-BY-3.0+)</a>. All are free to share
         and adapt the data, but must give appropriate credit.
-        Please credit %{user} and the CII Best Practices badge
+        Please credit %{user} and the OpenSSF Best Practices badge
         contributors.<br><br>
       cc_by_3only_html: >-
         This data is available under the <a href="https://creativecommons.org/licenses/by/3.0/us"
         target="_blank" rel="noopener">Creative Commons Attribution version 3.0
-        license (CC-BY-3.0)</a> per the <a href="https://www.coreinfrastructure.org/"
-        target="_blank" rel="noopener">Core Infrastructure Initiative</a> <a
+        license (CC-BY-3.0)</a> per the <a
         href="https://www.linuxfoundation.org/terms" target="_blank" rel="noopener">terms
         of use</a>. All are free to share and adapt the data,
         but must give appropriate credit. Please credit %{user}
-        and the CII Best Practices badge contributors.<br><br>
+        and the OpenSSF Best Practices badge contributors.<br><br>
     form_early:
       badge_intro:
         description: >-
           Projects that follow the best practices below can
           voluntarily self-certify and show that they've
-          achieved a Core Infrastructure Initiative (CII) badge.
+          achieved an Open Source Security Foundation (OpenSSF)
+          best practices badge.
         details_html: >-
           There is no set of practices that can guarantee that
           software will never have defects or vulnerabilities;
@@ -599,8 +619,7 @@ en:
           <strong>Please 'submit' often</strong> to save your
           work (you can always go back and edit more later). <br><br>
           If you need help, have a question, or see a problem,
-          please <em><a href="mailto:&#99;ii&#45;badges&#45;questions&#45;own&#101;r&#64;lists&#46;coreinfrastructure&#46;or&#103;">send
-          an email</a> </em>or <em><a href="https://github.com/coreinfrastructure/best-practices-badge/issues"
+          please <em><a href="https://github.com/coreinfrastructure/best-practices-badge/issues"
           target="_blank" rel="noopener">file an issue</a></em>.
     form_basics:
       project_name:
@@ -698,11 +717,11 @@ en:
         hide_details: Hide details
         show_all_details: Show all details
         hide_all_details: Hide all details
-        show_met_title: Show met & N/A criteria
-        show_met_html: Show met &amp; N/A
-        hide_met_title: Hide met & N/A criteria (leaving unmet
+        show_met_title: Show complete and incomplete criteria
+        show_met_html: Show complete and incomplete criteria
+        hide_met_title: Show only incomplete criteria (showing only unmet
           and unknown)
-        hide_met_html: Hide met &amp; N/A
+        hide_met_html: Show only incomplete criteria
         passing_alt: Enough for a badge!
         barely_alt: Barely enough for a badge.
         failing_alt: Not enough for a badge.
@@ -737,6 +756,16 @@ en:
       some_not_crypto_html: >-
         Note that some software does not need to use cryptographic
         mechanisms.
+        If your project produces software that (1) includes,
+        activates, or enables encryption functionality, and
+        (2) might be released from the United States (US) to outside
+        the US or to a non-US-citizen, you may be legally required
+        to take a few extra steps.
+        Typically this just involves sending an email.
+        For more information, see the encryption section of <a
+        href="https://www.linuxfoundation.org/resources/publications/understanding-us-export-controls-with-os-projects/"
+        ><i>Understanding Open Source Technology &amp;
+        US Export Controls</i></a>.
       dont_use_crypto: >-
         Press here if the software produced by the project does
         not use cryptographic mechanisms
@@ -766,7 +795,7 @@ en:
     subject_no_longer_passing: Your best practices badge is no
       longer %{old_level}
     subject_new_project: >-
-      You added a project to the CII Best Practices Badging Program
+      You added a project to the OpenSSF Best Practices Badging Program
     subject_reminder: Your project does not yet have the "best
       practices" badge
     subject_project_deleted: Project %{project_id} named %{project_name}
@@ -936,7 +965,7 @@ en:
     gained_level_part1: |-
       Congratulations!
       According to the information that you've provided,
-      your project has earned the CII best practices '%{new_level}' badge.
+      your project has earned the OpenSSF best practices '%{new_level}' badge.
       For more information, see this URL:
     gained_level_part2: |-
       Please add your badge to your project and/or repository site;
@@ -947,8 +976,6 @@ en:
       If you have suggestions on how to improve the criteria or
       badge web application, please file an issue at:
       https://github.com/coreinfrastructure/best-practices-badge/issues
-      If you made changes to your project to get a badge, please let us know
-      via email at cii-badges-questions@lists.coreinfrastructure.org.
       One of our goals is to encourage projects to make some improvements.
       We put some of these reports on the public wiki; please let us know
       if you do NOT want the changes publicly posted at
@@ -961,12 +988,11 @@ en:
       and is now "%{new_level}".
       Please see the following URL for more information:
     ending: >-
-      --- David A. Wheeler, CII Best Practices Badge Technical
-      Lead
+      --- David A. Wheeler, OpenSSF Best Practices Badge Lead
   user_mailer:
     account_activation:
       before_html: |-
-        <h1>CII Best Practices Badging Program</h1>
+        <h1>OpenSSF Best Practices Badging Program</h1>
         <p>Hello,</p>
         <p>
         Welcome to the Badging Program!
@@ -974,17 +1000,17 @@ en:
         </p>
       before_text: |-
         Hello,
-        Welcome to the CII Best Practices Badging Program!
+        Welcome to the OpenSSF Best Practices Badging Program!
         Select the link below to activate your account:
       activate: Activate
       subject: Account activation
     github_welcome:
       before_html: |-
-        <h1>CII Best Practices Badging Program</h1>
+        <h1>OpenSSF Best Practices Badging Program</h1>
         <p>Hello,</p>
         <p>
         Thank you for connecting your GitHub account and welcome
-        to the CII Best Practices Badging Program!
+        to the OpenSSF Best Practices Badging Program!
         </p>
         <p>
         If you did not initiate this action, please check your GitHub
@@ -993,7 +1019,7 @@ en:
       before_text: |-
         Hello,
         Thank you for connecting your GitHub account and welcome to the
-        CII Best Practices Badging Program!
+        OpenSSF Best Practices Badging Program!
         If you did not initiate this action, please check your GitHub security
         log on GitHub under Settings>Security.
       subject: Welcome to the Badging Program
@@ -1106,9 +1132,14 @@ en:
           The project MUST post the license(s) of its results
           in a standard location in their source repository.
         details: >-
-          E.g., as a top-level file named LICENSE or COPYING.
-          License filenames MAY be followed by an extension such
-          as ".txt" or ".md".
+          One convention is posting the license
+          as a top-level file named LICENSE or COPYING, which
+          MAY be followed by an extension such as ".txt" or ".md".
+          An alternative convention is to have a directory named LICENSES
+          containing license file(s); these files are typically named as their
+          SPDX license identifier followed by an appropriate file extension,
+          as described in the
+          <a href="https://reuse.software/spec/">REUSE Specification</a>.
           Note that this criterion is only a requirement
           on the source repository.
           You do NOT need to include the license file when generating
@@ -1124,7 +1155,7 @@ en:
           /usr/share/common-licenses, and exclude the license file from
           the created package
           (e.g., by deleting the file after calling dh_auto_install).
-          We do encourage including machine-readable
+          We encourage including machine-readable
           license information in generated formats where practical.
       documentation_basics:
         description: >-
@@ -1220,6 +1251,36 @@ en:
           and reviewers worldwide. A project can meet this criterion
           even if its core developers' primary language is not
           English.
+      maintained:
+        description: >-
+          The project MUST be maintained.
+        details: >-
+          As a minimum, the project should attempt to respond to
+          significant problem and vulnerability reports.
+          A project that is actively pursuing a badge is probably maintained.
+          All projects and people have limited resources, and typical projects
+          must reject some proposed changes, so limited resources and proposal
+          rejections do not by themselves indicate an unmaintained project.
+          <br><br>
+          When a project knows that it will no longer be maintained,
+          it should set this criterion to "Unmet" and use the
+          appropriate mechanism(s) to indicate to others that
+          it is not being maintained.
+          For example, use “DEPRECATED” as the first heading of its README,
+          add “DEPRECATED” near the beginning of its home page,
+          add “DEPRECATED” to the beginning of its code repository
+          project description,
+          add a <a href="https://unmaintained.tech/">no-maintenance-intended
+          badge</a> in its README and/or home page,
+          mark it as deprecated in any package repositories (e.g.,
+          <a href="https://docs.npmjs.com/deprecating-and-undeprecating-packages-or-package-versions">npm deprecate</a>),
+          and/or use the code repository's marking system to archive it (e.g.,
+          GitHub's <a href="https://docs.github.com/en/enterprise-server@2.21/github/creating-cloning-and-archiving-repositories/archiving-a-github-repository">"archive" setting</a>,
+          GitLab’s <a href="https://docs.gitlab.com/ee/user/project/settings/#archiving-a-project">"archived" marking</a>,
+          Gerrit's "readonly" status, or
+          SourceForge’s "abandoned" project status).
+          Additional discussion can be found
+          <a href="https://medium.com/maintainer-io/how-to-deprecate-a-repository-on-github-8f0ceb9155e">here</a>.
       repo_public:
         description: >-
           The project MUST have a version-controlled source repository
@@ -1267,18 +1328,33 @@ en:
       version_semver:
         description: >-
           It is SUGGESTED that the <a href="https://semver.org">Semantic
-          Versioning (SemVer) format</a> be used for releases.
+          Versioning (SemVer)</a> or
+          <a href="https://calver.org/" >Calendar Versioning (CalVer)</a>
+          version numbering format be used for releases.
+          It is SUGGESTED that those who use CalVer
+          include a micro level value.
         details: >-
-          Other version numbering schemes, such as commit IDs
-          (such as git commit id or mercurial changeset id) or
-          date-based schemes like YYYYMMDD, MAY be used as version
-          numbers, since they are unique. Some alternatives can
-          cause problems, because users may not be able to easily
-          determine if they are up-to-date. SemVer may be less
-          helpful for identifying software releases if all recipients
-          only run the latest version (e.g., it is the code for
-          a single website or internet service that is constantly
-          updated via continuous delivery).
+          Projects should generally prefer whatever format is expected
+          by their users, e.g., because it is the normal format used by
+          their ecosystem. Many ecosystems prefer SemVer, and SemVer is
+          generally preferred for application programmer interfaces (APIs)
+          and software development kits (SDKs). CalVer tends to be used
+          by projects that are large, have an unusually large number of
+          independently-developed dependencies, have a constantly-changing
+          scope, or are time-sensitive. It is SUGGESTED that those who
+          use CalVer include a micro level value, because including
+          a micro level supports simultaneously-maintained branches
+          whenever that becomes necessary.
+          Other version numbering formats
+          may be used as version numbers, including git commit IDs or
+          mercurial changeset IDs, as long as they uniquely identify
+          versions. However, some alternatives (such as git commit IDs)
+          can cause problems as release identifiers, because users may
+          not be able to easily determine if they are up-to-date. The
+          version ID format may be unimportant for identifying software
+          releases if all recipients only run the latest version (e.g.,
+          it is the code for a single website or internet service that
+          is constantly updated via continuous delivery).
       version_tags:
         description: >-
           It is SUGGESTED that projects identify each release
@@ -1311,19 +1387,33 @@ en:
       release_notes_vulns:
         description: >-
           The release notes MUST identify every publicly known
-          vulnerability with a CVE assignment or similar
-          that is fixed in each new release,
-          unless users typically cannot practically update
-          the software themselves.
-          If there are no release notes or there have been
-          no publicly known vulnerabilities, choose "not applicable" (N/A).
+          run-time vulnerability fixed in this release that already had a CVE
+          assignment or similar when the release was created.
+          This criterion may be marked as not applicable (N/A)
+          if users typically cannot practically update the software
+          themselves (e.g., as is often true for kernel updates).
+          This criterion applies only to the project results,
+          not to its dependencies. If there are no release notes or there
+          have been no publicly known vulnerabilities, choose N/A.
         details: >-
-          If users typically cannot practically update the software
-          themselves on their computers,
-          but must instead depend on a middleman to perform
-          the upgrade (as is often the case for a kernel and low-level
-          software that is intertwined with a kernel), the project may
-          choose "not applicable" (N/A).
+          This criterion helps users determine if a given update will
+          fix a vulnerability that is publicly known, to help users make
+          an informed decision about updating. If users typically
+          cannot practically update the software themselves on their
+          computers, but must instead depend on one or more intermediaries
+          to perform the update (as is often the case for a kernel and
+          low-level software that is intertwined with a kernel), the project
+          may choose "not applicable" (N/A) instead, since this additional
+          information will not be helpful to those users.
+          Similarly, a project may choose N/A if all recipients only
+          run the latest version (e.g., it is the code for a single
+          website or internet service that is constantly updated via
+          continuous delivery).
+          This criterion only applies to the project results, not its
+          dependencies. Listing the vulnerabilities of all transitive
+          dependencies of a project becomes unwieldy as dependencies
+          increase and vary, and is unnecessary since tools that examine
+          and track dependencies can do this in a more scalable way.
       report_process:
         description: >-
           The project MUST provide a process for users to submit
@@ -1363,8 +1453,16 @@ en:
           The project MUST publish the process for reporting vulnerabilities
           on the project site.
         details: >-
-          E.g., a clearly designated mailing address on https://PROJECTSITE/security,
-          often in the form security@example.org. This MAY be
+          Projects hosted on GitHub SHOULD consider
+          <a href="https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability"
+          >enabling privately reporting a security vulnerability</a>.
+          Projects on GitLab SHOULD consider using its ability for
+          <a href="https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability"
+          >privately reporting a vulnerability</a>.
+          Projects MAY identify a mailing address
+          on https://PROJECTSITE/security,
+          often in the form security@example.org.
+          This vulnerability reporting process MAY be
           the same as its bug reporting process. Vulnerability
           reports MAY always be public, but many projects have
           a private vulnerability reporting mechanism.
@@ -1422,6 +1520,10 @@ en:
           The project MUST use at least one automated test suite
           that is publicly released as FLOSS (this test suite
           may be maintained as a separate FLOSS project).
+          The project MUST clearly show or document how to run the
+          test suite(s) (e.g., via a continuous integration (CI)
+          script or via documentation in files such as BUILD.md, README.md,
+          or CONTRIBUTING.md).
         details: >-
           The project MAY use multiple automated test suites (e.g.,
           one that runs quickly, vs. another that is more thorough
@@ -1545,11 +1647,11 @@ en:
           can help) <li>limited attack surface (the attack surface
           - the set of the different points where an attacker
           can try to enter or extract data - should be limited)
-          <li>input validation with whitelists (inputs should
+          <li>input validation with allowlists (inputs should
           typically be checked to determine if they are valid
           before they are accepted; this validation should use
-          whitelists (which only accept known-good values), not
-          blacklists (which attempt to list known-bad values)).
+          allowlists (which only accept known-good values), not
+          denylists (which attempt to list known-bad values)).
           </ul> A "primary developer" in a project is anyone who
           is familiar with the project's code base, is comfortable
           making changes to it, and is acknowledged as such by
@@ -1564,6 +1666,13 @@ en:
           accept commits on behalf of the project, or perform
           final releases of the project software. If there is
           only one developer, that individual is the primary developer.
+          Many books and courses are available to help you understand
+          how to develop more secure software and discuss design.
+          For example, the <a href="https://openssf.org/edx-courses/">Secure
+          Software Development Fundamentals</a> course is a free set
+          of three courses that explain how to develop more secure software
+          (it's free if you audit it; for an extra fee you can earn a
+          certificate to prove you learned the material).
       know_common_errors:
         description: >-
           At least one of the project's primary developers MUST
@@ -1577,6 +1686,14 @@ en:
           authorization. See the <a href="https://cwe.mitre.org/top25/">CWE/SANS
           top 25</a> or <a href="https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project">OWASP
           Top 10</a> for commonly used lists.
+          Many books and courses are available to help you understand
+          how to develop more secure software and discuss common
+          implementation errors that lead to vulnerabilities.
+          For example, the <a href="https://openssf.org/edx-courses/">Secure
+          Software Development Fundamentals</a> course is a free set
+          of three courses that explain how to develop more secure software
+          (it's free if you audit it; for an extra fee you can earn a
+          certificate to prove you learned the material).
       crypto_published:
         description: >-
           The software produced by the project MUST use, by default,
@@ -1672,13 +1789,17 @@ en:
           of passwords for authentication of external users, the
           passwords MUST be stored as iterated hashes with a per-user
           salt by using a key stretching (iterated) algorithm
-          (e.g., PBKDF2, Bcrypt or Scrypt).
+          (e.g., Argon2id, Bcrypt, Scrypt, or PBKDF2). See also
+          <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">OWASP Password Storage Cheat Sheet</a>).
         details: >-
           This criterion applies only when the software is enforcing
-          authentication of users using passwords, such as server-side
+          authentication of users using passwords for external users
+          (aka inbound authentication),
+          such as server-side
           web applications. It does not apply in cases where the
           software stores passwords for authenticating into other
-          systems (e.g., the software implements a client for
+          systems (aka outbound authentication, e.g.,
+          the software implements a client for
           some other system), since at least parts of that software
           must have often access to the unhashed password.
       crypto_random:
@@ -1818,11 +1939,10 @@ en:
           list of tools for static code analysis</a>, <a href="https://www.owasp.org/index.php/Static_Code_Analysis">OWASP
           information on static code analysis</a>, <a href="https://samate.nist.gov/index.php/Source_Code_Security_Analyzers.html">NIST
           list of source code security analyzers</a>, and <a href="https://www.dwheeler.com/essays/static-analysis-tools.html">Wheeler's
-          list of static analysis tools</a>. The <a href="https://continuousassurance.org/">SWAMP</a>
-          is a no-cost platform for assessing vulnerabilities
-          in software using a variety of tools. If there are no
+          list of static analysis tools</a>.
+          If there are no
           FLOSS static analysis tools available for the implementation
-          language(s) used, select 'N/A'.
+          language(s) used, you may select 'N/A'.
         na_placeholder: >-
           Why can't this be met (e.g., no FLOSS tools exist for
           that language)?
@@ -1912,9 +2032,30 @@ en:
           also work.
       dynamic_analysis_enable_assertions:
         description: >-
-          It is SUGGESTED that the software produced by the project
-          include many run-time assertions that are checked during
-          dynamic analysis.
+          It is SUGGESTED that the project use a configuration for at least
+          some dynamic analysis (such as testing or fuzzing) which enables
+          many assertions. In many cases these assertions should <i>not</i> be
+          enabled in production builds.
+        details: >-
+          This criterion does <i>not</i> suggest enabling assertions
+          during production; that is entirely up to the project and its
+          users to decide. This criterion's focus is instead to improve
+          fault detection during dynamic analysis <i>before</i> deployment.
+          Enabling assertions in <i>production</i> use is <i>completely</i>
+          different from enabling assertions during dynamic analysis
+          (such as testing).
+          In some cases enabling assertions in production use is
+          extremely unwise (especially in high-integrity components).
+          There are many arguments against
+          enabling assertions in production, e.g., libraries should not
+          crash callers, their presence may cause rejection by app stores,
+          and/or activating an assertion in production may expose private
+          data such as private keys.
+          Beware that in many Linux distributions <tt>NDEBUG</tt>
+          is not defined, so C/C++ <t>assert()</tt> will by default be enabled
+          for production in those environments.
+          It may be important to use a different assertion mechanism
+          or defining <tt>NDEBUG</tt> for production in those environments.
       dynamic_analysis_fixed:
         description: >-
           All medium and higher severity exploitable vulnerabilities
@@ -2033,11 +2174,13 @@ en:
       access_continuity:
         description: >-
           The project MUST be able to continue with minimal interruption
-          if any one person is incapacitated or killed. In particular,
-          the project MUST be able to create and close issues,
+          if any one person dies, is incapacitated, or is
+          otherwise unable or unwilling to continue support of the project.
+          In particular, the project MUST be able to create and close issues,
           accept proposed changes, and release versions of software,
-          within a week of confirmation that an individual is
-          incapacitated or killed. This MAY be done by ensuring
+          within a week of confirmation of the loss of support
+          from any one individual.
+          This MAY be done by ensuring
           someone else has any necessary keys, passwords, and
           legal rights to continue the project. Individuals who
           run a FLOSS project MAY do this by providing keys in
@@ -2064,7 +2207,7 @@ en:
         details: >-
           The project might not achieve the roadmap, and that's
           fine; the purpose of the roadmap is to help potential
-          users and constributors understand the intended direction
+          users and contributors understand the intended direction
           of the project. It need not be detailed.
       documentation_architecture:
         description: >-
@@ -2205,17 +2348,19 @@ en:
           URLs) store passwords for authentication of external
           users, the passwords MUST be stored as iterated hashes
           with a per-user salt by using a key stretching (iterated)
-          algorithm (e.g., PBKDF2, Bcrypt or Scrypt). If the project
+          algorithm (e.g., Argon2id, Bcrypt, Scrypt, or PBKDF2). If the project
           sites do not store passwords for this purpose, select
           "not applicable" (N/A).
         details: >-
           Note that the use of <a href="https://help.github.com/articles/github-security/">GitHub</a>
           meets this criterion. This criterion only applies to
           passwords used for authentication of external users
-          into the project sites. If the project sites must log
-          in to other sites, they may need to store passwords
-          for that purpose differently (since using an algorithm
-          like Bcrypt would make those passwords useless). This
+          into the project sites (aka inbound authentication).
+          If the project sites must log
+          in to other sites (aka outbound authentication),
+          they may need to store authorization
+          tokens for that purpose differently (since storing a hash
+          would be useless). This
           applies criterion crypto_password_storage to the project
           sites, similar to sites_https.
       maintenance_or_update:
@@ -2583,13 +2728,13 @@ en:
       input_validation:
         description: >-
           The project results MUST check all inputs from potentially
-          untrusted sources to ensure they are valid (a *whitelist*),
+          untrusted sources to ensure they are valid (an *allowlist*),
           and reject invalid inputs, if there are any restrictions
           on the data at all.
         details: >-
           Note that comparing input against a list of "bad formats"
-          (aka a *blacklist*) is normally not enough, because
-          attackers can often  work around a blacklist. In particular,
+          (aka a *denylist*) is normally not enough, because
+          attackers can often work around a denylist. In particular,
           numbers are converted into internal formats and then
           checked if they are between their minimum and maximum
           (inclusive), and text strings are checked to ensure
@@ -2653,20 +2798,21 @@ en:
       copyright_per_file:
         description: >-
           The project MUST include a copyright statement in each
-          source file, identifying at least one relevant year
-          and copyright holder.
+          source file, identifying the copyright holder
+          (e.g., the [project name] contributors).
         details: >-
           This MAY be done by including the following inside a
           comment near the beginning of each file: "<tt>Copyright
-          [year this project or content started] - [most recent
-          year modified], [project founder] and the [project name]
-          contributors.</tt>"
+          the [project name] contributors.</tt>". See <a
+          href="https://www.linuxfoundation.org/blog/2020/01/copyright-notices-in-open-source-software-projects/"
+          >"Copyright Notices in Open Source Software Projects"
+          by Steve Winslow</a>.
       license_per_file:
         description: >-
           The project MUST include a license statement in each
           source file. This MAY be done by including the following
           inside a comment near the beginning of each file: <a
-          href="https://spdx.org/using-spdx#identifiers"><tt>SPDX-License-Identifier:
+          href="https://spdx.dev/ids/#how"><tt>SPDX-License-Identifier:
           [SPDX license expression for project]</tt></a>.
         details: >-
           This MAY also be done by including a statement in natural
@@ -2798,14 +2944,15 @@ en:
           web), and download site (if separate) MUST include key
           hardening headers with nonpermissive values.
         details: >-
-          Note that GitHub is known to meet this. Sites such as
-          https://securityheaders.io/ can quickly check this.
-          The key hardening headers are: Content Security Policy
-          (CSP), HTTP Strict Transport Security (HSTS), X-Content-Type-Options
-          (as "nosniff"), X-Frame-Options, and X-XSS-Protection.
-          Static web sites with no ability to log in via the web pages
-          may omit the CSP and X-XSS-Protection HTTP hardening headers,
-          because in that situation those headers are less effective.
+          Note that GitHub and GitLab are known to meet this. Sites such as
+          https://securityheaders.com/ can quickly check this.
+          The key hardening headers are: Content Security Policy (CSP),
+          HTTP Strict Transport Security (HSTS), X-Content-Type-Options
+          (as "nosniff"), and X-Frame-Options.
+          Fully static web sites with no ability to log in via the web pages
+          could omit some hardening headers with less risk,
+          but there's no reliable way to detect such sites,
+          so we require these headers even if they are fully static sites.
       security_review:
         description: >-
           The project MUST have performed a security review within
@@ -2832,6 +2979,428 @@ en:
           The project SHOULD include many run-time assertions
           in the software it produces and check those assertions
           during dynamic analysis.
+  criteria_overall:
+    beginning_header_all: FLOSS Best Practices Criteria (All Levels)
+    beginning_header_0: FLOSS Best Practices Criteria (Passing Badge)
+    beginning_header_1: FLOSS Best Practices Criteria (Silver Badge)
+    beginning_header_2: FLOSS Best Practices Criteria (Gold Badge)
+    beginning_all_html:  >-
+      <p>
+      This is the set of best practices for Free/Libre and Open Source Software
+      (FLOSS) projects to achieve the
+      Open Source Security Foundation (OpenSSF) Best Practices badges at the
+      passing, silver, and gold badge levels.
+      You can show this list with
+      <a href="/en/criteria">just the
+      criteria</a> or with
+      <a href="/en/criteria?details=true&rationale=true">additional
+      information</a>.
+      You may also view just the
+      <a href="/en/criteria/0">passing</a>,
+      <a href="/en/criteria/1">silver</a>, and
+      <a href="/en/criteria/2">gold</a> criteria, as well as
+      <a href="/en/criteria_stats">criteria statistics</a>.
+    beginning_0_html:  >-
+      <p>
+      This is the set of best practices for Free/Libre and Open Source Software
+      (FLOSS) projects to achieve the
+      Open Source Security Foundation (OpenSSF) Best Practices passing badge.
+      You can show this list with
+      <a href="/en/criteria/0">just the
+      criteria</a> or with
+      <a href="/en/criteria/0?details=true&rationale=true">additional
+      information</a>.
+      The <a href="/en/criteria">full set of criteria for all badge levels</a>
+      are also available.
+    beginning_1_html:  >-
+      <p>
+      This is the set of best practices for Free/Libre and Open Source Software
+      (FLOSS) projects to achieve the
+      Open Source Security Foundation (OpenSSF) Best Practices silver badge.
+      You can show this list with
+      <a href="/en/criteria/1">just the
+      criteria</a> or with
+      <a href="/en/criteria/1?details=true&rationale=true">additional
+      information</a>.
+      The <a href="/en/criteria">full set of criteria</a> are also available.
+    beginning_2_html:  >-
+      <p>
+      This is the set of best practices for Free/Libre and Open Source Software
+      (FLOSS) projects to achieve the
+      Open Source Security Foundation (OpenSSF) Best Practices gold badge.
+      You can show this list with
+      <a href="/en/criteria/2">just the
+      criteria</a> or with
+      <a href="/en/criteria/2?details=true&rationale=true">additional
+      information</a>.
+      The <a href="/en/criteria">full set of criteria</a> are also available.
+    see_discussion_html:
+      <p>
+      See <a href="/en/criteria_discussion">criteria discussion</a> for
+      more information about these criteria.
+    future: "{Future}"
+    na_allowed: "{N/A allowed}"
+    na_justification_required: "{N/A justification}"
+    met_justification_required: "{Met justification}"
+    met_url_required: "{Met URL}"
+  criteria_discussion:
+    # The old "content_html" has been split up to make it easier to translate.
+    # The keys are content-related so subsections will be easier to move.
+    intro_p01_html:  >-
+      <h1 id='criteria_discussion'>Criteria Discussion</h1>
+    intro_p02_html:  >-
+      <p>
+      There is no set of practices that can <i>guarantee</i> that software
+      will never have defects or vulnerabilities.
+      Even formal methods can fail if the
+      specifications or assumptions are wrong.
+      Nor is there any set of practices that can guarantee that a project will
+      sustain a healthy and well-functioning development community.</p>
+    intro_p03_html:  >-
+      <p>
+      However, following best practices can help improve the results
+      of projects.
+      For example, some practices enable multi-person review before release,
+      which can both help find otherwise hard-to-find technical vulnerabilities
+      and help build trust and a desire for repeated interaction among
+      developers from different organizations.</p>
+    intro_p04_html:  >-
+      <p>
+      This page discusses the set of best practices
+      for Free/Libre and Open Source Software (FLOSS) projects
+      developed for the
+      Open Source Security Foundation (OpenSSF) Best Practices badge.
+      Projects that follow these best practices
+      will be able to voluntarily self-certify and show that they've
+      achieved the relevant badge.
+      Projects can do this, at no cost,
+      by using a web application (BadgeApp)
+      to explain how they meet these practices and their detailed criteria.</p>
+    intro_p05_html:  >-
+      <p>
+      These best practices have been created to:</p>
+    intro_p06_html:  >-
+      <ol>
+      <li>encourage projects to follow best practices,</li>
+      <li>help new projects discover what those practices are, and</li>
+      <li>help users know which projects are following best practices
+      (so users can prefer such projects).</li>
+      </ol>
+    intro_p07_html:  >-
+      <p>
+      The idiom "best practices" means
+      "a procedure or set of procedures that is preferred or considered
+      standard within an organization, industry, etc."
+      (source:
+      <a href="http://www.dictionary.com/browse/best-practice"
+      rel="nofollow">Dictionary.com</a>).
+      These criteria are what we believe are
+      widely "preferred or considered standard"
+      in the wider FLOSS community.</p>
+    intro_p08_html:  >-
+      <p>
+      For more information on how these criteria were developed,
+      see the <a
+      href="https://github.com/coreinfrastructure/best-practices-badge"
+      >OpenSSF Best Practices badge GitHub site</a>.</p>
+      <p>
+      You may also <a href="/en/criteria">see the full criteria</a>.</p>
+    structure_p01_html:  >-
+      <p></p>
+      <h2 id='criteria_structure'>Criteria Structure</h2>
+    structure_p02_html:  >-
+      <p>
+      The best practices criteria are divided into three levels:<ul>
+      <li><b>Passing</b> focuses on best practices
+      that well-run FLOSS projects typically already follow.
+      Getting the passing badge is an achievement; at any one time
+      only about 10% of projects pursuing a badge achieve the passing level.
+      <li><b>Silver</b> is a more stringent set of criteria than passing but is
+      expected to be achievable by small and single-organization projects.
+      <li><b>Gold</b> is even more stringent than silver and includes
+      criteria that are not achievable by small or single-organization projects.
+      </ul>
+    structure_p03_html:  >-
+      <p>
+      Every criterion has a short name, shown as superscripted
+      text inside square brackets after the criteria text.
+    other_p01_html:  >-
+      <p></p>
+      <h2 id='criteria_other_projects'>Relationship to Other Projects</h2>
+    other_p02_html:  >-
+      <p>
+      The Linux Foundation also sponsors the
+      <a href="https://www.openchainproject.org/"
+      rel="nofollow">OpenChain Project</a>, which
+      identifies criteria for a "high quality Free
+      and Open Source Software (FOSS) compliance program."
+      OpenChain focuses on how organizations can best use FLOSS and contribute
+      back to FLOSS projects, while the OpenSSF Best Practices badge
+      focuses on the FLOSS projects themselves.
+      The OpenSSF Best Practices badge and OpenChain work together to help
+      improve FLOSS and how FLOSS is used.</p>
+    automation_p01_html:  >-
+      <p></p>
+      <h2 id='criteria_automation'>Criteria Automation</h2>
+    automation_p02_html:  >-
+      <p>
+      In some cases we automatically test and fill in information
+      if the project follows standard conventions and
+      is hosted on a site (e.g., GitHub) with decent API support.</p>
+    automation_p03_html:  >-
+      <p>
+      We intend to improve this automation in the future.
+      Improvements to the automation are welcome!</p>
+    automation_p04_html:  >-
+      <p>However, we have intentionally prioritized on "what is important",
+      even if can't be affordably automated.
+      We love automated measurements, but not everything important is
+      automatable or can be automated affordably.</p>
+    changes_p01_html:  >-
+      <p></p>
+      <h2 id='criteria_changes'>Changes over time</h2>
+    changes_p02_html:  >-
+      <p>
+      We expect that these practices and their detailed criteria will
+      be updated over time.
+      We plan to add new criteria but mark them as "future" criteria, so that
+      projects can add that information and maintain their badge.</p>
+    changes_p03_html:  >-
+      <p>
+      Feedback is <em>very</em> welcome via the
+      <a href="https://github.com/coreinfrastructure/best-practices-badge"
+      >GitHub site as issues or pull requests</a>.
+      There is also a
+      <a href="https://lists.coreinfrastructure.org/mailman/listinfo/cii-badges"
+      rel="nofollow">mailing list for general discussion</a>.</p>
+    keywords_p01_html:  >-
+      <p></p>
+      <h2 id='keywords'>Key words</h2>
+    keywords_p02_html:  >-
+      <p>
+      The key words "MUST", "MUST NOT",
+      "SHOULD", "SHOULD NOT", and "MAY"
+      in this document are to be interpreted as described in
+      <a href="https://tools.ietf.org/html/rfc2119" rel="nofollow">RFC 2119</a>.
+      The additional term SUGGESTED is added.
+      In summary, these key words have the following meanings:</p>
+    keywords_p03_html:  >-
+      <ul>
+      <li>The term MUST is an absolute requirement, and MUST NOT
+      is an absolute prohibition.</li>
+    keywords_p04_html:  >-
+      <li>The term SHOULD indicates a criterion that is normally required,
+      but there may exist valid reasons in particular circumstances
+      to ignore it.
+      However, the full implications must be understood and carefully weighed
+      before choosing a different course.</li>
+    keywords_p05_html:  >-
+      <li>The term SUGGESTED is used instead of SHOULD when the criterion must
+      be considered, but the valid reasons
+      to not do so are even more common than for SHOULD.</li>
+    keywords_p06_html:  >-
+      <li>The term MAY provides one way something can be done, e.g.,
+      to make it clear that the described implementation is acceptable.</li>
+      </ul>
+    keywords_p07_html:  >-
+      <p>
+      Often a criterion is stated as something that SHOULD be done, or is
+      SUGGESTED, because it may be difficult to implement or the costs
+      to do so may be high.</p>
+    achieving_p01_html:  >-
+      <p></p>
+      <h2 id='criteria_achieving_badge'>Achieving a badge</h2>
+    achieving_p02_html:  >-
+      <p>
+      To obtain a badge, all MUST and MUST NOT criteria must be met, all
+      SHOULD criteria must be either met OR unmet with justification, and
+      all SUGGESTED criteria have to be considered (it must be
+      rated as met or unmet, but justification is not required
+      unless noted otherwise).
+      An answer of N/A ("not applicable"), where allowed, is considered
+      the same as being met.
+      In some cases, especially in the higher levels,
+      justification and/or a URL may be required.</p>
+    achieving_p03_html:  >-
+      <p>
+      Some criteria have special markings that influence this:<ul>
+      <li><b>{N/A allowed}</b> - "N/A" ("Not applicable") is allowed.
+      <li><b>{N/A justification}</b> - "N/A" ("Not applicable") is allowed
+      and requires justification.
+      <li><b>{Met justification}</b> - "Met" requires justification.
+      <li><b>{Met URL}</b> - "Met" requires justification with a URL.
+      <li><b>{Future}</b> - the answer to this criterion currently
+      has no effect, but it may be required in the future.
+      </ul>
+    achieving_p04_html:  >-
+      <p>
+      A project must achieve the previous level to achieve the next level.
+      In some cases SHOULD criteria become MUST in higher level badges,
+      and some SUGGESTED criteria at lower levels become SHOULD or MUST
+      in higher level badges. The higher levels also require more
+      justification, because we want others to understand <i>how</i>
+      the criteria are being met.</p>
+    achieving_p05_html:  >-
+      <p>
+      The (many) cryptographic criteria do not always apply, because some
+      software has no need to directly use cryptographic capabilities.
+      In those cases, answer N/A.</p>
+    achieving_p06_html:  >-
+      <p>
+      There is one implied passing criterion - every project MUST have
+      a public website with a stable URL. This is required to create
+      a badge entry in the first place.</p>
+    terminology_p01_html:  >-
+      <p></p>
+      <h2 id='criteria_terminology'>Terminology</h2>
+    terminology_p02_html:  >-
+      <p>
+      If you are not familiar with
+      software development or running a FLOSS project, materials such as
+      <a href="http://producingoss.com/"
+      rel="nofollow"><em>Producing Open Source Software</em>
+      by Karl Fogel</a> may be helpful to you.</p>
+    terminology_p03_html:  >-
+      <p>Here are a few key terms:</p><ul>
+    terminology_p04_html:  >-
+      <li>A <em>project</em> is an active entity that has
+      project member(s) and produces project result(s).
+      Its member(s) use project sites to coordinate and disseminate result(s).
+      A project does not need to be a formal legal entity.</li>
+    terminology_p05_html:  >-
+      <li>Project <em>members</em> are the
+      group of one or more people or companies who work together
+      to attempt to produce project results.
+      Some FLOSS projects may have different kinds of members, with different
+      roles, but that's outside our scope.</li>
+    terminology_p06_html:  >-
+      <li>Project <em>results</em> are what the project members work together
+      to produce as their end goal. Normally this is software,
+      but project results may include other things as well.
+      Criteria that refer to "software produced by the project"
+      are referring to project results.</li>
+    terminology_p07_html:  >-
+      <li>Project <em>sites</em>
+      are the sites dedicated to supporting the development
+      and dissemination of project results, and include
+      the project website, repository, and download sites where applicable
+      (see <a href="#sites_https">sites_https</a>).</li>
+    terminology_p08_html:  >-
+      <li>The project <em>website</em>, aka project homepage, is the main page
+      on the world wide web (WWW) that a new user would typically visit to see
+      information about the project; it may be the same as the project's
+      repository site (this is often true on GitHub).</li>
+    terminology_p09_html:  >-
+      <li>The project <em>repository</em> manages and stores the project results
+      and revision history of the project results.
+      This is also referred to as the project <em>source repository</em>,
+      because we only require managing and storing of the editable versions,
+      not of automatically generated results
+      (in many cases generated results are not stored in a repository).</li>
+    terminology_p10_html:  >-
+      <li>A <em>project security mechanism</em> is a security mechanism provided
+      by the delivered project's software.
+      </ul>
+    noncriteria_p01_html:  >-
+      <p></p>
+      <h2 id='criteria_noncriteria'>Non-criteria</h2>
+    noncriteria_p02_html:  >-
+      <p>
+      The criteria:<ul>
+    noncriteria_p03_html:  >-
+      <li>do <em>not</em> require any specific technology, product, or service.
+      For example, they do <em>not</em> require git, GitHub, or GitLab.
+      The criteria <em>do</em> provide guidance and help for common cases,
+      since that information can help people understand and meet the criteria.
+      There is some special automation for projects using git or GitHub,
+      to help users in those common cases, but they are not <em>required</em>.
+      Thus, as new tools and capabilities become available,
+      projects can quickly switch to them.
+      As exceptions, the criteria do require a project web page and TLS.
+    noncriteria_p04_html:  >-
+      <li>do <em>not</em> require or forbid any
+      particular programming language.
+      They do require that additional measures be taken for certain
+      <em>kinds</em> of programming languages, but that is different.
+    noncriteria_p05_html:  >-
+      <li><em>never</em> require the use of proprietary software, proprietary
+      service, or a proprietary technology, since many <a
+      href="https://www.gnu.org/philosophy/free-sw.en.html"
+      rel="nofollow">free software</a> developers would reject such criteria.
+      Projects are <em>allowed</em> to use them and depend on them.
+    noncriteria_p06_html:  >-
+      <li>do <em>not</em> require active development or
+      user discussion within a project.  Some highly mature projects
+      rarely change and thus may have little activity.  The criteria
+      <em>do</em>, however, require that the project be responsive if
+      vulnerabilities are reported to the project.
+    noncriteria_p07_html:  >-
+      <li>do <em>not</em> require fees to get a badge.
+    noncriteria_p08_html:  >-
+      <li>do <em>not</em> require that all criteeria be implemented at once;
+      most projects implement them over time.
+      </ul>
+    noncriteria_p09_html:  >-
+      <p>
+      The passing level does not include criteria that would be
+      impractical for a single-person project, e.g., something that requires
+      a significant amount of money.
+      Many FLOSS projects are small, and we do not want to disenfranchise them.
+    identify_p01_html:  >-
+      <p></p>
+      <h2 id='criteria_id_project'>Identifying a project</h2>
+    identify_p02_html:  >-
+      <p>
+      Our application gives every project entry a unique id, but
+      that doesn't help people searching for the project.
+      For our purposes, the <em>real</em> name of a project is the
+      URL for its repository, and where that is not available, the
+      project "front page" URL.
+      We rate limit changes to the repo URL to prevent some nonsense.
+      Projects normally have a human-readable name,
+      but these names are not unique enough.
+      <p></p>
+    criteria_why_p01_html:  >-
+      <h2 id='criteria_why'>Why have criteria?</h2>
+    criteria_why_p02_html:  >-
+      <p>
+      The paper <a
+      href="http://www.researchinlearningtechnology.net/index.php/rlt/article/view/23563"
+      rel="nofollow">Open badges for education: what are the implications
+      at the intersection of open systems and badging?</a>
+      identifies three general reasons for badging systems (all are
+      valid for this):</p><ol>
+    criteria_why_p03_html:  >-
+      <li>Badges as a motivator of behavior.  We hope that by identifying
+      best practices, we'll encourage projects to implement those
+      best practices if they do not do them already.</li>
+    criteria_why_p04_html:  >-
+      <li>Badges as a pedagogical tool.  Some projects may not be aware
+      of some of the best practices applied by others,
+      or how they can be practically applied.
+      The badge will help them become aware of them
+      and ways to implement them.</li>
+    criteria_why_p05_html:  >-
+      <li>Badges as a signifier or credential.
+      Potential users want to use projects that are applying best
+      practices to consistently produce good results; badges make it easy
+      for projects to signify that they are following best practices,
+      and make it easy for users to see which projects are doing so.</li>
+      </ol>
+    self_certification_p01_html:  >-
+      <h3 id="criteria_self_certification">Why self-certification?</h3>
+    self_certification_p02_html:  >-
+      <p>
+      We have chosen to use self-certification, because this makes it
+      possible for a large number of projects (even small ones) to
+      participate.  There are millions of FLOSS projects, and
+      paying third parties to independently evaluate each one does not scale.
+      There's a risk that projects may make false claims,
+      but we think the risk is small, users can check
+      the claims for themselves, and false claims can be overridden.
+      We also use automation to override false claims where we can be
+      confident in the results.
+      </p>
   headings:
     Accessibility and internationalization: Accessibility and
       internationalization

@@ -11,13 +11,11 @@ require 'json'
 task(:default).clear.enhance %w[
   rbenv_rvm_setup
   bundle
-  bundle_doctor
   bundle_audit
   generate_criteria_doc
   rubocop
   markdownlint
   rails_best_practices
-  railroader
   license_okay
   license_finder_report.html
   whitespace_check
@@ -30,6 +28,8 @@ task(:default).clear.enhance %w[
 ]
 # Temporarily removed fasterer
 # Waiting for Ruby 2.4 support: https://github.com/seattlerb/ruby_parser/issues/239
+# Temporarily removed railroader because of local install problems;
+# it's still run by the CI for every pull request
 
 # Run Continuous Integration (CI) check processes.
 # This is a shorter list; many checks are run by a separate "pronto" task.
@@ -51,21 +51,20 @@ task(:ci).clear.enhance %w[
 # Simple smoke test to avoid development environment misconfiguration
 desc 'Ensure that rbenv or rvm are set up in PATH'
 task :rbenv_rvm_setup do
-  path = ENV['PATH']
-  if !path.include?('.rbenv') && !path.include?('.rvm')
+  path = ENV.fetch('PATH', nil)
+  if !path.include?('.rbenv') && !path.include?('.rvm') && !path.include?('.asdf')
     raise RuntimeError 'Must have rbenv or rvm in PATH'
   end
 end
 
 desc 'Run Rubocop with options'
 task :rubocop do
-  sh 'bundle exec rubocop -D --format offenses --format progress'
+  sh 'bundle exec rubocop -D --format progress'
 end
 
 desc 'Run rails_best_practices with options'
 task :rails_best_practices do
-  sh 'bundle exec rails_best_practices ' \
-      '--features --spec --without-color --exclude railroader/'
+  sh 'bundle exec rails_best_practices --features --spec --without-color --exclude railroader/'
 end
 
 desc 'Setup railroader if needed'
@@ -80,12 +79,12 @@ end
 
 desc 'Run railroader'
 task railroader: %w[railroader/bin/railroader] do
+  # TEMPORARY: DISABLE
   # Disable pager, so that "rake" can keep running without halting.
   # sh 'bundle exec railroader --quiet --no-pager'
   # Workaround to run correct version of railroader & its dependencies.
   # We have to set BUNDLE_GEMFILE so bundle works inside the rake task
-  sh 'cd railroader; BUNDLE_GEMFILE=$(pwd)/Gemfile ' \
-     'bundle exec bin/railroader --quiet --no-pager $(dirname $(pwd))'
+  sh 'cd railroader; BUNDLE_GEMFILE=$(pwd)/Gemfile bundle exec bin/railroader --quiet --no-pager $(dirname $(pwd))'
 end
 
 desc 'Run bundle if needed'
@@ -93,6 +92,8 @@ task :bundle do
   sh 'bundle check || bundle install'
 end
 
+# NOTE: We've had some trouble with bundle doctor, so it might
+# not be run by default.
 desc 'Run bundle doctor - check for some Ruby gem configuration problems'
 task :bundle_doctor do
   sh 'bundle doctor'
@@ -143,12 +144,12 @@ task :bundle_audit do
 end
 # rubocop: enable Metrics/BlockLength
 
-# Note: If you don't want mdl to be run on a markdown file, rename it to
+# NOTE: If you don't want mdl to be run on a markdown file, rename it to
 # end in ".markdown" instead.  (E.g., for markdown fragments.)
 desc 'Run markdownlint (mdl) - check for markdown problems on **.md files'
 task :markdownlint do
   style_file = 'config/markdown_style.rb'
-  sh "bundle exec mdl -s #{style_file} *.md doc/*.md"
+  sh "bundle exec mdl -s #{style_file} *.md docs/*.md"
 end
 
 # Apply JSCS to look for issues in JavaScript files.
@@ -172,36 +173,39 @@ end
 
 desc 'Load current self.json'
 task :load_self_json do
-  require 'open-uri'
   require 'json'
+  require 'open-uri'
   url = 'https://master.bestpractices.coreinfrastructure.org/projects/1.json'
-  contents = open(url).read
+  contents = URI.parse(url).open.read
   pretty_contents = JSON.pretty_generate(JSON.parse(contents))
-  File.write('doc/self.json', pretty_contents)
+  File.write('docs/self.json', pretty_contents)
 end
 
 # We use a file here because we do NOT want to run this check if there's
 # no need.  We use the file 'license_okay' as a marker to record that we
 # HAVE run this program locally.
 desc 'Examine licenses of reused components; see license_finder docs.'
-file 'license_okay' => ['Gemfile.lock', 'doc/dependency_decisions.yml'] do
-  sh 'bundle exec license_finder && touch license_okay'
+file 'license_okay' => ['Gemfile.lock', 'docs/dependency_decisions.yml'] do
+  sh 'bundle exec license_finder --decisions_file docs/dependency_decisions.yml && touch license_okay'
 end
 
 desc 'Create license report'
-file 'license_finder_report.html' =>
-     ['Gemfile.lock', 'doc/dependency_decisions.yml'] do
-  sh 'bundle exec license_finder report --format html ' \
-     '> license_finder_report.html'
+file 'license_finder_report.html' => [
+  'Gemfile.lock',
+  'docs/dependency_decisions.yml'
+] do
+  sh 'bundle exec license_finder report --format html > license_finder_report.html'
 end
+
+# Don't do whitespace checks on these YAML files:
+YAML_WS_EXCEPTIONS ||= ':!test/vcr_cassettes/*.yml'
 
 desc 'Check for trailing whitespace in latest proposed (git) patch.'
 task :whitespace_check do
-  EXCEPTIONS = ':!test/vcr_cassettes/*.yml'
   if ENV['CI'] # CircleCI modifies database.yml
-    sh "git diff --check -- . ':!config/database.yml' #{EXCEPTIONS}"
+    sh "git diff --check -- . ':!config/database.yml' #{YAML_WS_EXCEPTIONS}"
   else
-    sh "git diff --check -- . #{EXCEPTIONS}"
+    sh "git diff --check -- . #{YAML_WS_EXCEPTIONS}"
   end
 end
 
@@ -210,7 +214,7 @@ task :yaml_syntax_check do
   # Don't check "project.yml" - it's not a straight YAML file, but instead
   # it's processed by ERB (even though the filename doesn't admit it).
   sh "find . -name '*.yml' ! -name 'projects.yml' ! -path './railroader/*' " \
-     "! -path './vendor/*' -exec bundle exec yaml-lint {} + \;"
+     "! -path './vendor/*' -exec bundle exec yaml-lint {} + ;"
 end
 
 # The following are invoked as needed.
@@ -220,38 +224,36 @@ task :bundle_viz do
   sh 'bundle viz --version --requirements --format svg'
 end
 
-desc 'Deploy current origin/master to staging'
+desc 'Deploy current origin/main to staging'
 task deploy_staging: :production_to_staging do
-  sh 'git checkout staging && git pull && ' \
-     'git merge --ff-only origin/master && git push && git checkout master'
+  sh 'git checkout staging && git pull && git merge --ff-only origin/main && git push && git checkout main'
 end
 
 desc 'Deploy current origin/staging to production'
 task :deploy_production do
-  sh 'git checkout production && git pull && ' \
-     'git merge --ff-only origin/staging && git push && git checkout master'
+  sh 'git checkout production && git pull && git merge --ff-only origin/staging && git push && git checkout main'
 end
 
 rule '.html' => '.md' do |t|
   sh "script/my-markdown \"#{t.source}\" | script/my-patch-html > \"#{t.name}\""
 end
 
-markdown_files = Rake::FileList.new('*.md', 'doc/*.md')
+markdown_files = Rake::FileList.new('*.md', 'docs/*.md')
 
 # Use this task to locally generate HTML files from .md (markdown)
 task 'html_from_markdown' => markdown_files.ext('.html')
 
-file 'doc/criteria.md' =>
+file 'docs/criteria.md' =>
      [
        'criteria/criteria.yml', 'config/locales/en.yml',
-       'doc/criteria-header.markdown', 'doc/criteria-footer.markdown',
+       'docs/criteria-header.markdown', 'docs/criteria-footer.markdown',
        './gen_markdown.rb'
      ] do
   sh './gen_markdown.rb'
 end
 
 # Name task so we don't have to use the filename
-task generate_criteria_doc: 'doc/criteria.md' do
+task generate_criteria_doc: 'docs/criteria.md' do
 end
 
 desc 'Use fasterer to report Ruby constructs that perform poorly'
@@ -261,24 +263,34 @@ end
 
 # Tasks for Fastly including purging and testing the cache.
 namespace :fastly do
-  # Implement full purge of Fastly CDN cache.  Invoke using:
-  #   heroku run --app HEROKU_APP_HERE rake fastly:purge
+  # Implement purge_all (full purge) of Fastly CDN cache.  Invoke using:
+  #   heroku run --app HEROKU_APP_HERE -- rake fastly:purge
   # Run this if code changes will cause a change in badge level, since otherwise
   # the old badge levels will keep being displayed until the cache times out.
   # See: https://robots.thoughtbot.com/
   # a-guide-to-caching-your-rails-application-with-fastly
-  desc 'Purge Fastly cache (takes about 5s)'
-  task :purge do
-    puts 'Starting full purge of Fastly cache (typically takes about 5s)'
-    require Rails.root.join('config', 'initializers', 'fastly')
-    FastlyRails.client.get_service(ENV.fetch('FASTLY_SERVICE_ID')).purge_all
+  # This will cause a SIGNIFICANT temporary increase in activity, since
+  # it will completely empty the CDN cache.
+  # This requires environment variables to be set, specifically
+  # 'FASTLY_API_KEY' and 'FASTLY_SERVICE_ID'. See:
+  # https://developer.fastly.com/reference/api/purging/
+  # Basically, we'll do POST /service/service_id/purge_all
+  # Unfortunately we *cannot* do a soft purge, "Fastly-Soft-Purge: 1"
+  # on a purge-all, per the Fastly documentation.
+  desc 'Purge ALL of Fastly cache (takes about 5s)'
+  task :purge_all do
+    puts 'Starting purge ALL of Fastly cache (typically takes about 5s)'
+    # The following is needed to load fastly_rails without bringing in the
+    # entire Rails environment (which we don't need).
+    $LOAD_PATH.append("#{Dir.getwd}/app/lib")
+    require 'fastly_rails'
+    FastlyRails.purge_all
     puts 'Cache purged'
   end
 
   desc 'Test Fastly Caching'
   task :test, [:site_name] do |_t, args|
-    args.with_defaults site_name:
-      'https://master.bestpractices.coreinfrastructure.org/projects/1/badge'
+    args.with_defaults site_name: 'https://master.bestpractices.coreinfrastructure.org/projects/1/badge'
     puts 'Starting test of Fastly caching'
     verbose(false) do
       sh "script/fastly_test #{args.site_name}"
@@ -318,9 +330,9 @@ task :pull_production_alternative do
      '           -d development db/latest.dump'
 end
 
-desc 'Copy active master database into development (requires access privs)'
-task :pull_master do
-  puts 'Getting master database'
+desc 'Copy active main database into development (requires access privs)'
+task :pull_main do
+  puts 'Getting main database'
   Rake::Task['drop_database'].reenable
   Rake::Task['drop_database'].invoke
   sh 'heroku pg:pull DATABASE_URL development --app master-bestpractices'
@@ -333,12 +345,11 @@ end
 # unnecessarily.  If you want the current active database, you can
 # force a backup with:
 # heroku pg:backups:capture --app production-bestpractices
-desc 'Copy production database backup to master, overwriting master database'
-task :production_to_master do
+desc 'Copy production database backup to main stage, overwriting main database'
+task :production_to_main do
   sh 'heroku pg:backups:restore $(heroku pg:backups:public-url ' \
      '--app production-bestpractices) DATABASE_URL --app master-bestpractices'
-  sh 'heroku run:detached bundle exec rake db:migrate ' \
-     '--app master-bestpractices'
+  sh 'heroku run:detached bundle exec rake db:migrate --app master-bestpractices'
 end
 
 desc 'Copy production database backup to staging, overwriting staging database'
@@ -346,8 +357,7 @@ task :production_to_staging do
   sh 'heroku pg:backups:restore $(heroku pg:backups:public-url ' \
      '--app production-bestpractices) DATABASE_URL ' \
      '--app staging-bestpractices --confirm staging-bestpractices'
-  sh 'heroku run:detached bundle exec rake db:migrate ' \
-     '--app staging-bestpractices'
+  sh 'heroku run:detached bundle exec rake db:migrate --app staging-bestpractices'
 end
 
 # require 'rails/testtask.rb'
@@ -388,40 +398,47 @@ task :fake_production do
   sh 'RAILS_ENV=fake_production rails server -p 4000'
 end
 
-def normalize_values(input)
+# rubocop:disable Metrics/MethodLength
+def normalize_values(input, locale)
+  # The destination locale is "locale".
   input.transform_values! do |value|
     if value.is_a?(Hash)
-      normalize_values value
+      normalize_values value, locale
     elsif value.is_a?(String)
-      normalize_string value
+      normalize_string value, locale
     elsif value.is_a?(NilClass)
       value
-    else raise TypeError 'Not Hash, String or NilClass'
+    else
+      raise TypeError 'Not Hash, String or NilClass'
     end
   end
 end
+# rubocop:enable Metrics/MethodLength
 
 # rubocop:disable Metrics/MethodLength
-def normalize_string(value)
+def normalize_string(value, locale)
   # Remove trailing whitespace
   value.sub!(/\s+$/, '')
-  return value unless value.include?('<')
+  return value if value.exclude?('<')
 
   # Google Translate generates html text that has predictable errors.
   # The last entry mitigates the target=... vulnerability.  We don't need
   # to "counter" attacks from ourselves, but it does no harm and it's
   # easier to protect against everything.
-  value.gsub(/< a /, '<a ')
+  value.gsub('< a ', '<a ')
        .gsub(/< \057/, '</')
        .gsub(/<\057 /, '</')
-       .gsub(/<Strong>/, '<strong>')
-       .gsub(/<Em>/, '<em>')
+       .gsub('<Strong>', '<strong>')
+       .gsub('<Em>', '<em>')
        .gsub(/ Href *=/, 'href=')
-       .gsub(/href = /, 'href=')
-       .gsub(/class = /, 'class=')
-       .gsub(/target = /, 'target=')
+       .gsub('href = ', 'href=')
+       .gsub('class = ', 'class=')
+       .gsub('target = ', 'target=')
+       .gsub('target="_ blank">', 'target="_blank">')
        .gsub(/target="_blank" *>/, 'target="_blank" rel="noopener">')
        .gsub(%r{https: // }, 'https://')
+       .gsub(%r{href="/en/}, "href=\"/#{locale}/")
+       .gsub(%r{href='/en/}, "href='/#{locale}/")
 end
 # rubocop:enable Metrics/MethodLength
 
@@ -430,19 +447,19 @@ def normalize_yaml(path)
   # values and fixes some predictable errors automatically.
   require 'yaml'
   Dir[path].each do |filename|
-    normalized = normalize_values(YAML.load_file(filename))
-    IO.write(
-      filename, normalized.to_yaml(line_width: 60).gsub(/\s+$/, '')
-    )
+    # Compute locale from filename (it must be before the last period)
+    locale = filename.split('.')[-2]
+    normalized = normalize_values(YAML.load_file(filename), locale)
+    File.write(filename, normalized.to_yaml(line_width: 60).gsub(/\s+$/, ''))
   end
 end
 
-desc "Ensure you're on master branch"
-task :ensure_master do
-  raise StandardError, 'Must be on master branch to proceed' unless
-    `git rev-parse --abbrev-ref HEAD` == "master\n"
+desc "Ensure you're on the main branch"
+task :ensure_main do
+  raise StandardError, 'Must be on main branch to proceed' unless
+    `git rev-parse --abbrev-ref HEAD` == "main\n"
 
-  puts 'On master branch, proceeding...'
+  puts 'On main branch, proceeding...'
 end
 
 desc 'Reformat en.yml'
@@ -477,7 +494,7 @@ end
 # We save and restore the en version around the sync to resolve.
 # Ths task only runs in development, since the gem is only loaded then.
 if Rails.env.development?
-  Rake::Task['translation:sync'].enhance %w[ensure_master backup_en] do
+  Rake::Task['translation:sync'].enhance %w[ensure_main backup_en] do
     at_exit do
       Rake::Task['restore_en'].invoke
       Rake::Task['fix_localizations'].invoke
@@ -591,9 +608,8 @@ task :create_project_insertion_command do
   project_id = data_hash['id']
   puts "Inserting project id #{project_id}"
   # Escape JSON using SQL escape ' -> '', so we can use it in a SQL command
-  escaped_json = "'" + file_contents.gsub(/'/, "''") + "'"
-  sql_command = 'insert into projects select * from ' \
-                "json_populate_record(NULL::projects, #{escaped_json});"
+  escaped_json = "'" + file_contents.gsub("'", "''") + "'"
+  sql_command = 'insert into projects select * from ' + "json_populate_record(NULL::projects, #{escaped_json});"
   File.write('project.sql', sql_command)
   puts 'File project.sql created. To use this, do the following (examples):'
   puts 'Local:  rails db < project.sql'
@@ -660,7 +676,7 @@ end
 # we loop over all users, but ignore users where the rekey doesn't work.
 desc 'Rekey (change keys) of email addresses'
 task rekey: :environment do
-  old_key = [ENV['EMAIL_ENCRYPTION_KEY_OLD']].pack('H*')
+  old_key = [ENV.fetch('EMAIL_ENCRYPTION_KEY_OLD', nil)].pack('H*')
   User.find_each do |u|
     # rubocop:disable Style/RedundantBegin
     begin
@@ -675,6 +691,9 @@ task rekey: :environment do
 end
 
 Rake::Task['test:run'].enhance ['test:features']
+
+# Modify system so 'test' forces runnning of system tests
+task test: 'test:system'
 
 # This is the task to run every day, e.g., to record statistics
 # Configure your system (e.g., Heroku) to run this daily.  If you're using
@@ -719,10 +738,11 @@ end
 # We do *NOT* try to localize, for speed.
 desc 'Send a mass email (e.g., a required GDPR notification)'
 task :mass_email do
-  subject = ENV['MASS_EMAIL_SUBJECT']
-  body = ENV['MASS_EMAIL_BODY']
+  subject = ENV.fetch('MASS_EMAIL_SUBJECT', nil)
+  body = ENV.fetch('MASS_EMAIL_BODY', nil)
   where_condition = ENV['MASS_EMAIL_WHERE'] || 'true'
   raise if !subject || !body
+
   User.where(where_condition).find_each do |u|
     UserMailer.direct_message(u, subject, body).deliver_now
     Rails.logger.info "Mass notification sent to user id #{u.id}"
@@ -736,11 +756,11 @@ task :test_dev_install do
   puts 'Updating test-dev-install branch'
   sh <<-TEST_BRANCH_SHELL
     git checkout test-dev-install
-    git merge --no-commit master
+    git merge --no-commit main
     git checkout HEAD circle.yml
-    git commit -a -s -m "Merge master into test-dev-install"
+    git commit -a -s -m "Merge main into test-dev-install"
     git push origin test-dev-install
-    git checkout master
+    git checkout main
   TEST_BRANCH_SHELL
 end
 
@@ -755,6 +775,7 @@ else
   task :update_chromedriver do
     require 'webdrivers'
     # force-upgrade to the latest version of chromedriver
+    # Note: This is *NOT* Rails' "update" method, ignore Rails/SaveBang.
     Webdrivers::Chromedriver.update
   end
 end
@@ -778,4 +799,118 @@ task :slow_tests do
     result = IO.popen(command).readlines.grep(/^use /).first.chomp
     Kernel.abort("Misordered #{command}") unless result == 'use Rack::Cors'
   end
+end
+
+# Search for & print matching email address.
+# Presumes we are in a Rails environment
+def real_search_email(email)
+  # Trivial email validation check. This isn't sophisticated, this is primarily
+  # to prevent swapping the email & name fields when calling search_user.
+  raise ArgumentError unless /.+@.+/.match?(email)
+
+  results = User.where(email: email).select('id, name, encrypted_email, encrypted_email_iv').pluck(
+    :id, :name
+  )
+  puts results
+end
+
+# Search for a given user email address.
+desc 'Search for users with given email (for GDPR requests)'
+task search_email: :environment do
+  ARGV.shift # Drop rake task name
+  ARGV.shift if ARGV[0] == '--' # Skip garbage
+  email = ARGV[0]
+  puts "Searching for email '#{email}'; matching ids and names are:"
+  real_search_email(email)
+  puts 'End of results.'
+  exit(0) # Work around rake
+end
+
+# Search for & print matching name.
+# Presumes we are in a Rails environment
+def real_search_name(name)
+  name_downcase = name.downcase
+  results = User.where('lower(name) LIKE ?', "%#{name_downcase}%")
+                .select('id, name, encrypted_email, encrypted_email_iv')
+                .pluck(:id, :name)
+  puts results
+end
+
+# Search for a given user name.
+# Note: This is slow, because we don't have an index for this.
+# We instead must linerarly search the database.
+# However, we only get 1-5 requests/month, the queries are from a
+# trusted source, and speed isn't critical, so we haven't bothered.
+# We use a case-mapped search and LIKE, to greatly reduce the risk of
+# failing to find the user name.
+desc 'Search for users with given case-insensitive name (for GDPR requests)'
+task search_name: :environment do
+  ARGV.shift # Drop rake task name
+  ARGV.shift if ARGV[0] == '--' # Skip garbage
+  name = ARGV[0]
+  puts "Searching for name '#{name}' ignoring case; matching ids and names are:"
+  real_search_name(name)
+  puts 'End of results.'
+  exit(0) # Work around rake
+end
+
+# Search for a given user name AND email address.
+desc 'Search for users with NAME and EMAIL (for GDPR requests)'
+task search_user: :environment do
+  ARGV.shift # Drop rake task name
+  ARGV.shift if ARGV[0] == '--' # Skip garbage
+  name = ARGV[0]
+  email = ARGV[1]
+  puts "Searching for name '#{name}', email #{email} (ignoring case for both)"
+  real_search_name(name)
+  real_search_email(email)
+  puts 'Done.'
+  exit(0) # Work around rake
+end
+
+desc 'Update Database list of bad passwords from raw-bad-passwords-lowercase'
+task update_bad_password_db: :environment do
+  BadPassword.force_load
+end
+
+desc 'Update SVG badge images from shields.io'
+task :update_badge_images do
+  # require 'Paleta'
+  sh 'curl -o app/assets/images/badge_static_passing.svg ' \
+     'https://img.shields.io/badge/openssf_best_practices-passing-4c1'
+  sh 'curl -o app/assets/images/badge_static_silver.svg ' \
+     'https://img.shields.io/badge/openssf_best_practices-silver-c0c0c0'
+  sh 'curl -o app/assets/images/badge_static_gold.svg https://img.shields.io/badge/openssf_best_practices-gold-ffd700'
+  100.times do |percent|
+    # scale "color" to be greener as we approach passing, to provide a
+    # visual indication of progress for those who can see color
+    color = Paleta::Color.new(:hsl, (percent * 0.45) + 15, 85, 43).hex
+    puts(color)
+    sh "curl -o app/assets/images/badge_static_#{percent}.svg " \
+       'https://img.shields.io/badge/openssf_best_practices-in_progress_' \
+       "#{percent}%25-#{color}"
+  end
+  # TODO: Capture widths
+  sh <<-CAPTURE_WIDTHS
+    file='app/assets/images/badge_static_widths.txt'
+    echo '{' > "$file"
+    for level in passing silver gold $(seq 0 99)
+    do
+      width=$(grep -Eo 'width="[0-9]*"' app/assets/images/badge_static_"$level".svg | head -1 | tr -dc '0-9')
+      echo "  '${level}': ${width}," >> "$file"
+    done
+    echo '}' >> "$file"
+  CAPTURE_WIDTHS
+  puts <<-REMINDERS
+    Reminders:
+    Extract app/assets/images/badge_static_widths.txt into app/models/badge.rb
+    cp -p app/assets/images/badge_static_passing.svg \
+          test/fixtures/files/badge-passing.svg
+    cp -p app/assets/images/badge_static_silver.svg \
+          test/fixtures/files/badge-silver.svg
+    cp -p app/assets/images/badge_static_gold.svg \
+          test/fixtures/files/badge-gold.svg
+    cp -p app/assets/images/badge_static_88.svg \
+          test/fixtures/files/badge-88.svg
+  REMINDERS
 end

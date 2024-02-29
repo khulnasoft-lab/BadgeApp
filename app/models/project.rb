@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # rubocop:disable Metrics/ClassLength
@@ -16,7 +16,7 @@ class Project < ApplicationRecord
   using StringRefinements
   using SymbolRefinements
 
-  include PgSearch # PostgreSQL-specific text search
+  include PgSearch::Model # PostgreSQL-specific text search
 
   # When did we add met_justification_required?
   STATIC_ANALYSIS_JUSTIFICATION_REQUIRED_DATE =
@@ -32,7 +32,21 @@ class Project < ApplicationRecord
   MAX_TEXT_LENGTH = 8192 # Arbitrary maximum to reduce abuse
   MAX_SHORT_STRING_LENGTH = 254 # Arbitrary maximum to reduce abuse
 
+  # All badge level internal names *including* in_progress
+  # NOTE: If you add a new level, modify compute_tiered_percentage
   BADGE_LEVELS = %w[in_progress passing silver gold].freeze
+
+  # All badge level internal names that indicate *completion*,
+  # so COMPLETED_BADGE_LEVELS[0] is 'passing'.
+  # Note: This is the *internal* lowercase name, e.g., for field names.
+  # For *printed* names use t("projects.form_early.level.#{level}")
+  # Note that drop() does NOT mutate the original value.
+  COMPLETED_BADGE_LEVELS = BADGE_LEVELS.drop(1).freeze
+
+  # All badge levels as IDs. Useful for enumerating "all levels" as:
+  # Project::LEVEL_IDS.each do |level| ... end
+  LEVEL_ID_NUMBERS = (0..(COMPLETED_BADGE_LEVELS.length - 1)).freeze
+  LEVEL_IDS = LEVEL_ID_NUMBERS.map(&:to_s)
 
   PROJECT_OTHER_FIELDS = %i[
     name description homepage_url repo_url cpe implementation_languages
@@ -67,7 +81,6 @@ class Project < ApplicationRecord
   )
 
   scope :passing, -> { gteq(100) }
-  # rubocop:enable Lint/AmbiguousBlockAssociation
 
   scope :recently_updated, (
     lambda do
@@ -107,6 +120,17 @@ class Project < ApplicationRecord
     end
   )
 
+  # Search for exact match on URL
+  # (home page, repo, and maybe package URL someday)
+  # We have indexes on each of these columns, so this will be fast.
+  # We remove trailing space and slash to make it quietly "work as expected".
+  scope :url_search, (
+    lambda do |url|
+      clean_url = url.chomp(' ').chomp('/')
+      where('homepage_url = ? OR repo_url = ?', clean_url, clean_url)
+    end
+  )
+
   # Use PostgreSQL-specific text search mechanism
   # There are many options we aren't currently using; for more info, see:
   # https://github.com/Casecommons/pg_search
@@ -135,12 +159,9 @@ class Project < ApplicationRecord
 
   # For these fields we'll have just simple validation rules.
   # We'll rely on Rails' HTML escaping system to counter XSS.
-  validates :name, length: { maximum: MAX_SHORT_STRING_LENGTH },
-                   text: true
-  validates :description, length: { maximum: MAX_TEXT_LENGTH },
-                          text: true
-  validates :license, length: { maximum: MAX_SHORT_STRING_LENGTH },
-                      text: true
+  validates :name, length: { maximum: MAX_SHORT_STRING_LENGTH }, text: true
+  validates :description, length: { maximum: MAX_TEXT_LENGTH }, text: true
+  validates :license, length: { maximum: MAX_SHORT_STRING_LENGTH }, text: true
   validates :general_comments, text: true
 
   # We'll do automated analysis on these URLs, which means we will *download*
@@ -161,9 +182,9 @@ class Project < ApplicationRecord
   # <, >, &, ", brackets, and braces.  This handles language names like
   # JavaScript, C++, C#, D-, and PL/I.  A space is optional after a comma.
   # We have to allow embedded spaces, e.g., "Jupyter Notebook".
-  VALID_LANGUAGE_LIST = %r{\A(|-|
-                          ([A-Za-z0-9!\#$%'()*+.\/\:;=?@\[\]^~ -]+
-                            (,\ ?[A-Za-z0-9!\#$%'()*+.\/\:;=?@\[\]^~ -]+)*))\Z}x
+  VALID_LANGUAGE_LIST =
+    %r{\A(|-| ([A-Za-z0-9!\#$%'()*+.\/\:;=?@\[\]^~ -]+
+        (,\ ?[A-Za-z0-9!\#$%'()*+.\/\:;=?@\[\]^~ -]+)*))\Z}x.freeze
   validates :implementation_languages,
             length: { maximum: MAX_SHORT_STRING_LENGTH },
             format: {
@@ -203,12 +224,13 @@ class Project < ApplicationRecord
     list.sort.to_s # Use list.sort.to_s[1..-2] to remove surrounding [ and ]
   end
 
-  # Return string representing badge level; assumes badge_percentage correct.
+  # Return string representing badge level; assumes tiered_percentage correct.
+  # This returns 'in_progress' if we aren't passing yet.
+  # See method badge_level if you want 'in_progress' for < 100.
+  # See method badge_value if you want the specific percentage for in_progress.
   def badge_level
-    BADGE_LEVELS.each_with_index do |level, index|
-      return level if index == Criteria.count
-      return level if self["badge_percentage_#{index}".to_sym] < 100
-    end
+    # This is *integer* division, so it truncates.
+    BADGE_LEVELS[tiered_percentage / 100]
   end
 
   def calculate_badge_percentage(level)
@@ -239,7 +261,7 @@ class Project < ApplicationRecord
   # in a project.  These are:
   # :criterion_passing -
   #   'Met' (or 'N/A' if applicable) has been selected for the criterion
-  #   and all requred justification text (including url's) have been entered  #
+  #   and all required justification text (including url's) have been entered  #
   # :criterion_failing -
   #   'Unmet' has been selected for a MUST criterion'.
   # :criterion_barely -
@@ -277,6 +299,38 @@ class Project < ApplicationRecord
     }
   end
 
+  # Return the badge value: 0..99 (the percent) if in progress,
+  # else it returns 'passing', 'silver', or 'gold'.
+  # This presumes that tiered_percentage has already been calculated.
+  # See method badge_level if you want 'in_progress' for < 100.
+  def badge_value
+    if tiered_percentage < 100
+      tiered_percentage
+    else
+      # This is *integer* division, so it truncates.
+      BADGE_LEVELS[tiered_percentage / 100]
+    end
+  end
+
+  # Return this project's image src URL for its badge image (SVG).
+  # * If the project entry has changed relatively recently,
+  # we give its /badge_static value.  That way, the user sees the
+  # correct result even if the CDN hasn't completed distributing the
+  # new value or a bad key prevents its update.
+  # * If the project entry has NOT changed relatively recently,
+  # we give the /projects/:id/badge value, so that humans who copy the
+  # values without reading directions are more likely to see the URL that
+  # we want them to use in READMEs. We also include a comment in the HTML
+  # view telling people to use the /projects/:id/badge URL, all to encourage
+  # humans to use the correct URL.
+  def badge_src_url
+    if updated_at > 24.hours.ago # Has this entry changed relatively recently?
+      "/badge_static/#{badge_value}"
+    else
+      "/projects/#{id}/badge"
+    end
+  end
+
   # Flash a message to update static_analysis if the user is updating
   # for the first time since we added met_justification_required that
   # criterion
@@ -300,16 +354,19 @@ class Project < ApplicationRecord
     updated_at >= ENTRY_LICENSE_EXPLICIT_DATE
   end
 
-  # Update the badge percentage for a given level,
-  # and update relevant event datetime if needed.
-  def update_badge_percentage(level)
+  # Update the badge percentage for a given level (expressed as a number;
+  # 0=passing), and update relevant event datetime if needed.
+  # It presumes the lower-level percentages (if relevant) are calculated.
+  def update_badge_percentage(level, current_time)
     old_badge_percentage = self["badge_percentage_#{level}".to_sym]
-    update_prereqs(level) unless level == Criteria.keys[0]
+    update_prereqs(level) if level.to_i.nonzero?
     self["badge_percentage_#{level}".to_sym] =
       calculate_badge_percentage(level)
-    update_passing_times(old_badge_percentage) if level == '0'
+    update_passing_times(level, old_badge_percentage, current_time)
   end
 
+  # Compute the 'tiered percentage' value 0..300. This gives partial credit,
+  # but only if you've completed a previous level.
   def compute_tiered_percentage
     if badge_percentage_0 < 100
       badge_percentage_0
@@ -326,10 +383,12 @@ class Project < ApplicationRecord
 
   # Update the badge percentages for all levels.
   def update_badge_percentages
-    Criteria.each_key do |level|
-      update_badge_percentage(level)
+    # Create a single datetime value so that they are consistent
+    current_time = Time.now.utc
+    Project::LEVEL_IDS.each do |level|
+      update_badge_percentage(level, current_time)
     end
-    update_tiered_percentage
+    update_tiered_percentage # Update the 'tiered_percentage' number 0..300
   end
 
   # Return owning user's name for purposes of display.
@@ -343,7 +402,7 @@ class Project < ApplicationRecord
   # We precalculate and store percentages in the database;
   # this speeds up many actions, but it means that a change in the rules
   # doesn't automatically change the precalculated values.
-  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def self.update_all_badge_percentages(levels)
     raise TypeError, 'levels must be an Array' unless levels.is_a?(Array)
 
@@ -353,20 +412,18 @@ class Project < ApplicationRecord
     Project.skip_callbacks = true
     Project.find_each do |project|
       project.with_lock do
-        need_to_save = false
+        # Create a single datetime value so that they are consistent
+        current_time = Time.now.utc
         levels.each do |level|
-          badge_percentage = "badge_percentage_#{level}".to_sym
-          old_badge_percentage = project[badge_percentage]
-          project.update_badge_percentage(level)
-          project.update_tiered_percentage
-          need_to_save ||= old_badge_percentage != project[badge_percentage]
+          project.update_badge_percentage(level, current_time)
         end
-        project.save!(touch: false) if need_to_save
+        project.update_tiered_percentage
+        project.save!(touch: false)
       end
     end
     Project.skip_callbacks = false
   end
-  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   # The following configuration options are trusted.  Set them to
   # reasonable numbers or accept the defaults.
@@ -458,15 +515,25 @@ class Project < ApplicationRecord
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   # Return which projects should be announced as getting badges in the
-  # month target_month
-  def self.projects_first_passing_in(target_month)
+  # month target_month with level (as a number, 0=passing)
+  def self.projects_first_in(level, target_month)
+    # Defense-in-depth: ensure 'level' is a valid value.
+    return unless LEVEL_ID_NUMBERS.member?(level)
+
+    name = COMPLETED_BADGE_LEVELS[level] # level name, e.g. 'passing'
+    # We could omit listing projects which have lost & regained their
+    # badge by adding this line:
+    # .where('lost_#{name}_at IS NULL')
+    # However, it seems reasonable to note projects that have lost their
+    # badge but have since regained it (especially since it could have
+    # happened within this month!). After all, we want to encourage
+    # projects that have lost their badge levels to regain them.
     Project
-      .select('id, name, achieved_passing_at')
-      .where('badge_percentage_0 = 100')
-      .where('achieved_passing_at >= ?', target_month.at_beginning_of_month)
-      .where('achieved_passing_at <= ?', target_month.at_end_of_month)
-      .where('lost_passing_at IS NULL')
-      .reorder('achieved_passing_at')
+      .select("id, name, achieved_#{name}_at")
+      .where("badge_percentage_#{level} >= 100")
+      .where("achieved_#{name}_at >= ?", target_month.at_beginning_of_month)
+      .where("achieved_#{name}_at <= ?", target_month.at_end_of_month)
+      .reorder("achieved_#{name}_at")
   end
 
   def self.recently_reminded
@@ -484,11 +551,13 @@ class Project < ApplicationRecord
   #   Criteria.active.all? { |criterion| enough? criterion }
   # end
 
+  WHAT_IS_ENOUGH = %i[criterion_passing criterion_barely].freeze
+
   # This method is mirrored in assets/project-form.js as isEnough
   # If you change this method, change isEnough accordingly.
   def enough?(criterion)
     result = get_criterion_result(criterion)
-    result == :criterion_passing || result == :criterion_barely
+    WHAT_IS_ENOUGH.include?(result)
   end
 
   # This method is mirrored in assets/project-form.js as getColor
@@ -537,44 +606,69 @@ class Project < ApplicationRecord
   end
 
   def need_a_base_url
-    return unless repo_url.blank? && homepage_url.blank?
+    return if repo_url.present? || homepage_url.present?
 
     errors.add :base, I18n.t('error_messages.need_home_page_or_url')
   end
 
   def to_percentage(portion, total)
     return 0 if portion.zero?
+    return 100 if portion >= total
 
-    ((portion * 100.0) / total).round
+    # Give percentage, but only up to 99% (so "100%" always means "complete")
+    # The tertiary operator is clearer & faster than using [...].min
+    result = ((portion * 100.0) / total).round
+    [result, 99].min
   end
 
-  def update_passing_times(old_badge_percentage)
-    if badge_percentage_0 == 100 && old_badge_percentage < 100
-      self.achieved_passing_at = Time.now.utc
-    elsif badge_percentage_0 < 100 && old_badge_percentage == 100
-      self.lost_passing_at = Time.now.utc
+  # Update achieved_..._at & lost_..._at fields given level as number
+  # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def update_passing_times(level, old_badge_percentage, current_time)
+    level_name = COMPLETED_BADGE_LEVELS[level.to_i] # E.g., 'passing'
+    current_percentage = self["badge_percentage_#{level}".to_sym]
+    # If something is wrong, don't modify anything!
+    return if current_percentage.blank? || old_badge_percentage.blank?
+
+    current_percentage_i = current_percentage.to_i
+    old_badge_percentage_i = old_badge_percentage.to_i
+    if current_percentage_i >= 100 && old_badge_percentage_i < 100
+      self["achieved_#{level_name}_at".to_sym] = current_time
+      first_achieved_field = "first_achieved_#{level_name}_at".to_sym
+      if self[first_achieved_field].blank? # First time? Set that too!
+        self[first_achieved_field] = current_time
+      end
+    elsif current_percentage_i < 100 && old_badge_percentage_i >= 100
+      self["lost_#{level_name}_at".to_sym] = current_time
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
+  # Given numeric level 1+, set the value of
+  # achieve_{previous_level_name}_status to either Met or Unmet, based on
+  # the achievement of the *previous* level. This is a simple way to ensure
+  # that to pass level X when X > 0, you must meet the criteria of level X-1.
+  # We *only* set the field if it currently has a different value.
   # When filling in the prerequisites, we do not fill in the justification
   # for them. The justification is only there as it makes implementing this
   # portion of the code simpler.
-  # rubocop:disable Metrics/AbcSize
   def update_prereqs(level)
-    index = Criteria.keys.index(level)
-    return if index.zero?
+    level = level.to_i
+    return if level <= 0
 
-    if self["badge_percentage_#{Criteria.keys[index - 1]}".to_sym] >= 100
-      return if self["achieve_#{BADGE_LEVELS[index]}_status".to_sym] == 'Met'
+    # The following works because BADGE_LEVELS[1] is 'passing', etc:
+    achieved_previous_level = "achieve_#{BADGE_LEVELS[level]}_status".to_sym
 
-      status = 'Met'
+    if self["badge_percentage_#{level - 1}".to_sym] >= 100
+      return if self[achieved_previous_level] == 'Met'
+
+      self[achieved_previous_level] = 'Met'
     else
-      return if self["achieve_#{BADGE_LEVELS[index]}_status".to_sym] == 'Unmet'
+      return if self[achieved_previous_level] == 'Unmet'
 
-      status = 'Unmet'
+      self[achieved_previous_level] = 'Unmet'
     end
-    self["achieve_#{BADGE_LEVELS[index]}_status".to_sym] = status
   end
-  # rubocop:enable Metrics/AbcSize
 end
 # rubocop:enable Metrics/ClassLength

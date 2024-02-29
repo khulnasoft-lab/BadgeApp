@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'test_helper'
@@ -11,7 +11,7 @@ class ProjectTest < ActiveSupport::TestCase
   using StringRefinements
   setup do
     @user = users(:test_user)
-    @project = @user.projects.build(
+    @project_built = @user.projects.build(
       homepage_url: 'https://www.example.org',
       repo_url: 'https://www.example.org/code'
     )
@@ -22,12 +22,12 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test 'should be valid' do
-    assert @project.valid?
+    assert @project_built.valid?
   end
 
   test 'user id should be present' do
-    @project.user_id = nil
-    assert_not @project.valid?
+    @project_built.user_id = nil
+    assert_not @project_built.valid?
   end
 
   test '#contains_url?' do
@@ -35,10 +35,12 @@ class ProjectTest < ActiveSupport::TestCase
     assert Project.new.contains_url? 'http://www.example.org'
     assert Project.new.contains_url? 'See also http://x.org.'
     assert Project.new.contains_url? 'See also <http://x.org>.'
-    refute Project.new.contains_url? 'mailto://mail@example.org'
-    refute Project.new.contains_url? 'abc'
-    refute Project.new.contains_url? 'See also http://x for more information.'
-    refute Project.new.contains_url? 'www.google.com'
+    assert_not Project.new.contains_url? 'mailto://mail@example.org'
+    assert_not Project.new.contains_url? 'abc'
+    assert_not(
+      Project.new.contains_url?('See also http://x for more information.')
+    )
+    assert_not Project.new.contains_url? 'www.google.com'
   end
 
   # rubocop:disable Metrics/BlockLength
@@ -49,10 +51,10 @@ class ProjectTest < ActiveSupport::TestCase
 
     # Here we just the regex directly, to make sure it's okay.
     assert 'https://kernel.org' =~ regex
-    refute 'https://' =~ regex
-    refute 'www.google.com' =~ regex
-    refute 'See also http://x.org for more information.' =~ regex
-    refute 'See also <http://x.org>.' =~ regex
+    assert_not 'https://' =~ regex
+    assert_not 'www.google.com' =~ regex
+    assert_not 'See also http://x.org for more information.' =~ regex
+    assert_not 'See also <http://x.org>.' =~ regex
 
     # Here we use the full validator.  We stub out the info necessary
     # to create a validator instance to test (we won't really use them).
@@ -60,52 +62,52 @@ class ProjectTest < ActiveSupport::TestCase
     assert validator.url_acceptable?(my_url)
     assert validator.url_acceptable?('https://kernel.org')
     assert validator.url_acceptable?('') # Empty allowed.
-    refute validator.url_acceptable?('https://')
-    refute validator.url_acceptable?('www.google.com')
-    refute validator.url_acceptable?('See also http://x.org for more.')
-    refute validator.url_acceptable?('See also <http://x.org>.')
+    assert_not validator.url_acceptable?('https://')
+    assert_not validator.url_acceptable?('www.google.com')
+    assert_not validator.url_acceptable?('See also http://x.org for more.')
+    assert_not validator.url_acceptable?('See also <http://x.org>.')
     assert validator.url_acceptable?('http://google.com')
     # We don't allow '?'
-    refute validator.url_acceptable?('http://google.com?hello')
+    assert_not validator.url_acceptable?('http://google.com?hello')
     # We do allow fragments, e.g., #
-    refute validator.url_acceptable?('http://google.com#hello')
+    assert_not validator.url_acceptable?('http://google.com#hello')
 
     # Accept U+0020 (space) and U+00E9 c3 a9 "LATIN SMALL LETTER E WITH ACUTE"
     assert validator.url_acceptable?('https://github.com/linuxfoundation/' \
-                                    'cii-best-practices-badge%20%c3%a9')
+                                     'cii-best-practices-badge%20%c3%a9')
     # Accept U+8C0A Unicode Han Character 'friendship; appropriate, suitable'
     # encoded in UTF-8 as 0xE8 0xB0 0x8A (e8b08a); see
     # http://www.fileformat.info/info/unicode/char/8c0a/index.htm
     assert validator.url_acceptable?('https://github.com/linuxfoundation/' \
-                                    '%E8%B0%8A')
+                                     '%E8%B0%8A')
     # Accept U+1000 Unicode Character 'MYANMAR LETTER KA'
     # encoded in UTF-8 as 0xE1 0x80 0x80
     # http://www.fileformat.info/info/unicode/char/1000/index.htm
     assert validator.url_acceptable?('https://github.com/linuxfoundation/' \
-                                    '%e1%80%80')
+                                     '%e1%80%80')
     # Don't accept "c0 80", an overlong (2-byte) encoding of U+0000 (NUL).
     # Note that "modified UTF-8" does accept this.
-    refute validator.url_acceptable?('https://github.com/linuxfoundation/' \
-                                    'cii-best-practices-badge%20%c0%80')
+    assert_not validator.url_acceptable?('https://github.com/linuxfoundation/' \
+                                         'cii-best-practices-badge%20%c0%80')
     # Don't accept non-UTF-8, even if the individual bytes are acceptable.
-    refute validator.url_acceptable?('https://github.com/linuxfoundation/' \
-                                    'cii-best-practices-badge%eex')
-    refute validator.url_acceptable?('https://github.com/linuxfoundation/' \
-                                    'cii-best-practices-badge%ee')
-    refute validator.url_acceptable?('https://github.com/linuxfoundation/' \
-                                    'cii-best-practices-badge%ff%ff')
+    assert_not validator.url_acceptable?('https://github.com/linuxfoundation/' \
+                                         'cii-best-practices-badge%eex')
+    assert_not validator.url_acceptable?('https://github.com/linuxfoundation/' \
+                                         'cii-best-practices-badge%ee')
+    assert_not validator.url_acceptable?('https://github.com/linuxfoundation/' \
+                                         'cii-best-practices-badge%ff%ff')
   end
   # rubocop:enable Metrics/BlockLength
 
   test 'UTF-8 validator should refute non-UTF-8 encoding' do
     validator = TextValidator.new(attributes: %i[name description])
     # Don't accept non-UTF-8, even if the individual bytes are acceptable.
-    refute validator.text_acceptable?("The best practices badge\255")
-    refute validator.text_acceptable?("The best practices badge\xff\xff")
-    refute validator.text_acceptable?("The best practices badge\xee")
-    refute validator.text_acceptable?("The best practices badge\xe4")
+    assert_not validator.text_acceptable?("The best practices badge\255")
+    assert_not validator.text_acceptable?("The best practices badge\xff\xff")
+    assert_not validator.text_acceptable?("The best practices badge\xee")
+    assert_not validator.text_acceptable?("The best practices badge\xe4")
     # Don't accept an invalid control character
-    refute validator.text_acceptable?("The best practices badge\x0c")
+    assert_not validator.text_acceptable?("The best practices badge\x0c")
     assert validator.text_acceptable?('The best practices badge.')
   end
 
@@ -176,6 +178,8 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 'Unmet', @project_passing.achieve_silver_status
     assert_equal 'Met', @project_silver.achieve_passing_status
     assert_equal 'Unmet', @project_silver.achieve_silver_status
+    assert @project_silver.achieved_silver_at.blank?
+    assert @project_silver.first_achieved_silver_at.blank?
     Project.update_all_badge_percentages(Criteria.keys)
     assert_equal(
       'Unmet', Project.find(@unjustified_project.id).achieve_passing_status
@@ -186,13 +190,14 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal(
       'Unmet', Project.find(@project_passing.id).achieve_silver_status
     )
-    assert_equal 'Met', Project.find(@project_silver.id).achieve_passing_status
-    assert_equal 'Met', Project.find(@project_silver.id).achieve_silver_status
+    updated_project = Project.find(@project_silver.id)
+    assert_equal 'Met', updated_project.achieve_passing_status
+    assert_equal 'Met', updated_project.achieve_silver_status
   end
 
   test 'update_prereqs works correctly for level downgrades' do
     assert_equal 'Met', @project_silver.achieve_passing_status
-    @project_silver.update_attributes!(description_good_status: 'Unmet')
+    @project_silver.update!(description_good_status: 'Unmet')
     assert_equal(
       'Unmet', Project.find(@project_silver.id).achieve_passing_status
     )
@@ -205,14 +210,14 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test 'Project counts from fixtures are as expected' do
-    assert_equal 3, Project.in_progress.count
+    assert_equal 4, Project.in_progress.count
     assert_equal 3, Project.passing.count
   end
 
   test 'test get_satisfaction_data' do
     basics = @unjustified_project.get_satisfaction_data('0', 'basics')
-    assert_equal '9/12', basics[:text]
-    assert_equal 'hsl(90, 100%, 50%)', basics[:color]
+    assert_equal '10/13', basics[:text]
+    assert_equal 'hsl(92, 100%, 50%)', basics[:color]
     reporting = @unjustified_project.get_satisfaction_data('0', 'reporting')
     assert_equal '5/8', reporting[:text]
     assert_equal 'hsl(75, 100%, 50%)', reporting[:color]
@@ -227,13 +232,13 @@ class ProjectTest < ActiveSupport::TestCase
       :justification_good?,
       'This is long enough.'
     )
-    assert !@unjustified_project.send(
+    assert_not @unjustified_project.send(
       :justification_good?,
       '// This is a comment.'
     )
-    assert !@unjustified_project.send(:justification_good?, 'bah.')
-    assert !@unjustified_project.send(:justification_good?, '')
-    assert !@unjustified_project.send(:justification_good?, nil)
+    assert_not @unjustified_project.send(:justification_good?, 'bah.')
+    assert_not @unjustified_project.send(:justification_good?, '')
+    assert_not @unjustified_project.send(:justification_good?, nil)
   end
 
   # rubocop:disable Metrics/BlockLength
@@ -246,7 +251,7 @@ class ProjectTest < ActiveSupport::TestCase
       'Project.find(projects(:one).id).badge_percentage_0',
       'Project.find(projects(:one).id).badge_percentage_1'
     ] do
-      project_one.update_attributes!(
+      project_one.update!(
         crypto_weaknesses_status: 'Met',
         crypto_weaknesses_justification: 'It is good'
       )
@@ -254,7 +259,7 @@ class ProjectTest < ActiveSupport::TestCase
     Project.skip_callbacks = false
     old_percentage0 = Project.find(projects(:one).id).badge_percentage_0
     old_percentage1 = Project.find(projects(:one).id).badge_percentage_1
-    project_one.update_attributes!(
+    project_one.update!(
       warnings_strict_status: 'Met',
       warnings_strict_justification: 'It is good'
     )
@@ -286,6 +291,19 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 300, p.compute_tiered_percentage
     p.badge_percentage_0 = 85
     assert_equal 85, p.compute_tiered_percentage
+  end
+
+  # If one of these tests fail, you've probably changed the criteria and
+  # haven't changed the fixture values to match. The solution
+  # will probably require updating test/fixtures/projects.yml
+  test 'Check that fixture percentages are correct' do
+    projects.each_entry do |project|
+      Project::LEVEL_IDS.each do |level|
+        assert_equal project["badge_percentage_#{level}"],
+                     project.calculate_badge_percentage(level),
+                     "Miscalculation level #{level} in project #{project.name}"
+      end
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength

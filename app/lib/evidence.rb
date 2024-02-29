@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'open-uri'
@@ -31,7 +31,7 @@ class Evidence
   def get(url)
     unless @cached_data.key?(url)
       begin
-        open(url, 'rb') do |file|
+        URI.parse(url).open('rb') do |file|
           @cached_data[url] = { meta: file.meta, body: file.read(MAXREAD) }
         end
       rescue

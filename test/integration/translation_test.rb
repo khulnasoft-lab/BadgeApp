@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'test_helper'
@@ -37,7 +37,7 @@ class TranslationTest < ActionDispatch::IntegrationTest
       get "/#{my_locale}/login"
       assert_response :success
 
-      get "/#{my_locale}/criteria"
+      get "/#{my_locale}/criteria_stats"
       assert_response :success
 
       # Skip testing /project_stats - it takes longer to generate and
@@ -46,7 +46,7 @@ class TranslationTest < ActionDispatch::IntegrationTest
   end
 
   test 'Correctly redirect to browser default locale at root' do
-    get '/', headers: { 'HTTP_ACCEPT_LANGUAGE': 'fr,en-US;q=0.7,en;q=0.3' }
+    get '/', headers: { HTTP_ACCEPT_LANGUAGE: 'fr,en-US;q=0.7,en;q=0.3' }
     assert_redirected_to root_url(locale: :fr)
   end
 
@@ -56,24 +56,24 @@ class TranslationTest < ActionDispatch::IntegrationTest
   end
 
   test 'Do not switch locale if German given' do
-    get '/de', headers: { 'HTTP_ACCEPT_LANGUAGE': 'fr,en-US;q=0.7,en;q=0.3' }
+    get '/de', headers: { HTTP_ACCEPT_LANGUAGE: 'fr,en-US;q=0.7,en;q=0.3' }
     assert_response :success
   end
 
   test 'Do not switch locale if English given' do
-    get '/en', headers: { 'HTTP_ACCEPT_LANGUAGE': 'fr,en-US;q=0.7,en;q=0.3' }
+    get '/en', headers: { HTTP_ACCEPT_LANGUAGE: 'fr,en-US;q=0.7,en;q=0.3' }
     assert_response :success
   end
 
   test 'Correctly switch to browser default locale in /projects' do
     get '/projects',
-        headers: { 'HTTP_ACCEPT_LANGUAGE': 'fr,en-US;q=0.7,en;q=0.3' }
+        headers: { HTTP_ACCEPT_LANGUAGE: 'fr,en-US;q=0.7,en;q=0.3' }
     assert_redirected_to projects_url(locale: :fr)
   end
 
   test 'Do not switch locale of /projects if one given' do
     get '/de/projects',
-        headers: { 'HTTP_ACCEPT_LANGUAGE': 'fr,en-US;q=0.7,en;q=0.3' }
+        headers: { HTTP_ACCEPT_LANGUAGE: 'fr,en-US;q=0.7,en;q=0.3' }
     assert_response :success
   end
 end

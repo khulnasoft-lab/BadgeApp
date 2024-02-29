@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # rubocop:disable Metrics/ModuleLength
@@ -82,9 +82,9 @@ module ProjectsHelper
   end
 
   # Render all the status_choosers in the given minor section.
-  # This takes a rediculous number of parameters, because we have to
+  # This takes a ridiculous number of parameters, because we have to
   # select the correct minor section & then pass the information the
-  # status_chooser needs (which also needs a rediculous number).
+  # status_chooser needs (which also needs a ridiculous number).
   # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
   # rubocop:disable Metrics/ParameterLists
   def render_minor_status(
@@ -134,6 +134,7 @@ module ProjectsHelper
   # rubocop:disable Metrics/MethodLength
   def tiered_percent_as_string(value)
     return if value.blank?
+
     partial = value % 100
     if value < 100
       I18n.t 'projects.index.in_progress_next', percent: partial
@@ -148,7 +149,7 @@ module ProjectsHelper
   # rubocop:enable Metrics/MethodLength
 
   # We sometimes insert <wbr> after sequences of these characters.
-  WORD_BREAK_DIVIDERS = /([,_\-.]+)/
+  WORD_BREAK_DIVIDERS = /([,_\-.]+)/.freeze
 
   # rubocop:disable Rails/OutputSafety
   # This text is considered safe, so we can directly mark it as such.

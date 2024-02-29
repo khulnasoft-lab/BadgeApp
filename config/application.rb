@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require_relative 'boot'
 
+# This loads all Rails libraries that are *present*. However,
+# note that our Gemfile only includes the Rails gems we actually use
+# (to reduce memory use and attack surface).
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
@@ -23,4 +26,5 @@ end
 
 Rails.application.configure do
   config.middleware.use Rack::Attack
+  config.active_record.legacy_connection_handling = false
 end

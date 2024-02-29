@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'test_helper'
 require 'ipaddr'
 
-class ApplicationControllerTest < ActionController::TestCase
+class ApplicationControllerTest < ActionDispatch::IntegrationTest
+  # These are special tests for how the ApplicationController works,
+  # in particular for handling IP addresses.
+
   test 'fail_if_invalid_client_ip works correctly' do
     a = ApplicationController.new
     client_ip = '43.249.72.2'

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # Support translation.io.  See:
@@ -12,7 +12,7 @@ if Rails.env.development? || Rails.env.test?
   TranslationIO.configure do |config|
     config.api_key        = 'b6086a4661ba47d79ec771236e298211'
     config.source_locale  = 'en'
-    config.target_locales = %i[zh-CN es fr de ja ru]
+    config.target_locales = %i[zh-CN es fr de ja pt-BR ru sw]
 
     # Uncomment this if you don't want to use gettext
     config.disable_gettext = true

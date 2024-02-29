@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # Determine how to open the development files in the repository,
@@ -13,7 +13,7 @@ class HowAccessRepoFilesDetective < Detective
   INPUTS = [:repo_url].freeze
   OUTPUTS = [:repo_files].freeze # Ask :repo_files.get("FILENAME") for files.
 
-  GITHUB_REPO = %r{https?://github.com/([\w\.-]*)/([\w\.-]*)(.git|/)?}
+  GITHUB_REPO = %r{https?://github.com/([\w\.-]*)/([\w\.-]*)(.git|/)?}.freeze
   def analyze(_evidence, current)
     repo_url = current[:repo_url]
     return {} if repo_url.blank?
@@ -23,10 +23,13 @@ class HowAccessRepoFilesDetective < Detective
   end
 
   def assemble_result(fullname)
-    { repo_files:
-          {
-            value: GithubContentAccess.new(fullname, @octokit_client_factory),
-            confidence: 5
-          } }
+    {
+      repo_files:
+                {
+                  value: GithubContentAccess.new(fullname,
+                                                 @octokit_client_factory),
+                  confidence: 5
+                }
+    }
   end
 end

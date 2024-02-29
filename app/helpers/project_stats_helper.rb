@@ -1,44 +1,41 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 module ProjectStatsHelper
   DATE_CHART_OPTIONS = {
     scales:
       {
-        xAxes:
-        [
+        x:
           {
             type: 'time',
             unit: 'day',
             unitStepSize: 1,
-            ticks: { minRotation: 20 },
-            time: { displayFormats: { 'day': 'YYYY-MM-DD' } }
+            # Setting min & max rotation speeds display. See:
+            # https://www.chartjs.org/docs/latest/general/performance.html
+            ticks: { minRotation: 30, maxRotation: 30 },
+            # Set time format (changed from older chartkick). See:
+            # https://www.chartjs.org/docs/latest/axes/cartesian/time.html
+            # and https://git.io/fxCyr
+            time: {
+              # Use these ISO 8601 formats so we're language-neutral
+              displayFormats: {
+                day: 'yyyy-MM-dd', month: 'yyyy-MM',
+                second: 'HH:MM:ss'
+              }
+            }
           }
-        ]
+      },
+    elements:
+      {
+        # Disable bezier curves because simple lines are faster. See:
+        # https://www.chartjs.org/docs/latest/general/performance.html
+        line:
+          {
+            tension: 0
+          }
       }
   }.freeze
-
-  # Create line chart of daily stats from ProjectStat
-  # for the provided list of fields
-  # rubocop: disable Metrics/MethodLength
-  def create_line_chart(fields)
-    dataset = []
-    fields.each do |field|
-      # Add "field" to dataset
-      active_dataset =
-        ProjectStat.all.reduce({}) do |h, e|
-          h.merge(e.created_at => e[field])
-        end
-      dataset << {
-        name: t('.' + field),
-        data: active_dataset
-      }
-    end
-    # Done transforming data; return display.
-    line_chart dataset, library: DATE_CHART_OPTIONS, defer: true
-  end
-  # rubocop: enable Metrics/MethodLength
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # Puma can serve each request in a thread from an internal thread pool.
@@ -10,7 +10,8 @@
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum, this matches the default thread size of Active Record.
 #
-threads_count = ENV.fetch('RAILS_MAX_THREADS') { 5 }.to_i
+threads_count = ENV.fetch('RAILS_MAX_THREADS') { 5 }
+                   .to_i
 threads threads_count, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests, default is
@@ -52,3 +53,13 @@ environment ENV.fetch('RAILS_ENV') { 'development' }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+
+# Use puma_worker_killer to occasionally restart.
+# This is a band-aid to counter memory growth.
+# There's a performance hit (restart time + cache loss), but it
+# forcibly gets rid of junk in memory.
+before_fork do
+  require 'puma_worker_killer'
+
+  PumaWorkerKiller.enable_rolling_restart(8 * 3600) # Every 8 hours in seconds
+end

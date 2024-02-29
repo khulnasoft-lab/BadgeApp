@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 Rails.application.configure do
@@ -23,7 +23,9 @@ Rails.application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
-  config.cache_store = :memory_store, { size: 64.megabytes }
+  config.cache_store =
+    :memory_store,
+    { size: (ENV['RAILS_CACHE_SIZE'] || '128').to_i.megabytes }
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
@@ -51,9 +53,6 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
-
-  # Raises error for missing translations
-  # config.action_view.raise_on_missing_translations = true
 
   config.after_initialize do
     # The 'bullet' gem watches application queries and notifies

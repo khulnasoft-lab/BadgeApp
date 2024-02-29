@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 require 'test_helper'
@@ -22,14 +22,14 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     get users_path
     assert_response :success
     assert_template 'index'
-    refute @response.body.include?(@user.email)
+    assert_not @response.body.include?(@user.email)
   end
 
   test 'Can request index.json, but non-admins do not get email addresses' do
     log_in_as(@user)
     get users_path + '.json'
     assert_response :success
-    refute @response.body.include?(@user.email)
+    assert_not @response.body.include?(@user.email)
   end
 
   test 'successful index as admin, admins do get email addresses' do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright 2015-2017, the Linux Foundation, IDA, and the
-# CII Best Practices badge contributors
+# OpenSSF Best Practices badge contributors
 # SPDX-License-Identifier: MIT
 
 # This precomputes the text for each icon as safe_html.
@@ -26,7 +26,7 @@ class Icon
     # Return the SafeBuffer text that represents icon "key".
     def [](key)
       # Use fetch, not @icon_data[key], so we discover missing keys
-      @icon_data.fetch(key)
+      @icon_data&.fetch(key)
     end
 
     # Useful for debugging
