@@ -28,6 +28,13 @@ via our
 For general discussion, feel free to use the
 [cii-badges mailing list](https://lists.coreinfrastructure.org/mailman/listinfo/cii-badges).
 
+We use GitHub. You may find
+[GitHub CLI (`gh`)](https://github.com/coreinfrastructure/best-practices-badge.git)
+helpful if you're using the command line.
+It supports commands like `gh auth login` (login) and
+`gh pr create` (create a new pull request
+with the current branch).
+
 The "docs/" directory has information you may find helpful, for example:
 
 -   [governance.md](docs/governance.md) describes our governance model
@@ -234,7 +241,7 @@ If you want to propose specific *changes* to a translation, and you are
 not a trusted translator, there are two main options:
 
 * The usual option is to open an issue and simply propose the text changes.
-  Make sure you tell us which locale you're referrring to!
+  Make sure you tell us which locale you're referring to!
 * You *can* propose changes as edits to the appropriate files in
   `config/locales`, but unlike most changes that will not work directly.
   One of the trusted translators will then need to hand-copy
@@ -472,17 +479,6 @@ If tests fail, restart to see if it's a problem with the software
 or the tests.  On CircleCI you can choose to rebuild.
 Where possible, try to find and fix the problem; we have worked to
 eliminate this, and at this point believe we have fixed it.
-
-If you use an old version of PhantomJS (e.g., if you use
-Ubuntu 14.04 and install PhantomJS via apt-get), you'll see this
-message during tests:
-
-> You're running an old version of PhantomJS,
-> update to >= 2.1.1 for a better experience.
-
-You can eliminate the warnings about old versions of PhantomJS
-by uninstalling the old version and installing a
-[current version of PhantomJS](http://phantomjs.org/download.html).
 
 ### Security, privacy, and performance
 

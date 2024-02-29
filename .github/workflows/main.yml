@@ -29,7 +29,7 @@ jobs:
     steps:
       # Use harden-runner https://github.com/step-security/harden-runner
       # presented at OpenSSF Best Practices WG 2022-03-15
-      - uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
+      - uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
         with:
           egress-policy: audit
 
@@ -41,7 +41,7 @@ jobs:
       # Update by consulting: https://github.com/actions/checkout/releases
       # We include the hash after '@', and comment "pin @SIMPLE-NAME"; this is
       # the naming convention of https://github.com/mheap/pin-github-action
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # pin @v4.1.0
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # pin @v4.1
 
       # Runs a single command using the runners shell
       - name: Run a one-line script

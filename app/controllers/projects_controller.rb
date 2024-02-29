@@ -15,19 +15,20 @@ class ProjectsController < ApplicationController
   skip_before_action :redir_missing_locale, only: :badge
 
   before_action :set_project,
-                only: %i[edit update delete_form destroy show show_json]
+                only: %i[edit update delete_form destroy show show_json show_markdown]
   before_action :require_logged_in, only: :create
   before_action :can_edit_else_redirect, only: %i[edit update]
   before_action :can_control_else_redirect, only: %i[destroy delete_form]
   before_action :require_adequate_deletion_rationale, only: :destroy
   before_action :set_criteria_level, only: %i[show edit update]
+  before_action :set_optional_criteria_level, only: %i[show_markdown]
 
   # Cache with Fastly CDN.  We can't use this header, because logged-in
   # and not-logged-in users see different things (and thus we can't
   # have a cached version that works for everyone):
   # before_action :set_cache_control_headers, only: [:index, :show, :badge]
   # We *can* cache the badge result, and that's what matters anyway.
-  before_action :set_cache_control_headers, only: %i[badge show_json]
+  before_action :set_cache_control_headers, only: %i[badge show_json show_markdown]
 
   helper_method :repo_data
 
@@ -164,6 +165,12 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1.json
   def show_json
+    # Tell CDN the surrogate key so we can quickly erase it later
+    set_surrogate_key_header @project.record_key
+  end
+
+  # GET /projects/1.md
+  def show_markdown
     # Tell CDN the surrogate key so we can quickly erase it later
     set_surrogate_key_header @project.record_key
   end
@@ -733,6 +740,17 @@ class ProjectsController < ApplicationController
     @criteria_level = '0' unless @criteria_level.match?(/\A[0-2]\Z/)
   end
 
+  def set_optional_criteria_level
+    # Apply input filter on criteria_level. If invalid/empty it becomes ''
+    requested_criteria_level = criteria_level_params[:criteria_level] || ''
+    @criteria_level =
+      if requested_criteria_level.match?(/\A[0-2]\Z/)
+        requested_criteria_level.to_str
+      else
+        ''
+      end
+  end
+
   def set_valid_query_url
     # Rewrites /projects?q=&status=failing to /projects?status=failing
     original = request.original_url
@@ -752,7 +770,7 @@ class ProjectsController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def sort_projects
     # Sort, if there is a requested order (otherwise use default created_at)
-    return unless params[:sort].present? && ALLOWED_SORT.include?(params[:sort])
+    return if params[:sort].blank? || ALLOWED_SORT.exclude?(params[:sort])
 
     sort_direction = params[:sort_direction] == 'desc' ? ' desc' : ' asc'
     sort_index = ALLOWED_SORT.index(params[:sort])

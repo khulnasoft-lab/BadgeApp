@@ -326,7 +326,7 @@ Upgrade some "passing" level SHOULD and SUGGESTED:
     all participants and potential participants will know how decisions
     will be made.
     This was inspired by the
-    <a href="https://projects.ow2.org/bin/view/ow2/OMM">OW2 Open-source Maturity Model</a>,
+    <a href="https://web.archive.org/web/20171123114606/https://projects.ow2.org/bin/view/ow2/OMM">OW2 Open-source Maturity Model</a>,
     in particular RDMP-1 and STK-1.
 
 *   <a name="roles_responsibilities"></a>
@@ -358,7 +358,7 @@ Upgrade some "passing" level SHOULD and SUGGESTED:
 
     *Details*: The project might not achieve the roadmap,
     and that's fine; the purpose of the roadmap is to help potential
-    users and constributors understand the intended direction of the
+    users and contributors understand the intended direction of the
     project. It need not be detailed.
 
 *   <a name="documentation_architecture"></a>
@@ -623,7 +623,7 @@ Upgrade some "passing" level SHOULD and SUGGESTED:
     <sup>[<a href="#maintenance_or_update">maintenance_or_update</a>]</sup>
 
     *Rationale*:
-    This was inspired by <a href="https://projects.ow2.org/bin/view/ow2/OMM">DFCT-1.2</a>
+    This was inspired by <a href="https://web.archive.org/web/20171123114606/https://projects.ow2.org/bin/view/ow2/OMM">DFCT-1.2</a>
 
 ### Reporting
 
