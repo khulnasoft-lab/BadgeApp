@@ -32,13 +32,13 @@ gem 'activesupport', '~> 7.0.8' # Rails. Underlying library.
 # gem 'activetext' # Not used. Text editor that fails to support markdown.
 gem 'attr_encrypted', '~> 4'
 gem 'bcrypt', '~> 3.1.18' # Security - for salted hashed interacted passwords
-gem 'blind_index', '~> 2.3.0' # Index encrypted email addresses
+gem 'blind_index', '~> 2.4.0' # Index encrypted email addresses
 gem 'bootstrap-sass', '~> 3.4'
 gem 'bootstrap-social-rails', '~> 4.12'
 gem 'bootstrap_form', '~> 2.7'
 gem 'bundler' # Ensure it's available
 # Note: if webpacker is used, see chartkick website for added instructions
-gem 'chartkick', '~> 4.0' # Chart project_stats
+gem 'chartkick', '~> 5.0' # Chart project_stats
 gem 'faraday-retry', '~> 2.1' # Force retry of faraday requests for reliability
 # We no longger use "fastly-rails"; it doesn't support Rails 6+.
 # They recommend switching to the "fastly" gem (aka "fastly-ruby"),
@@ -79,9 +79,9 @@ gem 'omniauth-github', '~> 2.0' # Authentication to GitHub (get project info)
 # the "standard way to resolve this issue".
 # When we update to omniauth 2.X series we can remove this.
 gem 'omniauth-rails_csrf_protection'
-gem 'pagy', '~> 6.0'
+gem 'pagy', '~> 6.1'
 gem 'paleta', '~> 0.3' # Color manipulation, used for badges
-gem 'paper_trail', '~> 12.3' # Record previous versions of project data
+gem 'paper_trail', '~> 15.0' # Record previous versions of project data
 gem 'pg', '~> 1.4' # PostgreSQL database, used for data storage
 gem 'pg_search', '~> 2.3' # PostgreSQL full-text search
 gem 'puma', '~> 6.4' # Faster webserver; recommended by Heroku
@@ -117,7 +117,7 @@ group :development, :test do
   gem 'eslintrb'
   gem 'json', '~> 2.0'
   gem 'license_finder', '~> 7.0'
-  gem 'mdl', '0.12.0'
+  gem 'mdl', '0.13.0'
   # NOTE: If you update pronto you may need to update other pronto-* gems
   gem 'pronto', '0.11.1'
   # TODO: Use pronto-railroader, once there is one.
