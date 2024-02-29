@@ -109,7 +109,7 @@ GEM
       xpath (~> 3.2)
     capybara-slow_finder_errors (0.1.5)
       capybara (~> 3.0)
-    chartkick (4.2.1)
+    chartkick (5.0.6)
     chef-utils (18.3.0)
       concurrent-ruby
     code_analyzer (0.5.5)
@@ -313,7 +313,7 @@ GEM
       get_process_mem (~> 0.2)
       puma (>= 2.7)
     racc (1.7.1)
-    rack (2.2.8)
+    rack (2.2.8.1)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.1)
