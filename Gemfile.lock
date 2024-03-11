@@ -109,7 +109,7 @@ GEM
       xpath (~> 3.2)
     capybara-slow_finder_errors (0.1.5)
       capybara (~> 3.0)
-    chartkick (4.2.1)
+    chartkick (5.0.6)
     chef-utils (18.3.0)
       concurrent-ruby
     code_analyzer (0.5.5)
@@ -267,7 +267,7 @@ GEM
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    pagy (6.1.0)
+    pagy (7.0.10)
     paleta (0.3.0)
     paper_trail (15.0.0)
       activerecord (>= 6.1)
@@ -544,7 +544,7 @@ DEPENDENCIES
   octokit (~> 6.1)
   omniauth-github (~> 2.0)
   omniauth-rails_csrf_protection
-  pagy (~> 6.1)
+  pagy (~> 7.0)
   paleta (~> 0.3)
   paper_trail (~> 15.0)
   pg (~> 1.4)
